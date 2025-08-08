@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import z from "zod";
 import { questionsSchema } from "@/lib/quiz-schema";
+import RadialProgress from "../_components/ui/radial-progress";
+import ResultStats from "../_components/ui/result-stats";
 
 type GeneratedQuiz = z.infer<typeof questionsSchema>;
 
@@ -79,7 +81,7 @@ export default function ResultPage() {
         <p className="text-base-content/70 mb-6">
           Upload a PDF and complete a quiz to see results here.
         </p>
-        <Link href="/" className="btn btn-primary" onClick={handleNewQuiz}>
+        <Link href="/start" className="btn btn-primary" onClick={handleNewQuiz}>
           Back to Upload
         </Link>
       </div>
@@ -96,36 +98,18 @@ export default function ResultPage() {
               <h1 className="card-title text-2xl">
                 {results.title || "Quiz Results"}
               </h1>
-              <p className="text-base-content/70">Completed: {prettyDate}</p>
+              <p className="text-base-content/70">Completed at: {prettyDate}</p>
             </div>
             <div className="flex items-center gap-6">
-              <div
-                className="radial-progress text-primary"
-                style={
-                  {
-                    "--value": results.score,
-                    "--size": "5.5rem",
-                    "--thickness": "8px",
-                  } as React.CSSProperties
-                }
-                role="progressbar"
-                aria-valuenow={results.score}
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-label="Score"
-                title={`${results.score}%`}
-              >
-                <span className="text-lg font-semibold">{results.score}%</span>
-              </div>
-              <div className="stats shadow">
-                <div className="stat">
-                  <div className="stat-title">Correct</div>
-                  <div className="stat-value text-success">
-                    {results.correctAnswers}
-                  </div>
-                  <div className="stat-desc">of {results.totalQuestions}</div>
-                </div>
-              </div>
+              <RadialProgress
+                value={results.score}
+                size="5.5rem"
+                thickness="8px"
+              />
+              <ResultStats
+                correctAnswers={results.correctAnswers}
+                totalQuestions={results.totalQuestions}
+              />
             </div>
           </div>
 
@@ -202,12 +186,6 @@ export default function ResultPage() {
                     </div>
                   </div>
                 </div>
-
-                {!isCorrect && typeof r.userAnswer !== "number" && (
-                  <div className="alert mt-3">
-                    <span>No answer selected for this question.</span>
-                  </div>
-                )}
               </div>
             </div>
           );
