@@ -101,27 +101,26 @@ export default function QuizPage() {
   return (
     <div className="max-w-4xl mx-auto pt-6">
       {/* Header */}
-      <div className="card bg-base-100 shadow-lg mb-6">
+      <div className="card bg-base-100 border-1 border-dashed border-base-content/25 m-0.5">
         <div className="card-body">
           <div className="flex justify-between items-center mb-4">
             <div>
-              <h1 className="text-2xl font-bold card-title">
+              <h1 className="text-lg font-bold card-title">
                 {generatedQuiz?.title}
               </h1>
               <p className="text-base-content/70">📄 "example.pdf"</p>
             </div>
             <div className="text-right">
-              <div className="text-lg font-semibold text-primary">
+              <div className="text-lg font-semibold text-accent">
                 ⏱️ {formatTime(timeLeft)}
               </div>
-              <div className="text-sm text-base-content/70">
+              <div className="text-xs text-base-content/70">
                 Question {currentQuestion + 1} of{" "}
                 {generatedQuiz?.questions.length}
               </div>
             </div>
           </div>
 
-          {/* Progress Bar */}
           <progress
             className="progress progress-primary w-full"
             value={progress}
@@ -134,42 +133,40 @@ export default function QuizPage() {
       <div className="card bg-base-100 shadow-lg mb-6">
         <div className="card-body">
           <div className="mb-6">
-            <div className="badge badge-primary mb-4">
+            <div className="badge badge-accent font-bold mb-4">
               Question {currentQuestion + 1}
             </div>
-            <h2 className="text-xl font-semibold card-title mb-4">
+            <h2 className="text-xl font-semibold card-title">
               {currentQ?.question}
             </h2>
           </div>
 
           {/* Answer Options */}
-          <div className="space-y-3">
-            {currentQ?.type === "multiple-choice" && (
-              <div className="form-control flex flex-col gap-2">
-                {currentQ.options?.map((option, index) => (
-                  <label
-                    key={index}
-                    className="label cursor-pointer justify-start"
-                  >
-                    <input
-                      type="radio"
-                      name={`question-${currentQ.id}`}
-                      value={index}
-                      checked={answers[currentQ.id] === index}
-                      onChange={() => handleAnswer(currentQ.id, index)}
-                      className="radio radio-primary mr-3"
-                    />
-                    <span className="label-text">{option}</span>
-                  </label>
-                ))}
-              </div>
-            )}
-          </div>
+          {currentQ?.type === "multiple-choice" && (
+            <div className="form-control flex flex-col gap-6">
+              {currentQ.options?.map((option, index) => (
+                <label
+                  key={index}
+                  className="cursor-pointer flex text-base-content/75"
+                >
+                  <input
+                    type="radio"
+                    name={`question-${currentQ.id}`}
+                    value={index}
+                    checked={answers[currentQ.id] === index}
+                    onChange={() => handleAnswer(currentQ.id, index)}
+                    className="radio radio-primary"
+                  />
+                  <span className="ml-4">{option}</span>
+                </label>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
       {/* Navigation */}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center m-2">
         <button className="nav-button btn btn-error join-item">
           <Link href="/dashboard">Exit Quiz</Link>
         </button>
@@ -188,14 +185,14 @@ export default function QuizPage() {
             currentQuestion < generatedQuiz.questions.length - 1 ? (
               <button
                 onClick={handleNext}
-                className="nav-button btn btn-outline btn-primary join-item"
+                className="nav-button btn btn-primary join-item"
               >
                 Next Question
               </button>
             ) : (
               <button
                 onClick={handleSubmit}
-                className="nav-button btn btn-outline btn-success join-item"
+                className="nav-button btn btn-success join-item"
                 disabled={
                   Object.keys(answers).length < generatedQuiz.questions.length
                 }
@@ -212,9 +209,8 @@ export default function QuizPage() {
       </div>
 
       {/* Question Navigator */}
-      <div className="card bg-base-100 shadow-lg mt-6">
+      <div className="card bg-base-100 shadow-lg mt-2 items-center">
         <div className="card-body">
-          <h3 className="card-title mb-3">Question Navigator</h3>
           <div className="flex flex-wrap gap-2">
             {generatedQuiz?.questions.map((question, index) => (
               <button

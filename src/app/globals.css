@@ -14,5 +14,5 @@
 }
 
 .nav-button {
-  @apply btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl
+  @apply btn-sm md:btn-md lg:btn-md xl:btn-lg
 }
