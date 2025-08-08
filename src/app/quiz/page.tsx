@@ -1,13 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useQuiz } from "../hooks/use-quiz";
 
 export default function QuizPage() {
-  const router = useRouter();
-
   const {
     isSubmitting,
     isLoading,
