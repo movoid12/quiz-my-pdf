@@ -1,11 +1,20 @@
-'use client';
+"use client";
 
-import React, { useCallback, useState } from "react";
+import { questionsSchema } from "@/lib/quiz-schema";
+import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
+import z from "zod";
+
+type QuizData = z.infer<typeof questionsSchema>;
 
 export default function PdfUploadSection() {
-  const [isDragOver, setIsDragOver] = useState(false);
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const router = useRouter();
+
+  const [uploadedFile, setUploadedFile] = useState<File | null>();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
+
+  const [error, setError] = useState<string | null>(null);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -25,6 +34,7 @@ export default function PdfUploadSection() {
     const pdfFile = files.find((file) => file.type === "application/pdf");
 
     if (pdfFile) {
+      console.log("is here", uploadedFile);
       setUploadedFile(pdfFile);
     } else {
       alert("Please upload a PDF file");
@@ -35,8 +45,9 @@ export default function PdfUploadSection() {
     const file = e.target.files?.[0];
     if (file && file.type === "application/pdf") {
       setUploadedFile(file);
+      setError(null);
     } else {
-      alert("Please select a PDF file");
+      setError("Please select a valid PDF file");
     }
   };
 
@@ -44,33 +55,70 @@ export default function PdfUploadSection() {
     if (!uploadedFile) return;
 
     setIsProcessing(true);
-    // TODO: Implement AI processing with Vercel AI SDK
+    setError(null);
 
-    // Simulate processing
-    setTimeout(() => {
+    try {
+      const formData = new FormData();
+      formData.append("pdf", uploadedFile);
+
+      const response = await fetch("/api/process-pdf", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to process PDF");
+      }
+
+      // Validate the response data structure
+      if (!data || !data.questions) {
+        throw new Error("Invalid quiz data received from server");
+      }
+
+      sessionStorage.setItem("currentQuiz", JSON.stringify(data));
+
+      router.push("/quiz");
+    } catch (error) {
+      console.error("Processing error:", error);
+      setError(error instanceof Error ? error.message : "Failed to process PDF");
+    } finally {
       setIsProcessing(false);
-      alert("Quiz generated successfully! (This is a demo)");
-    }, 3000);
+    }
+  };
+
+  const handleDebug = () => {
+    const formData = new FormData();
+
+    console.log(formData);
+    console.log("Debugging PDF upload section");
+    console.log("Uploaded file:", uploadedFile);
+    console.log("Is processing:", isProcessing);
+    console.log("Is drag over:", isDragOver);
+    console.log("Error message:", error);
   };
 
   const resetUpload = () => {
     setUploadedFile(null);
+    setError(null);
     setIsProcessing(false);
   };
 
-  uploadedFile && (
-    <div className="text-center space-y-6">
-      <div className="alert alert-success flex items-center">
-        <svg
-          className="w-6 h-6 stroke-success mr-2"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
+  if (uploadedFile) {
+    return (
+      <div className="text-center space-y-6">
+        <div className="alert alert-success flex items-center">
+          <svg
+            className="w-6 h-6 stroke-success mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
           />
         </svg>
@@ -122,11 +170,30 @@ export default function PdfUploadSection() {
           </p>
         </div>
       )}
-    </div>
-  );
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
+      {error && (
+        <div className="alert alert-error">
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 15c-.77.833.192 2.5 1.732 2.5z"
+            />
+          </svg>
+          <span>{error}</span>
+        </div>
+      )}
       <div
         className={`drop-zone border-2 border-dashed rounded-lg p-12 text-center transition-colors cursor-pointer ${
           isDragOver
