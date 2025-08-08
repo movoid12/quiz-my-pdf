@@ -9,10 +9,10 @@ type GeneratedQuiz = z.infer<typeof questionsSchema>;
 
 type QuizResults = {
   title: string;
-  score: number; // percentage 0..100
+  score: number;
   totalQuestions: number;
   correctAnswers: number;
-  completedAt: string; // ISO
+  completedAt: string;
   results: Array<{
     questionId: number;
     question: string;
@@ -48,14 +48,16 @@ export default function ResultPage() {
     return d.toLocaleString();
   }, [results?.completedAt]);
 
-  const getOptionLabel = (questionId: number, idx: number | null | undefined) => {
+  const getOptionLabel = (
+    questionId: number,
+    idx: number | null | undefined
+  ) => {
     if (idx === null || idx === undefined) return "No answer";
     const q = quiz?.questions.find((q) => q.id === questionId);
     return q?.options?.[idx] ?? `Option ${idx + 1}`;
   };
 
   const handleNewQuiz = () => {
-    // Keep currentQuiz if you want to allow immediate retake with same questions
     sessionStorage.removeItem("quizResults");
   };
 
@@ -91,7 +93,9 @@ export default function ResultPage() {
         <div className="card-body">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div>
-              <h1 className="card-title text-2xl">{results.title || "Quiz Results"}</h1>
+              <h1 className="card-title text-2xl">
+                {results.title || "Quiz Results"}
+              </h1>
               <p className="text-base-content/70">Completed: {prettyDate}</p>
             </div>
             <div className="flex items-center gap-6">
@@ -116,7 +120,9 @@ export default function ResultPage() {
               <div className="stats shadow">
                 <div className="stat">
                   <div className="stat-title">Correct</div>
-                  <div className="stat-value text-success">{results.correctAnswers}</div>
+                  <div className="stat-value text-success">
+                    {results.correctAnswers}
+                  </div>
                   <div className="stat-desc">of {results.totalQuestions}</div>
                 </div>
               </div>
@@ -151,30 +157,48 @@ export default function ResultPage() {
               <div className="card-body">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <div className="badge badge-primary mb-2">Question {idx + 1}</div>
-                    <h3 className="card-title text-base md:text-lg">{r.question}</h3>
+                    <div className="badge badge-primary mb-2">
+                      Question {idx + 1}
+                    </div>
+                    <h3 className="card-title text-base md:text-lg">
+                      {r.question}
+                    </h3>
                   </div>
-                  <div className={`badge ${isCorrect ? "badge-success" : "badge-error"}`}>
+                  <div
+                    className={`badge ${
+                      isCorrect ? "badge-success" : "badge-error"
+                    }`}
+                  >
                     {isCorrect ? "Correct" : "Incorrect"}
                   </div>
                 </div>
 
                 <div className="mt-3 grid md:grid-cols-2 gap-3">
                   <div className="p-3 rounded-lg bg-base-200">
-                    <div className="text-sm text-base-content/70 mb-1">Your answer</div>
+                    <div className="text-sm text-base-content/70 mb-1">
+                      Your answer
+                    </div>
                     <div className="font-medium">
                       {userLabel}
                       {typeof r.userAnswer === "number" && (
-                        <span className="text-base-content/60"> (#{r.userAnswer + 1})</span>
+                        <span className="text-base-content/60">
+                          {" "}
+                          (#{r.userAnswer + 1})
+                        </span>
                       )}
                     </div>
                   </div>
 
                   <div className="p-3 rounded-lg bg-base-200">
-                    <div className="text-sm text-base-content/70 mb-1">Correct answer</div>
+                    <div className="text-sm text-base-content/70 mb-1">
+                      Correct answer
+                    </div>
                     <div className="font-medium">
                       {correctLabel}
-                      <span className="text-base-content/60"> (#{r.correctAnswer + 1})</span>
+                      <span className="text-base-content/60">
+                        {" "}
+                        (#{r.correctAnswer + 1})
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -205,7 +229,11 @@ export default function ResultPage() {
               <Link href="/quiz" className="btn btn-outline btn-primary">
                 Retake Quiz
               </Link>
-              <Link href="/" className="btn btn-primary" onClick={handleNewQuiz}>
+              <Link
+                href="/"
+                className="btn btn-primary"
+                onClick={handleNewQuiz}
+              >
                 Generate New Quiz
               </Link>
             </div>
