@@ -1,29 +1,18 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 import z from "zod";
+// components & hooks
 import { questionsSchema } from "@/lib/quiz-schema";
+import { quizResultsSchema } from "@/lib/quiz-result-schema";
 import RadialProgress from "../_components/ui/radial-progress";
 import ResultStats from "../_components/ui/result-stats";
+import QuestionResultCard from "../_components/ui/question-result-card";
 
 type GeneratedQuiz = z.infer<typeof questionsSchema>;
 
-type QuizResults = {
-  title: string;
-  score: number;
-  totalQuestions: number;
-  correctAnswers: number;
-  completedAt: string;
-  results: Array<{
-    questionId: number;
-    question: string;
-    userAnswer: number | null | undefined;
-    correctAnswer: number;
-    isCorrect: boolean;
-    type: string;
-  }>;
-};
+type QuizResults = z.infer<typeof quizResultsSchema>;
 
 export default function ResultPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -44,10 +33,12 @@ export default function ResultPage() {
     }
   }, []);
 
-  const prettyDate = useMemo(() => {
+  const formattedCompletionDate = useMemo(() => {
     if (!results?.completedAt) return "";
-    const d = new Date(results.completedAt);
-    return d.toLocaleString();
+
+    const date = new Date(results.completedAt);
+
+    return date.toLocaleString();
   }, [results?.completedAt]);
 
   const getOptionLabel = (
@@ -98,7 +89,9 @@ export default function ResultPage() {
               <h1 className="card-title text-2xl">
                 {results.title || "Quiz Results"}
               </h1>
-              <p className="text-base-content/70">Completed at: {prettyDate}</p>
+              <p className="text-base-content/70">
+                Completed at: {formattedCompletionDate}
+              </p>
             </div>
             <div className="flex items-center gap-6">
               <RadialProgress
@@ -132,62 +125,14 @@ export default function ResultPage() {
           const correctLabel = getOptionLabel(r.questionId, r.correctAnswer);
 
           return (
-            <div
+            <QuestionResultCard
               key={r.questionId ?? idx}
-              className={`card bg-base-100 shadow ${
-                isCorrect ? "border border-success" : "border border-error"
-              }`}
-            >
-              <div className="card-body">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <div className="badge badge-primary mb-2">
-                      Question {idx + 1}
-                    </div>
-                    <h3 className="card-title text-base md:text-lg">
-                      {r.question}
-                    </h3>
-                  </div>
-                  <div
-                    className={`badge ${
-                      isCorrect ? "badge-success" : "badge-error"
-                    }`}
-                  >
-                    {isCorrect ? "Correct" : "Incorrect"}
-                  </div>
-                </div>
-
-                <div className="mt-3 grid md:grid-cols-2 gap-3">
-                  <div className="p-3 rounded-lg bg-base-200">
-                    <div className="text-sm text-base-content/70 mb-1">
-                      Your answer
-                    </div>
-                    <div className="font-medium">
-                      {userLabel}
-                      {typeof r.userAnswer === "number" && (
-                        <span className="text-base-content/60">
-                          {" "}
-                          (#{r.userAnswer + 1})
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="p-3 rounded-lg bg-base-200">
-                    <div className="text-sm text-base-content/70 mb-1">
-                      Correct answer
-                    </div>
-                    <div className="font-medium">
-                      {correctLabel}
-                      <span className="text-base-content/60">
-                        {" "}
-                        (#{r.correctAnswer + 1})
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+              isCorrect={isCorrect}
+              index={idx}
+              userLabel={userLabel}
+              correctLabel={correctLabel}
+              quizResult={r}
+            />
           );
         })}
       </div>
