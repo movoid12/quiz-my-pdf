@@ -91,7 +91,7 @@ export default function RadialProgress({
       aria-valuenow={value}
       role="progressbar"
     >
-      <span className="text-black">{value}%</span>
+      <span className="font-bold text-base-content/70">{value}%</span>
     </div>
   );
 }
