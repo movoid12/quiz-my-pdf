@@ -1,3 +1,5 @@
+"use client";
+
 import { quizResultSchema } from "@/lib/quiz-result-schema";
 import z from "zod";
 
@@ -19,8 +21,8 @@ export default function QuestionResultCard({
   return (
     <div
       key={quizResult.questionId ?? index}
-      className={`card bg-base-100 shadow ${
-        isCorrect ? "border border-success" : "border border-error"
+      className={`card bg-base-200 shadow-lg ${
+        isCorrect ? "border border-success " : "border border-error bg-error/15"
       }`}
     >
       <div className="card-body">
@@ -39,28 +41,24 @@ export default function QuestionResultCard({
         </div>
 
         <div className="mt-3 grid md:grid-cols-2 gap-3">
-          <div className="p-3 rounded-lg bg-base-200">
+          <div className="p-3 rounded-lg bg-base-200 shadow-md">
             <div className="text-sm text-base-content/70 mb-1">Your answer</div>
             <div className="font-medium">
               {userLabel}
-              {typeof quizResult.userAnswer === "number" && (
-                <span className="text-base-content/60">
-                  {" "}
-                  (#{quizResult.userAnswer + 1})
-                </span>
-              )}
+              <br />
+              <span className="text-base-content/60">
+                (#{Number(quizResult.userAnswer) + 1})
+              </span>
             </div>
           </div>
 
-          <div className="p-3 rounded-lg bg-base-200">
-            <div className="text-sm text-base-content/70 mb-1">
-              Correct answer
-            </div>
+          <div className="p-3 rounded-lg bg-success/50 shadow-md">
+            <div className="text-sm text-base-content">Correct answer</div>
             <div className="font-medium">
               {correctLabel}
+              <br />
               <span className="text-base-content/60">
-                {" "}
-                (#{quizResult.correctAnswer + 1})
+                (#{Number(quizResult.correctAnswer) + 1})
               </span>
             </div>
           </div>
