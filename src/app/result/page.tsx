@@ -6,10 +6,10 @@ import { useMemo } from "react";
 import RadialProgress from "../_components/ui/radial-progress";
 import ResultStats from "../_components/ui/result-stats";
 import QuestionResultCard from "../_components/ui/question-result-card";
-import { useQuiz } from "../hooks/use-quiz";
+import { useResault } from "../hooks/use-resault";
 
 export default function ResultPage() {
-  const { isLoading, results, getOptionLabel } = useQuiz();
+  const { isLoading, results, getOptionLabel } = useResault();
 
   const formattedCompletionDate = useMemo(() => {
     const date = results ? new Date(results.completedAt) : new Date();

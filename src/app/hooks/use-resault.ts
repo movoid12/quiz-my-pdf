@@ -9,7 +9,7 @@ type GeneratedQuiz = z.infer<typeof questionsSchema>;
 
 type QuizResults = z.infer<typeof quizResultsSchema>;
 
-export const useQuiz = () => {
+export const useResault = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [results, setResults] = useState<QuizResults | null>(null);
   const [quiz, setQuiz] = useState<GeneratedQuiz | null>(null);
