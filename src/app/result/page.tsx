@@ -1,37 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
-import z from "zod";
+import { useMemo } from "react";
 // components & hooks
-import { questionsSchema } from "@/lib/quiz-schema";
-import { quizResultsSchema } from "@/lib/quiz-result-schema";
 import RadialProgress from "../_components/ui/radial-progress";
 import ResultStats from "../_components/ui/result-stats";
 import QuestionResultCard from "../_components/ui/question-result-card";
-
-type GeneratedQuiz = z.infer<typeof questionsSchema>;
-
-type QuizResults = z.infer<typeof quizResultsSchema>;
+import { useQuiz } from "../hooks/use-quiz";
 
 export default function ResultPage() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [results, setResults] = useState<QuizResults | null>(null);
-  const [quiz, setQuiz] = useState<GeneratedQuiz | null>(null);
-
-  useEffect(() => {
-    try {
-      const rawResults = sessionStorage.getItem("quizResults");
-      const rawQuiz = sessionStorage.getItem("currentQuiz");
-
-      if (rawResults) setResults(JSON.parse(rawResults));
-      if (rawQuiz) setQuiz(JSON.parse(rawQuiz));
-    } catch (e) {
-      console.error("Failed to load results:", e);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const { isLoading, results, getOptionLabel } = useQuiz();
 
   const formattedCompletionDate = useMemo(() => {
     if (!results?.completedAt) return "";
@@ -40,15 +18,6 @@ export default function ResultPage() {
 
     return date.toLocaleString();
   }, [results?.completedAt]);
-
-  const getOptionLabel = (
-    questionId: number,
-    idx: number | null | undefined
-  ) => {
-    if (idx === null || idx === undefined) return "No answer";
-    const q = quiz?.questions.find((q) => q.id === questionId);
-    return q?.options?.[idx] ?? `Option ${idx + 1}`;
-  };
 
   const handleNewQuiz = () => {
     sessionStorage.removeItem("quizResults");
