@@ -9,10 +9,10 @@ type GeneratedQuiz = z.infer<typeof questionsSchema>;
 
 export const useQuiz = () => {
   const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [answers, setAnswers] = useState<Record<number, number>>({});
-
   const [generatedQuiz, setGeneratedQuiz] = useState<GeneratedQuiz | null>(
     null
   );
@@ -93,12 +93,10 @@ export const useQuiz = () => {
   return {
     isSubmitting,
     isLoading,
-    setIsLoading,
     answers,
     setAnswers,
     generatedQuiz,
     handleSubmit,
-    setGeneratedQuiz,
     currentQuestion,
     setCurrentQuestion,
   };
