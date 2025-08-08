@@ -8,7 +8,7 @@ import { questionsSchema } from "@/lib/quiz-schema";
 export const runtime = "nodejs";
 // Disable static optimization for this route
 export const dynamic = "force-dynamic";
-// Allow more time for PDF parsing + LLM call on Vercel
+
 export const maxDuration = 60;
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
@@ -42,6 +42,7 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.formData();
     const file = formData.get("pdf");
+
     if (!(file instanceof File)) {
       return json(400, { error: "No PDF file provided" });
     }
@@ -58,8 +59,8 @@ export async function POST(request: NextRequest) {
       return json(415, { error: "Invalid file format. Please upload a PDF." });
     }
 
-    // Extract text
     let extractedText = "";
+
     try {
       const pdfData = await pdf(buffer);
       extractedText = pdfData.text || "";
@@ -73,9 +74,9 @@ export async function POST(request: NextRequest) {
       return json(400, { error: "Insufficient content in PDF" });
     }
 
-    // Build system + user messages (recommended with Vercel AI SDK)
     const system =
       "You are an expert quiz generator. Return only JSON matching the provided Zod schema. No extra text.";
+
     const user = `
 Create exactly 5 challenging but fair multiple-choice questions based on the provided text.
 - Use 4 options per question.
@@ -86,10 +87,6 @@ Text:
 ${extractedText}
     `.trim();
 
-    // If the client disconnects, abort the LLM request
-    const signal = request.signal;
-
-    // Use generateObject for schema-validated output (no streaming needed)
     const { object } = await generateObject({
       model: openai("gpt-4o-mini"), // Use a model that supports JSON schema
       schema: questionsSchema,
@@ -102,25 +99,23 @@ ${extractedText}
     // Final safety validation (extra guard)
     const parsed = questionsSchema.safeParse(object);
     if (!parsed.success) {
-      console.error("Schema validation failed:", parsed.error.flatten());
+      console.error("Schema validation failed:", parsed.error);
       return json(502, { error: "AI returned invalid data format" });
     }
 
     return json(200, parsed.data);
   } catch (error) {
-    // Handle common provider/model mismatch scenario (e.g., gpt-3.5-turbo)
     const message =
       error instanceof Error ? error.message : "Internal server error";
     console.error("Error processing PDF:", error);
 
-    if (message.includes("json_schema") || message.includes("gpt-3.5")) {
+    if (message.includes("json_schema")) {
       return json(502, {
         error:
           "Model does not support structured output. Ensure a compatible model (e.g., gpt-4o-mini).",
       });
     }
 
-    // Respect aborts (client navigated away)
     if (message.includes("The user aborted a request")) {
       return json(499, { error: "Client aborted request" });
     }

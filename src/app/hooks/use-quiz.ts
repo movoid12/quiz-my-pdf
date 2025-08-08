@@ -75,11 +75,9 @@ export const useQuiz = () => {
         ) {
           setGeneratedQuiz(parsedQuiz);
         } else {
-          // Redirect back if no valid quiz data
           router.push("/");
         }
       } else {
-        // Redirect back if no quiz data
         router.push("/");
       }
     } catch (error) {

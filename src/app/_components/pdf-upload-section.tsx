@@ -88,17 +88,6 @@ export default function PdfUploadSection() {
     }
   };
 
-  const handleDebug = () => {
-    const formData = new FormData();
-
-    console.log(formData);
-    console.log("Debugging PDF upload section");
-    console.log("Uploaded file:", uploadedFile);
-    console.log("Is processing:", isProcessing);
-    console.log("Is drag over:", isDragOver);
-    console.log("Error message:", error);
-  };
-
   const resetUpload = () => {
     setUploadedFile(null);
     setError(null);
