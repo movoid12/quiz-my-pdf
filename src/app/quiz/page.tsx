@@ -1,48 +1,27 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import z from "zod";
-import { questionsSchema } from "@/lib/quiz-schema";
-
-
-type GeneratedQuiz = z.infer<typeof questionsSchema>;
+import { useQuiz } from "../hooks/use-quiz";
 
 export default function QuizPage() {
   const router = useRouter();
-  const [generatedQuiz, setGeneratedQuiz] = useState<GeneratedQuiz | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<Record<number, any>>({});
+  const {
+    isSubmitting,
+    isLoading,
+    answers,
+    setAnswers,
+    generatedQuiz,
+    handleSubmit,
+    currentQuestion,
+    setCurrentQuestion,
+  } = useQuiz();
+
   const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes in seconds
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  useEffect(() => {
-    try {
-      const quizData = sessionStorage.getItem("currentQuiz");
-      if (quizData) {
-        const parsedQuiz = JSON.parse(quizData);
-        if (parsedQuiz && parsedQuiz.questions && parsedQuiz.questions.length > 0) {
-          setGeneratedQuiz(parsedQuiz);
-        } else {
-          // Redirect back if no valid quiz data
-          router.push("/");
-        }
-      } else {
-        // Redirect back if no quiz data
-        router.push("/");
-      }
-    } catch (error) {
-      console.error("Error loading quiz data:", error);
-      router.push("/");
-    } finally {
-      setIsLoading(false);
-    }
-  }, [router]);
-
-  const handleAnswer = (questionId: number, answer: any) => {
+  const handleAnswer = (questionId: number, answer: number) => {
     setAnswers((prev) => ({
       ...prev,
       [questionId]: answer,
@@ -61,53 +40,6 @@ export default function QuizPage() {
     if (currentQuestion > 0) {
       setCurrentQuestion((prev) => prev - 1);
     }
-  };
-
-  const handleSubmit = async () => {
-    setIsSubmitting(true);
-
-    // Calculate score and prepare results
-    let score = 0;
-    const results = generatedQuiz?.questions.map((question) => {
-      const userAnswer = answers[question.id];
-      let isCorrect = false;
-
-      if (
-        question.type === "multiple-choice" ||
-        question.type === "true-false"
-      ) {
-        isCorrect = userAnswer === question.correctAnswer;
-      }
-
-      if (isCorrect) score++;
-
-      return {
-        questionId: question.id,
-        question: question.question,
-        userAnswer,
-        correctAnswer: question.correctAnswer,
-        isCorrect,
-        type: question.type,
-      };
-    });
-
-    const quizResults = {
-      title: generatedQuiz?.title,
-      score: generatedQuiz
-        ? Math.round((score / generatedQuiz.questions.length) * 100)
-        : 0,
-      totalQuestions: generatedQuiz?.questions.length || 0,
-      correctAnswers: score,
-      results,
-      completedAt: new Date().toISOString(),
-    };
-
-    sessionStorage.setItem("quizResults", JSON.stringify(quizResults));
-
-    // Simulate processing time
-    setTimeout(() => {
-      router.push("/result");
-    }, 1500);
   };
 
   const formatTime = (seconds: number) => {
@@ -146,13 +78,18 @@ export default function QuizPage() {
     );
   }
 
-  if (!generatedQuiz || !generatedQuiz.questions || generatedQuiz.questions.length === 0) {
+  if (
+    !generatedQuiz ||
+    !generatedQuiz.questions ||
+    generatedQuiz.questions.length === 0
+  ) {
     return (
       <div className="max-w-2xl mx-auto text-center py-16">
         <div className="text-6xl mb-4">❌</div>
         <h2 className="text-2xl font-bold mb-2">No Quiz Available</h2>
         <p className="text-base-content/70 mb-6">
-          We couldn't find a quiz to display. Please upload a PDF file and generate a quiz first.
+          We couldn't find a quiz to display. Please upload a PDF file and
+          generate a quiz first.
         </p>
         <Link href="/" className="btn btn-primary">
           Go Back to Upload
@@ -279,7 +216,7 @@ export default function QuizPage() {
         <div className="card-body">
           <h3 className="card-title mb-3">Question Navigator</h3>
           <div className="flex flex-wrap gap-2">
-            {generatedQuiz?.questions.map((_, index) => (
+            {generatedQuiz?.questions.map((question, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentQuestion(index)}
