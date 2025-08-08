@@ -1,6 +1,5 @@
 'use client';
 
-import Link from "next/link";
 import PdfUploadSection from "../_components/pdf-upload-section";
 
 export default function StartPage() {
