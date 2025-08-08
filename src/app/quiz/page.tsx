@@ -1,85 +1,46 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import z from "zod";
+import { questionsSchema } from "@/lib/quiz-schema";
 
-// Mock quiz data - in real app this would come from AI generation
-const mockQuizData = {
-  title: "Introduction to Machine Learning",
-  fileName: "ml-basics.pdf",
-  questions: [
-    {
-      id: 1,
-      question: "What is the primary goal of supervised learning?",
-      type: "multiple-choice",
-      options: [
-        "To find hidden patterns in data without labels",
-        "To learn from labeled training data to make predictions",
-        "To reduce the dimensionality of data",
-        "To cluster similar data points together",
-      ],
-      correctAnswer: 1,
-    },
-    {
-      id: 2,
-      question: "What is the primary goal of supervised learning?",
-      type: "multiple-choice",
-      options: [
-        "To find hidden patterns in data without labels",
-        "To learn from labeled training data to make predictions",
-        "To reduce the dimensionality of data",
-        "To cluster similar data points together",
-      ],
-      correctAnswer: 1,
-    },
-    {
-      id: 3,
-      question:
-        "The process of splitting data into training and testing sets helps to:",
-      type: "multiple-choice",
-      options: [
-        "Increase the size of the dataset",
-        "Evaluate model performance on unseen data",
-        "Speed up the training process",
-        "Reduce computational complexity",
-      ],
-      correctAnswer: 1,
-    },
-    {
-      id: 4,
-      question: "What is the primary goal of supervised learning?",
-      type: "multiple-choice",
-      options: [
-        "To find hidden patterns in data without labels",
-        "To learn from labeled training data to make predictions",
-        "To reduce the dimensionality of data",
-        "To cluster similar data points together",
-      ],
-      correctAnswer: 1,
-    },
-    {
-      id: 5,
-      question:
-        "The process of splitting data into training and testing sets helps to:",
-      type: "multiple-choice",
-      options: [
-        "Increase the size of the dataset",
-        "Evaluate model performance on unseen data",
-        "Speed up the training process",
-        "Reduce computational complexity",
-      ],
-      correctAnswer: 1,
-    },
-  ],
-};
+
+type GeneratedQuiz = z.infer<typeof questionsSchema>;
 
 export default function QuizPage() {
   const router = useRouter();
+  const [generatedQuiz, setGeneratedQuiz] = useState<GeneratedQuiz | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Record<number, any>>({});
   const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes in seconds
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    try {
+      const quizData = sessionStorage.getItem("currentQuiz");
+      if (quizData) {
+        const parsedQuiz = JSON.parse(quizData);
+        if (parsedQuiz && parsedQuiz.questions && parsedQuiz.questions.length > 0) {
+          setGeneratedQuiz(parsedQuiz);
+        } else {
+          // Redirect back if no valid quiz data
+          router.push("/");
+        }
+      } else {
+        // Redirect back if no quiz data
+        router.push("/");
+      }
+    } catch (error) {
+      console.error("Error loading quiz data:", error);
+      router.push("/");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [router]);
 
   const handleAnswer = (questionId: number, answer: any) => {
     setAnswers((prev) => ({
@@ -89,8 +50,10 @@ export default function QuizPage() {
   };
 
   const handleNext = () => {
-    if (currentQuestion < mockQuizData.questions.length - 1) {
-      setCurrentQuestion((prev) => prev + 1);
+    if (generatedQuiz) {
+      if (currentQuestion < generatedQuiz.questions.length - 1) {
+        setCurrentQuestion((prev) => prev + 1);
+      }
     }
   };
 
@@ -105,7 +68,7 @@ export default function QuizPage() {
 
     // Calculate score and prepare results
     let score = 0;
-    const results = mockQuizData.questions.map((question) => {
+    const results = generatedQuiz?.questions.map((question) => {
       const userAnswer = answers[question.id];
       let isCorrect = false;
 
@@ -128,12 +91,12 @@ export default function QuizPage() {
       };
     });
 
-    // Store results in sessionStorage (in real app would save to database)
     const quizResults = {
-      title: mockQuizData.title,
-      fileName: mockQuizData.fileName,
-      score: Math.round((score / mockQuizData.questions.length) * 100),
-      totalQuestions: mockQuizData.questions.length,
+      title: generatedQuiz?.title,
+      score: generatedQuiz
+        ? Math.round((score / generatedQuiz.questions.length) * 100)
+        : 0,
+      totalQuestions: generatedQuiz?.questions.length || 0,
       correctAnswers: score,
       results,
       completedAt: new Date().toISOString(),
@@ -153,9 +116,11 @@ export default function QuizPage() {
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
-  const currentQ = mockQuizData.questions[currentQuestion];
-  const progress =
-    ((currentQuestion + 1) / mockQuizData.questions.length) * 100;
+  const currentQ = generatedQuiz?.questions[currentQuestion];
+
+  const progress = generatedQuiz
+    ? ((currentQuestion + 1) / generatedQuiz.questions.length) * 100
+    : 0;
 
   if (isSubmitting) {
     return (
@@ -169,6 +134,33 @@ export default function QuizPage() {
     );
   }
 
+  if (isLoading) {
+    return (
+      <div className="max-w-2xl mx-auto text-center py-16">
+        <span className="loading loading-spinner loading-lg text-primary mb-4"></span>
+        <h2 className="text-2xl font-bold mb-2">Loading Quiz...</h2>
+        <p className="text-base-content/70">
+          Please wait while we prepare your quiz
+        </p>
+      </div>
+    );
+  }
+
+  if (!generatedQuiz || !generatedQuiz.questions || generatedQuiz.questions.length === 0) {
+    return (
+      <div className="max-w-2xl mx-auto text-center py-16">
+        <div className="text-6xl mb-4">❌</div>
+        <h2 className="text-2xl font-bold mb-2">No Quiz Available</h2>
+        <p className="text-base-content/70 mb-6">
+          We couldn't find a quiz to display. Please upload a PDF file and generate a quiz first.
+        </p>
+        <Link href="/" className="btn btn-primary">
+          Go Back to Upload
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-4xl mx-auto pt-6">
       {/* Header */}
@@ -177,9 +169,9 @@ export default function QuizPage() {
           <div className="flex justify-between items-center mb-4">
             <div>
               <h1 className="text-2xl font-bold card-title">
-                {mockQuizData.title}
+                {generatedQuiz?.title}
               </h1>
-              <p className="text-base-content/70">📄 {mockQuizData.fileName}</p>
+              <p className="text-base-content/70">📄 "example.pdf"</p>
             </div>
             <div className="text-right">
               <div className="text-lg font-semibold text-primary">
@@ -187,7 +179,7 @@ export default function QuizPage() {
               </div>
               <div className="text-sm text-base-content/70">
                 Question {currentQuestion + 1} of{" "}
-                {mockQuizData.questions.length}
+                {generatedQuiz?.questions.length}
               </div>
             </div>
           </div>
@@ -209,13 +201,13 @@ export default function QuizPage() {
               Question {currentQuestion + 1}
             </div>
             <h2 className="text-xl font-semibold card-title mb-4">
-              {currentQ.question}
+              {currentQ?.question}
             </h2>
           </div>
 
           {/* Answer Options */}
           <div className="space-y-3">
-            {currentQ.type === "multiple-choice" && (
+            {currentQ?.type === "multiple-choice" && (
               <div className="form-control flex flex-col gap-2">
                 {currentQ.options?.map((option, index) => (
                   <label
@@ -255,22 +247,28 @@ export default function QuizPage() {
         </div>
 
         <div className="join">
-          {currentQuestion < mockQuizData.questions.length - 1 ? (
-            <button
-              onClick={handleNext}
-              className="nav-button btn btn-outline btn-primary join-item"
-            >
-              Next Question
-            </button>
+          {generatedQuiz ? (
+            currentQuestion < generatedQuiz.questions.length - 1 ? (
+              <button
+                onClick={handleNext}
+                className="nav-button btn btn-outline btn-primary join-item"
+              >
+                Next Question
+              </button>
+            ) : (
+              <button
+                onClick={handleSubmit}
+                className="nav-button btn btn-outline btn-success join-item"
+                disabled={
+                  Object.keys(answers).length < generatedQuiz.questions.length
+                }
+              >
+                Submit Quiz
+              </button>
+            )
           ) : (
-            <button
-              onClick={handleSubmit}
-              className="nav-button btn btn-outline btn-success join-item"
-              disabled={
-                Object.keys(answers).length < mockQuizData.questions.length
-              }
-            >
-              Submit Quiz
+            <button className="nav-button btn btn-outline btn-primary join-item">
+              Loading...
             </button>
           )}
         </div>
@@ -281,14 +279,14 @@ export default function QuizPage() {
         <div className="card-body">
           <h3 className="card-title mb-3">Question Navigator</h3>
           <div className="flex flex-wrap gap-2">
-            {mockQuizData.questions.map((_, index) => (
+            {generatedQuiz?.questions.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentQuestion(index)}
                 className={`nav-button btn ${
                   index === currentQuestion
                     ? "btn-primary"
-                    : answers[mockQuizData.questions[index].id] !== undefined
+                    : answers[generatedQuiz.questions[index].id] !== undefined
                     ? "btn-success"
                     : "btn-outline"
                 }`}
