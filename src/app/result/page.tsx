@@ -12,9 +12,7 @@ export default function ResultPage() {
   const { isLoading, results, getOptionLabel } = useQuiz();
 
   const formattedCompletionDate = useMemo(() => {
-    if (!results?.completedAt) return "";
-
-    const date = new Date(results.completedAt);
+    const date = results ? new Date(results.completedAt) : new Date();
 
     return date.toLocaleString();
   }, [results?.completedAt]);
