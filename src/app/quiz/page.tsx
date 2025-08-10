@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useQuiz } from "../../hooks/use-quiz";
+import { useQuiz } from "@/hooks/use-quiz";
+import Loading from "@/components/ui/loading";
+import ErrorFallback from "@/components/ui/error-fallback";
 
 export default function QuizPage() {
   const {
@@ -17,6 +19,13 @@ export default function QuizPage() {
   } = useQuiz();
 
   const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes in seconds
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => window.clearInterval(id);
+  }, []);
 
   const handleAnswer = (questionId: number, answer: number) => {
     setAnswers((prev) => ({
@@ -53,25 +62,19 @@ export default function QuizPage() {
 
   if (isSubmitting) {
     return (
-      <div className="max-w-2xl mx-auto text-center py-16">
-        <span className="loading loading-spinner loading-lg text-primary mb-4"></span>
-        <h2 className="text-2xl font-bold mb-2">Submitting Your Quiz...</h2>
-        <p className="text-base-content/70">
-          Please wait while we calculate your results
-        </p>
-      </div>
+      <Loading
+        title="Submitting Your Quiz..."
+        description="Please wait while we calculate your results"
+      />
     );
   }
 
   if (isLoading) {
     return (
-      <div className="max-w-2xl mx-auto text-center py-16">
-        <span className="loading loading-spinner loading-lg text-primary mb-4"></span>
-        <h2 className="text-2xl font-bold mb-2">Loading Quiz...</h2>
-        <p className="text-base-content/70">
-          Please wait while we prepare your quiz
-        </p>
-      </div>
+      <Loading
+        title="Loading Quiz..."
+        description="Please wait while we load your quiz."
+      />
     );
   }
 
@@ -81,17 +84,10 @@ export default function QuizPage() {
     generatedQuiz.questions.length === 0
   ) {
     return (
-      <div className="max-w-2xl mx-auto text-center py-16">
-        <div className="text-6xl mb-4">❌</div>
-        <h2 className="text-2xl font-bold mb-2">No Quiz Available</h2>
-        <p className="text-base-content/70 mb-6">
-          We couldn't find a quiz to display. Please upload a PDF file and
-          generate a quiz first.
-        </p>
-        <Link href="/" className="btn btn-primary">
-          Go Back to Upload
-        </Link>
-      </div>
+      <ErrorFallback
+        title="No Quiz Available"
+        description="We couldn't find a quiz to display. Please upload a PDF file and generate a quiz first."
+      />
     );
   }
 
