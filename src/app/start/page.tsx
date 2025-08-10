@@ -1,6 +1,6 @@
 "use client";
 
-import PdfUploadSection from "../../components/pdf-upload-section";
+import PdfUploadSection from "@/components/pdf-upload-section";
 
 export default function StartPage() {
   return (
@@ -10,11 +10,11 @@ export default function StartPage() {
         <div className="hero-content text-center">
           <div className="max-w-2xl">
             <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              AI PDF Quiz
+              Quiz My PDF
             </h1>
             <p className="text-xl mb-8 text-base-content/70">
               Transform any PDF document into an interactive quiz using advanced
-              artificial intelligence
+              AI
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a href="#upload" className="btn btn-primary btn-lg">

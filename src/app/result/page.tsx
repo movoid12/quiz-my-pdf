@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useMemo } from "react";
 // components & hooks
-import RadialProgress from "../../components/ui/radial-progress";
-import ResultStats from "../../components/ui/result-stats";
-import QuestionResultCard from "../../components/ui/question-result-card";
-import { useResault } from "../hooks/use-resault";
+import QuestionResultCard from "@/components/ui/question-result-card";
+import RadialProgress from "@/components/ui/radial-progress";
+import ResultStats from "@/components/ui/result-stats";
+import { useResault } from "../../hooks/use-resault";
 
 export default function ResultPage() {
   const { isLoading, results, getOptionLabel } = useResault();

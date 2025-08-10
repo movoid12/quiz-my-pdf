@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useQuiz } from "../hooks/use-quiz";
+import { useQuiz } from "../../hooks/use-quiz";
 
 export default function QuizPage() {
   const {

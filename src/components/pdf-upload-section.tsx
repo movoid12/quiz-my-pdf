@@ -1,9 +1,8 @@
 "use client";
 
-import { questionsSchema } from "@/lib/quiz-schema";
+import { Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
-import z from "zod";
 
 export default function PdfUploadSection() {
   const router = useRouter();
@@ -97,22 +96,10 @@ export default function PdfUploadSection() {
   if (uploadedFile) {
     return (
       <div className="text-center space-y-6">
-        <div className="alert alert-success flex items-center">
-          <svg
-            className="w-6 h-6 stroke-success mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
+        <div className="alert alert-success flex justify-center">
+          <Check />
           <span>
-            PDF uploaded successfully:{" "}
+            PDF uploaded successfully:
             <span className="font-bold">{uploadedFile.name}</span>
           </span>
         </div>
