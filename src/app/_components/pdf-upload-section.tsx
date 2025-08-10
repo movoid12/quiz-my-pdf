@@ -5,8 +5,6 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import z from "zod";
 
-type QuizData = z.infer<typeof questionsSchema>;
-
 export default function PdfUploadSection() {
   const router = useRouter();
 
@@ -82,7 +80,9 @@ export default function PdfUploadSection() {
       router.push("/quiz");
     } catch (error) {
       console.error("Processing error:", error);
-      setError(error instanceof Error ? error.message : "Failed to process PDF");
+      setError(
+        error instanceof Error ? error.message : "Failed to process PDF"
+      );
     } finally {
       setIsProcessing(false);
     }
@@ -108,57 +108,57 @@ export default function PdfUploadSection() {
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="2"
-            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-          />
-        </svg>
-        <span>
-          PDF uploaded successfully:{" "}
-          <span className="font-bold">{uploadedFile.name}</span>
-        </span>
-      </div>
+              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>
+            PDF uploaded successfully:{" "}
+            <span className="font-bold">{uploadedFile.name}</span>
+          </span>
+        </div>
 
-      <div className="card bg-base-200 shadow-md max-w-md mx-auto">
-        <div className="card-body">
-          <div className="flex items-center justify-center space-x-4 mb-4">
-            <div className="text-4xl">📄</div>
-            <div>
-              <h3 className="font-semibold truncate">{uploadedFile.name}</h3>
-              <p className="text-sm opacity-70">
-                {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
-              </p>
+        <div className="card bg-base-200 shadow-md max-w-md mx-auto">
+          <div className="card-body">
+            <div className="flex items-center justify-center space-x-4 mb-4">
+              <div className="text-4xl">📄</div>
+              <div>
+                <h3 className="font-semibold truncate">{uploadedFile.name}</h3>
+                <p className="text-sm opacity-70">
+                  {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
+                </p>
+              </div>
+            </div>
+
+            <div className="flex gap-4 justify-center">
+              <button
+                onClick={handleProcessPDF}
+                disabled={isProcessing}
+                className="btn btn-primary"
+              >
+                {isProcessing ? (
+                  <>
+                    <span className="loading loading-spinner loading-sm"></span>
+                    Generating Quiz...
+                  </>
+                ) : (
+                  "Generate Quiz"
+                )}
+              </button>
+              <button onClick={resetUpload} className="btn btn-outline">
+                Upload Different PDF
+              </button>
             </div>
           </div>
+        </div>
 
-          <div className="flex gap-4 justify-center">
-            <button
-              onClick={handleProcessPDF}
-              disabled={isProcessing}
-              className="btn btn-primary"
-            >
-              {isProcessing ? (
-                <>
-                  <span className="loading loading-spinner loading-sm"></span>
-                  Generating Quiz...
-                </>
-              ) : (
-                "Generate Quiz"
-              )}
-            </button>
-            <button onClick={resetUpload} className="btn btn-outline">
-              Upload Different PDF
-            </button>
+        {isProcessing && (
+          <div className="space-y-4 max-w-md mx-auto">
+            <progress className="progress progress-primary w-full"></progress>
+            <p className="text-sm opacity-70">
+              Our AI is analyzing your PDF and creating relevant questions...
+            </p>
           </div>
-        </div>
-      </div>
-
-      {isProcessing && (
-        <div className="space-y-4 max-w-md mx-auto">
-          <progress className="progress progress-primary w-full"></progress>
-          <p className="text-sm opacity-70">
-            Our AI is analyzing your PDF and creating relevant questions...
-          </p>
-        </div>
-      )}
+        )}
       </div>
     );
   }
