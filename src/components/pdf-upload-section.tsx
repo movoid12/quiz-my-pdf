@@ -213,7 +213,7 @@ export default function PdfUploadSection() {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6 text-sm">
+      <div className="grid md:grid-cols-2 gap-6 hero-content">
         <div className="space-y-2">
           <h4 className="font-semibold flex items-center">
             <span className="text-success mr-2">✓</span>
