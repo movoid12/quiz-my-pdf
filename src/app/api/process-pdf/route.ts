@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import pdf from "pdf-parse";
-import { openai } from "@ai-sdk/openai";
+import { google } from "@ai-sdk/google";
 import { generateObject } from "ai";
 import { questionsSchema } from "@/lib/quiz-schema";
 
@@ -88,12 +88,11 @@ ${extractedText}
     `.trim();
 
     const { object } = await generateObject({
-      model: openai("gpt-4o-mini"), // Use a model that supports JSON schema
+      model: google("gemini-2.0-flash-lite"),
       schema: questionsSchema,
       system,
       messages: [{ role: "user", content: user }],
-      temperature: 0.5,
-      maxOutputTokens: 1500,
+      temperature: 0.5
     });
 
     // Final safety validation (extra guard)
