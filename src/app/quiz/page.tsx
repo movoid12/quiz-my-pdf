@@ -161,7 +161,7 @@ export default function QuizPage() {
       {/* Navigation */}
       <div className="flex justify-between items-center m-2">
         <button className="nav-button btn btn-error join-item">
-          <Link href="/dashboard">Exit Quiz</Link>
+          <Link href="/">Exit Quiz</Link>
         </button>
         <div className="join">
           <button
