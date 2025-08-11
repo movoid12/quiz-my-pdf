@@ -32,7 +32,9 @@ export const useQuiz = () => {
         isCorrect = userAnswer === question.correctAnswer;
       }
 
-      if (isCorrect) { score++; }
+      if (isCorrect) {
+        score++;
+      }
 
       return {
         questionId: question.id,
@@ -68,10 +70,7 @@ export const useQuiz = () => {
       const quizData = sessionStorage.getItem('currentQuiz');
       if (quizData) {
         const parsedQuiz = JSON.parse(quizData);
-        if (
-          parsedQuiz?.questions &&
-          parsedQuiz.questions.length > 0
-        ) {
+        if (parsedQuiz?.questions && parsedQuiz.questions.length > 0) {
           setGeneratedQuiz(parsedQuiz);
         } else {
           router.push('/');

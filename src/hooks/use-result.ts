@@ -18,7 +18,9 @@ export const useResault = () => {
     questionId: number,
     idx: number | null | undefined,
   ) => {
-    if (idx === null || idx === undefined) { return 'No answer'; }
+    if (idx === null || idx === undefined) {
+      return 'No answer';
+    }
     const question = quiz?.questions.find((q) => q.id === questionId);
     return question?.options?.[idx] ?? `Option ${idx + 1}`;
   };
@@ -28,8 +30,12 @@ export const useResault = () => {
       const rawResults = sessionStorage.getItem('quizResults');
       const rawQuiz = sessionStorage.getItem('currentQuiz');
 
-      if (rawResults) { setResults(JSON.parse(rawResults)); }
-      if (rawQuiz) { setQuiz(JSON.parse(rawQuiz)); }
+      if (rawResults) {
+        setResults(JSON.parse(rawResults));
+      }
+      if (rawQuiz) {
+        setQuiz(JSON.parse(rawQuiz));
+      }
     } catch (e) {
       console.error('Failed to load results:', e);
     } finally {
