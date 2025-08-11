@@ -7,7 +7,7 @@ function buildPrompt(extractedText: string) {
   const system =
     "You are an expert quiz generator. Return only JSON matching the provided Zod schema. No extra text.";
   const user = `
-Create exactly 5 challenging but fair multiple-choice questions based on the provided text.
+Create exactly 5 challenging but fair multiple-choice questions based on the provided text and its language.
 - Use 4 options per question.
 - correctAnswer must be the index (0-based) of the correct option.
 - Ensure answers are accurate and derived from the text.
