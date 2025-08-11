@@ -1,6 +1,6 @@
 "use client";
 
-import useTheme from "@/app/hooks/useTheme";
+import useTheme from "@/hooks/useTheme";
 import { Moon, Sun } from "lucide-react";
 import { useEffect } from "react";
 import { themeChange } from "theme-change";

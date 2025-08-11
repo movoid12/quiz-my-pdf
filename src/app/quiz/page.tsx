@@ -1,48 +1,33 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import z from "zod";
-import { questionsSchema } from "@/lib/quiz-schema";
-
-
-type GeneratedQuiz = z.infer<typeof questionsSchema>;
+import { useQuiz } from "@/hooks/use-quiz";
+import Loading from "@/components/ui/loading";
+import ErrorFallback from "@/components/ui/error-fallback";
 
 export default function QuizPage() {
-  const router = useRouter();
-  const [generatedQuiz, setGeneratedQuiz] = useState<GeneratedQuiz | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const {
+    isSubmitting,
+    isLoading,
+    answers,
+    setAnswers,
+    generatedQuiz,
+    handleSubmit,
+    currentQuestion,
+    setCurrentQuestion,
+  } = useQuiz();
 
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<Record<number, any>>({});
   const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes in seconds
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    try {
-      const quizData = sessionStorage.getItem("currentQuiz");
-      if (quizData) {
-        const parsedQuiz = JSON.parse(quizData);
-        if (parsedQuiz && parsedQuiz.questions && parsedQuiz.questions.length > 0) {
-          setGeneratedQuiz(parsedQuiz);
-        } else {
-          // Redirect back if no valid quiz data
-          router.push("/");
-        }
-      } else {
-        // Redirect back if no quiz data
-        router.push("/");
-      }
-    } catch (error) {
-      console.error("Error loading quiz data:", error);
-      router.push("/");
-    } finally {
-      setIsLoading(false);
-    }
-  }, [router]);
+    const id = window.setInterval(() => {
+      setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => window.clearInterval(id);
+  }, []);
 
-  const handleAnswer = (questionId: number, answer: any) => {
+  const handleAnswer = (questionId: number, answer: number) => {
     setAnswers((prev) => ({
       ...prev,
       [questionId]: answer,
@@ -63,53 +48,6 @@ export default function QuizPage() {
     }
   };
 
-  const handleSubmit = async () => {
-    setIsSubmitting(true);
-
-    // Calculate score and prepare results
-    let score = 0;
-    const results = generatedQuiz?.questions.map((question) => {
-      const userAnswer = answers[question.id];
-      let isCorrect = false;
-
-      if (
-        question.type === "multiple-choice" ||
-        question.type === "true-false"
-      ) {
-        isCorrect = userAnswer === question.correctAnswer;
-      }
-
-      if (isCorrect) score++;
-
-      return {
-        questionId: question.id,
-        question: question.question,
-        userAnswer,
-        correctAnswer: question.correctAnswer,
-        isCorrect,
-        type: question.type,
-      };
-    });
-
-    const quizResults = {
-      title: generatedQuiz?.title,
-      score: generatedQuiz
-        ? Math.round((score / generatedQuiz.questions.length) * 100)
-        : 0,
-      totalQuestions: generatedQuiz?.questions.length || 0,
-      correctAnswers: score,
-      results,
-      completedAt: new Date().toISOString(),
-    };
-
-    sessionStorage.setItem("quizResults", JSON.stringify(quizResults));
-
-    // Simulate processing time
-    setTimeout(() => {
-      router.push("/result");
-    }, 1500);
-  };
-
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -124,67 +62,58 @@ export default function QuizPage() {
 
   if (isSubmitting) {
     return (
-      <div className="max-w-2xl mx-auto text-center py-16">
-        <span className="loading loading-spinner loading-lg text-primary mb-4"></span>
-        <h2 className="text-2xl font-bold mb-2">Submitting Your Quiz...</h2>
-        <p className="text-base-content/70">
-          Please wait while we calculate your results
-        </p>
-      </div>
+      <Loading
+        title="Submitting Your Quiz..."
+        description="Please wait while we calculate your results"
+      />
     );
   }
 
   if (isLoading) {
     return (
-      <div className="max-w-2xl mx-auto text-center py-16">
-        <span className="loading loading-spinner loading-lg text-primary mb-4"></span>
-        <h2 className="text-2xl font-bold mb-2">Loading Quiz...</h2>
-        <p className="text-base-content/70">
-          Please wait while we prepare your quiz
-        </p>
-      </div>
+      <Loading
+        title="Loading Quiz..."
+        description="Please wait while we load your quiz."
+      />
     );
   }
 
-  if (!generatedQuiz || !generatedQuiz.questions || generatedQuiz.questions.length === 0) {
+  if (
+    !generatedQuiz ||
+    !generatedQuiz.questions ||
+    generatedQuiz.questions.length === 0
+  ) {
     return (
-      <div className="max-w-2xl mx-auto text-center py-16">
-        <div className="text-6xl mb-4">❌</div>
-        <h2 className="text-2xl font-bold mb-2">No Quiz Available</h2>
-        <p className="text-base-content/70 mb-6">
-          We couldn't find a quiz to display. Please upload a PDF file and generate a quiz first.
-        </p>
-        <Link href="/" className="btn btn-primary">
-          Go Back to Upload
-        </Link>
-      </div>
+      <ErrorFallback
+        title="No Quiz Available"
+        description="We couldn't find a quiz to display. Please upload a PDF file and generate a quiz first."
+      />
     );
   }
 
   return (
     <div className="max-w-4xl mx-auto pt-6">
       {/* Header */}
-      <div className="card bg-base-100 shadow-lg mb-6">
+      <div className="card bg-base-100 border-1 border-dashed border-base-content/25 m-0.5">
         <div className="card-body">
           <div className="flex justify-between items-center mb-4">
             <div>
-              <h1 className="text-2xl font-bold card-title">
+              <h1 className="text-lg font-bold card-title">
                 {generatedQuiz?.title}
               </h1>
               <p className="text-base-content/70">📄 "example.pdf"</p>
             </div>
             <div className="text-right">
-              <div className="text-lg font-semibold text-primary">
+              <div className="text-lg font-semibold text-accent">
                 ⏱️ {formatTime(timeLeft)}
               </div>
-              <div className="text-sm text-base-content/70">
+              <div className="text-xs text-base-content/70">
                 Question {currentQuestion + 1} of{" "}
                 {generatedQuiz?.questions.length}
               </div>
             </div>
           </div>
 
-          {/* Progress Bar */}
           <progress
             className="progress progress-primary w-full"
             value={progress}
@@ -197,44 +126,42 @@ export default function QuizPage() {
       <div className="card bg-base-100 shadow-lg mb-6">
         <div className="card-body">
           <div className="mb-6">
-            <div className="badge badge-primary mb-4">
+            <div className="badge badge-accent font-bold mb-4">
               Question {currentQuestion + 1}
             </div>
-            <h2 className="text-xl font-semibold card-title mb-4">
+            <h2 className="text-xl font-semibold card-title">
               {currentQ?.question}
             </h2>
           </div>
 
           {/* Answer Options */}
-          <div className="space-y-3">
-            {currentQ?.type === "multiple-choice" && (
-              <div className="form-control flex flex-col gap-2">
-                {currentQ.options?.map((option, index) => (
-                  <label
-                    key={index}
-                    className="label cursor-pointer justify-start"
-                  >
-                    <input
-                      type="radio"
-                      name={`question-${currentQ.id}`}
-                      value={index}
-                      checked={answers[currentQ.id] === index}
-                      onChange={() => handleAnswer(currentQ.id, index)}
-                      className="radio radio-primary mr-3"
-                    />
-                    <span className="label-text">{option}</span>
-                  </label>
-                ))}
-              </div>
-            )}
-          </div>
+          {currentQ?.type === "multiple-choice" && (
+            <div className="form-control flex flex-col gap-6">
+              {currentQ.options?.map((option, index) => (
+                <label
+                  key={index}
+                  className="cursor-pointer flex text-base-content/75"
+                >
+                  <input
+                    type="radio"
+                    name={`question-${currentQ.id}`}
+                    value={index}
+                    checked={answers[currentQ.id] === index}
+                    onChange={() => handleAnswer(currentQ.id, index)}
+                    className="radio radio-primary"
+                  />
+                  <span className="ml-4">{option}</span>
+                </label>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
       {/* Navigation */}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center m-2">
         <button className="nav-button btn btn-error join-item">
-          <Link href="/dashboard">Exit Quiz</Link>
+          <Link href="/">Exit Quiz</Link>
         </button>
         <div className="join">
           <button
@@ -251,14 +178,14 @@ export default function QuizPage() {
             currentQuestion < generatedQuiz.questions.length - 1 ? (
               <button
                 onClick={handleNext}
-                className="nav-button btn btn-outline btn-primary join-item"
+                className="nav-button btn btn-primary join-item"
               >
                 Next Question
               </button>
             ) : (
               <button
                 onClick={handleSubmit}
-                className="nav-button btn btn-outline btn-success join-item"
+                className="nav-button btn btn-success join-item"
                 disabled={
                   Object.keys(answers).length < generatedQuiz.questions.length
                 }
@@ -275,11 +202,10 @@ export default function QuizPage() {
       </div>
 
       {/* Question Navigator */}
-      <div className="card bg-base-100 shadow-lg mt-6">
+      <div className="card bg-base-100 shadow-lg mt-2 items-center">
         <div className="card-body">
-          <h3 className="card-title mb-3">Question Navigator</h3>
           <div className="flex flex-wrap gap-2">
-            {generatedQuiz?.questions.map((_, index) => (
+            {generatedQuiz?.questions.map((question, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentQuestion(index)}

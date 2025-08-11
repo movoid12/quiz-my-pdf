@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import PdfUploadSection from "../_components/pdf-upload-section";
+import PdfUploadSection from "@/components/pdf-upload-section";
 
 export default function StartPage() {
   return (
@@ -10,11 +10,11 @@ export default function StartPage() {
         <div className="hero-content text-center">
           <div className="max-w-2xl">
             <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              AI PDF Quiz
+              Quiz My PDF
             </h1>
             <p className="text-xl mb-8 text-base-content/70">
               Transform any PDF document into an interactive quiz using advanced
-              artificial intelligence
+              AI
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a href="#upload" className="btn btn-primary btn-lg">
@@ -62,47 +62,51 @@ export default function StartPage() {
           <h2 className="card-title text-2xl mb-6 justify-center">
             Get Started - Upload Your PDF
           </h2>
-          <PdfUploadSection />
         </div>
+        <PdfUploadSection />
       </div>
 
       {/* How it Works */}
-      <div className="mt-16">
-        <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
-        <ul className="steps steps-vertical lg:steps-horizontal w-full">
-          <li className="step step-primary">
-            <div>
-              <h3 className="font-semibold">Upload PDF</h3>
-              <p className="text-sm text-base-content/70">
-                Choose any PDF document
-              </p>
-            </div>
-          </li>
-          <li className="step step-primary">
-            <div>
-              <h3 className="font-semibold">AI Analysis</h3>
-              <p className="text-sm text-base-content/70">
-                Our AI analyzes the content
-              </p>
-            </div>
-          </li>
-          <li className="step step-primary">
-            <div>
-              <h3 className="font-semibold">Generate Quiz</h3>
-              <p className="text-sm text-base-content/70">
-                Relevant questions are created
-              </p>
-            </div>
-          </li>
-          <li className="step step-primary">
-            <div>
-              <h3 className="font-semibold">Take Quiz</h3>
-              <p className="text-sm text-base-content/70">
-                Test your knowledge
-              </p>
-            </div>
-          </li>
-        </ul>
+      <h2 className="text-3xl font-bold text-center mt-16 mb-4">
+        How It Works
+      </h2>
+      <div className="hero">
+        <div className="hero-content">
+          <ul className="steps steps-vertical sm:steps-horizontal w-full mb-12">
+            <li className="step step-primary">
+              <div>
+                <h3 className="font-semibold">Upload PDF</h3>
+                <p className="text-sm text-base-content/70">
+                  Choose any PDF document
+                </p>
+              </div>
+            </li>
+            <li className="step step-primary">
+              <div>
+                <h3 className="font-semibold">AI Analysis</h3>
+                <p className="text-sm text-base-content/70">
+                  Our AI analyzes the content
+                </p>
+              </div>
+            </li>
+            <li className="step step-primary">
+              <div>
+                <h3 className="font-semibold">Generate Quiz</h3>
+                <p className="text-sm text-base-content/70">
+                  Relevant questions are created
+                </p>
+              </div>
+            </li>
+            <li className="step step-primary">
+              <div>
+                <h3 className="font-semibold">Take Quiz</h3>
+                <p className="text-sm text-base-content/70">
+                  Test your knowledge
+                </p>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );
