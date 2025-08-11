@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import useTheme from "@/hooks/use-theme";
-import { Moon, Sun } from "lucide-react";
-import { useEffect } from "react";
-import { themeChange } from "theme-change";
+import { Moon, Sun } from 'lucide-react';
+import { useEffect } from 'react';
+import { themeChange } from 'theme-change';
+import useTheme from '@/hooks/use-theme';
 
 export default function ThemeChanger() {
   const { toggleTheme, theme } = useTheme();
@@ -14,9 +14,9 @@ export default function ThemeChanger() {
 
   return (
     <div>
-      <button className="btn" onClick={toggleTheme}>
+      <button type='button' className="btn" onClick={toggleTheme}>
         <span className="flex items-center">
-          {theme === "light" ? (
+          {theme === 'light' ? (
             <Moon className="h-4 w-4" />
           ) : (
             <Sun className="h-4 w-4" />

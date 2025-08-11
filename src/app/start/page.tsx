@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import PdfUploadSection from "@/components/pdf-upload-section";
+import PdfUploadSection from '@/components/pdf-upload-section';
 
 export default function StartPage() {
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="mx-auto max-w-4xl">
       {/* Hero Section */}
-      <div className="hero min-h-[60vh] rounded-2xl mb-12">
+      <div className="hero mb-12 min-h-[60vh] rounded-2xl">
         <div className="hero-content text-center">
           <div className="max-w-2xl">
-            <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            <h1 className="mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text font-bold text-5xl text-transparent">
               Quiz My PDF
             </h1>
-            <p className="text-xl mb-8 text-base-content/70">
+            <p className="mb-8 text-base-content/70 text-xl">
               Transform any PDF document into an interactive quiz using advanced
               AI
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col justify-center gap-4 sm:flex-row">
               <a href="#upload" className="btn btn-primary btn-lg">
                 Upload PDF & Start
               </a>
@@ -26,10 +26,10 @@ export default function StartPage() {
       </div>
 
       {/* Features Section */}
-      <div className="grid md:grid-cols-3 gap-8 mb-12">
+      <div className="mb-12 grid gap-8 md:grid-cols-3">
         <div className="card bg-base-100 shadow-lg">
           <div className="card-body items-center text-center">
-            <div className="text-4xl mb-4">🎓</div>
+            <div className="mb-4 text-4xl">🎓</div>
             <h3 className="card-title justify-center">For Students</h3>
             <p className="text-base-content/70">
               Perfect for exam preparation and self-assessment
@@ -38,7 +38,7 @@ export default function StartPage() {
         </div>
         <div className="card bg-base-100 shadow-lg">
           <div className="card-body items-center text-center">
-            <div className="text-4xl mb-4">👨‍🏫</div>
+            <div className="mb-4 text-4xl">👨‍🏫</div>
             <h3 className="card-title justify-center">For Educators</h3>
             <p className="text-base-content/70">
               Create engaging classroom activities effortlessly
@@ -47,7 +47,7 @@ export default function StartPage() {
         </div>
         <div className="card bg-base-100 shadow-lg">
           <div className="card-body items-center text-center">
-            <div className="text-4xl mb-4">📚</div>
+            <div className="mb-4 text-4xl">📚</div>
             <h3 className="card-title justify-center">For Learners</h3>
             <p className="text-base-content/70">
               Enhance understanding and retention of any material
@@ -59,7 +59,7 @@ export default function StartPage() {
       {/* Upload Section */}
       <div id="upload" className="card bg-base-100 shadow-xl">
         <div className="card-body">
-          <h2 className="card-title text-2xl mb-6 justify-center">
+          <h2 className="card-title mb-6 justify-center text-2xl">
             Get Started - Upload Your PDF
           </h2>
         </div>
@@ -67,16 +67,16 @@ export default function StartPage() {
       </div>
 
       {/* How it Works */}
-      <h2 className="text-3xl font-bold text-center mt-16 mb-4">
+      <h2 className="mt-16 mb-4 text-center font-bold text-3xl">
         How It Works
       </h2>
       <div className="hero">
         <div className="hero-content">
-          <ul className="steps steps-vertical sm:steps-horizontal w-full mb-12">
+          <ul className="steps steps-vertical sm:steps-horizontal mb-12 w-full">
             <li className="step step-primary">
               <div>
                 <h3 className="font-semibold">Upload PDF</h3>
-                <p className="text-sm text-base-content/70">
+                <p className="text-base-content/70 text-sm">
                   Choose any PDF document
                 </p>
               </div>
@@ -84,7 +84,7 @@ export default function StartPage() {
             <li className="step step-primary">
               <div>
                 <h3 className="font-semibold">AI Analysis</h3>
-                <p className="text-sm text-base-content/70">
+                <p className="text-base-content/70 text-sm">
                   Our AI analyzes the content
                 </p>
               </div>
@@ -92,7 +92,7 @@ export default function StartPage() {
             <li className="step step-primary">
               <div>
                 <h3 className="font-semibold">Generate Quiz</h3>
-                <p className="text-sm text-base-content/70">
+                <p className="text-base-content/70 text-sm">
                   Relevant questions are created
                 </p>
               </div>
@@ -100,7 +100,7 @@ export default function StartPage() {
             <li className="step step-primary">
               <div>
                 <h3 className="font-semibold">Take Quiz</h3>
-                <p className="text-sm text-base-content/70">
+                <p className="text-base-content/70 text-sm">
                   Test your knowledge
                 </p>
               </div>

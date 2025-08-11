@@ -1,5 +1,4 @@
-import Link from "next/link";
-import React from "react";
+import Link from 'next/link';
 
 export default function ErrorFallback({
   title,
@@ -9,10 +8,10 @@ export default function ErrorFallback({
   description: string;
 }) {
   return (
-    <div className="max-w-2xl mx-auto text-center py-16">
-      <div className="text-6xl mb-4">❌</div>
-      <h2 className="text-2xl font-bold mb-2">{title}</h2>
-      <p className="text-base-content/70 mb-6">{description}</p>
+    <div className="mx-auto max-w-2xl py-16 text-center">
+      <div className="mb-4 text-6xl">❌</div>
+      <h2 className="mb-2 font-bold text-2xl">{title}</h2>
+      <p className="mb-6 text-base-content/70">{description}</p>
       <Link href="/" className="btn btn-primary">
         Go Back to Upload
       </Link>

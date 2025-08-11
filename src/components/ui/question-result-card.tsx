@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { quizResultSchema } from "@/lib/quiz-result-schema";
-import z from "zod";
+import type z from 'zod';
+import type { quizResultSchema } from '@/lib/quiz-result-schema';
 
 type QuizResult = z.infer<typeof quizResultSchema>;
 
@@ -22,7 +22,7 @@ export default function QuestionResultCard({
     <div
       key={quizResult.questionId ?? index}
       className={`card bg-base-200 shadow-lg ${
-        isCorrect ? "border border-success " : "border border-error bg-error/15"
+        isCorrect ? 'border border-success' : 'border border-error bg-error/15'
       }`}
     >
       <div className="card-body">
@@ -34,15 +34,15 @@ export default function QuestionResultCard({
             </h3>
           </div>
           <div
-            className={`badge ${isCorrect ? "badge-success" : "badge-error"}`}
+            className={`badge ${isCorrect ? 'badge-success' : 'badge-error'}`}
           >
-            {isCorrect ? "Correct" : "Incorrect"}
+            {isCorrect ? 'Correct' : 'Incorrect'}
           </div>
         </div>
 
-        <div className="mt-3 grid md:grid-cols-2 gap-3">
-          <div className="p-3 rounded-lg bg-base-200 shadow-md">
-            <div className="text-sm text-base-content/70 mb-1">Your answer</div>
+        <div className="mt-3 grid gap-3 md:grid-cols-2">
+          <div className="rounded-lg bg-base-200 p-3 shadow-md">
+            <div className="mb-1 text-base-content/70 text-sm">Your answer</div>
             <div className="font-medium">
               {userLabel}
               <br />
@@ -52,8 +52,8 @@ export default function QuestionResultCard({
             </div>
           </div>
 
-          <div className="p-3 rounded-lg bg-success/50 shadow-md">
-            <div className="text-sm text-base-content">Correct answer</div>
+          <div className="rounded-lg bg-success/50 p-3 shadow-md">
+            <div className="text-base-content text-sm">Correct answer</div>
             <div className="font-medium">
               {correctLabel}
               <br />

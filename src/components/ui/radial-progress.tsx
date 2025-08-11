@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 export default function RadialProgress({
   value,
@@ -14,9 +14,9 @@ export default function RadialProgress({
       className="radial-progress text-success"
       style={
         {
-          "--value": value,
-          "--size": size,
-          "--thickness": thickness,
+          '--value': value,
+          '--size': size,
+          '--thickness': thickness,
         } as React.CSSProperties
       }
       aria-valuenow={value}

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { questionsSchema } from "@/lib/quiz-schema";
-import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
-import z from "zod/mini";
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import type z from 'zod/mini';
+import type { questionsSchema } from '@/lib/quiz-schema';
 
 type GeneratedQuiz = z.infer<typeof questionsSchema>;
 
@@ -14,11 +14,11 @@ export const useQuiz = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [generatedQuiz, setGeneratedQuiz] = useState<GeneratedQuiz | null>(
-    null
+    null,
   );
   const [currentQuestion, setCurrentQuestion] = useState(0);
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     setIsSubmitting(true);
 
     let score = 0;
@@ -28,11 +28,11 @@ export const useQuiz = () => {
 
       let isCorrect = false;
 
-      if (question.type === "multiple-choice") {
+      if (question.type === 'multiple-choice') {
         isCorrect = userAnswer === question.correctAnswer;
       }
 
-      if (isCorrect) score++;
+      if (isCorrect) { score++; }
 
       return {
         questionId: question.id,
@@ -55,34 +55,33 @@ export const useQuiz = () => {
       completedAt: new Date().toISOString(),
     };
 
-    sessionStorage.setItem("quizResults", JSON.stringify(quizResults));
+    sessionStorage.setItem('quizResults', JSON.stringify(quizResults));
 
     // Simulate processing time
     setTimeout(() => {
-      router.push("/result");
+      router.push('/result');
     }, 1500);
   };
 
   useEffect(() => {
     try {
-      const quizData = sessionStorage.getItem("currentQuiz");
+      const quizData = sessionStorage.getItem('currentQuiz');
       if (quizData) {
         const parsedQuiz = JSON.parse(quizData);
         if (
-          parsedQuiz &&
-          parsedQuiz.questions &&
+          parsedQuiz?.questions &&
           parsedQuiz.questions.length > 0
         ) {
           setGeneratedQuiz(parsedQuiz);
         } else {
-          router.push("/");
+          router.push('/');
         }
       } else {
-        router.push("/");
+        router.push('/');
       }
     } catch (error) {
-      console.error("Error loading quiz data:", error);
-      router.push("/");
+      console.error('Error loading quiz data:', error);
+      router.push('/');
     } finally {
       setIsLoading(false);
     }
