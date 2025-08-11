@@ -7,7 +7,7 @@ export default function NavBar() {
     <nav className="sticky top-0 z-50">
       <div className="navbar border-2 border-base-content/10 bg-base-200 shadow-md">
         <div className="flex-1">
-          <a className="btn btn-ghost text-xl">QuizMyPDF</a>
+          <a href='/' className="btn btn-ghost text-xl">QuizMyPDF</a>
         </div>
         <div className="flex-none">
           <ThemeChanger />

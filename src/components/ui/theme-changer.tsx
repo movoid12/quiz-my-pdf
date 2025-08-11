@@ -14,7 +14,7 @@ export default function ThemeChanger() {
 
   return (
     <div>
-      <button className="btn" onClick={toggleTheme}>
+      <button type='button' className="btn" onClick={toggleTheme}>
         <span className="flex items-center">
           {theme === 'light' ? (
             <Moon className="h-4 w-4" />

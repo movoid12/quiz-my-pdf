@@ -78,10 +78,7 @@ export default function QuizPage() {
     );
   }
 
-  if (
-    !(generatedQuiz?.questions) ||
-    generatedQuiz.questions.length === 0
-  ) {
+  if (!generatedQuiz?.questions || generatedQuiz.questions.length === 0) {
     return (
       <ErrorFallback
         title="No Quiz Available"
@@ -138,7 +135,7 @@ export default function QuizPage() {
             <div className="form-control flex flex-col gap-6">
               {currentQ.options?.map((option, index) => (
                 <label
-                  key={index}
+                  key={option}
                   className="flex cursor-pointer text-base-content/75"
                 >
                   <input
@@ -159,11 +156,12 @@ export default function QuizPage() {
 
       {/* Navigation */}
       <div className="m-2 flex items-center justify-between">
-        <button className="nav-button btn btn-error join-item">
+        <button type="button" className="nav-button btn btn-error join-item">
           <Link href="/">Exit Quiz</Link>
         </button>
         <div className="join">
           <button
+            type="button"
             onClick={handlePrevious}
             disabled={currentQuestion === 0}
             className="nav-button btn btn-outline join-item"
@@ -176,6 +174,7 @@ export default function QuizPage() {
           {generatedQuiz ? (
             currentQuestion < generatedQuiz.questions.length - 1 ? (
               <button
+                type="button"
                 onClick={handleNext}
                 className="nav-button btn btn-primary join-item"
               >
@@ -183,6 +182,7 @@ export default function QuizPage() {
               </button>
             ) : (
               <button
+                type="button"
                 onClick={handleSubmit}
                 className="nav-button btn btn-success join-item"
                 disabled={
@@ -193,7 +193,10 @@ export default function QuizPage() {
               </button>
             )
           ) : (
-            <button className="nav-button btn btn-outline btn-primary join-item">
+            <button
+              type="button"
+              className="nav-button btn btn-outline btn-primary join-item"
+            >
               Loading...
             </button>
           )}
@@ -204,9 +207,10 @@ export default function QuizPage() {
       <div className="card mt-2 items-center bg-base-100 shadow-lg">
         <div className="card-body">
           <div className="flex flex-wrap gap-2">
-            {generatedQuiz?.questions.map((_question, index) => (
+            {generatedQuiz?.questions.map((question, index) => (
               <button
-                key={index}
+                key={question.id}
+                type="button"
                 onClick={() => setCurrentQuestion(index)}
                 className={`nav-button btn ${
                   index === currentQuestion
