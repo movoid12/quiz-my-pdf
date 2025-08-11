@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { quizResultsSchema } from "@/lib/quiz-result-schema";
-import { questionsSchema } from "@/lib/quiz-schema";
-import { useState, useEffect } from "react";
-import z from "zod/mini";
+import { useEffect, useState } from 'react';
+import type z from 'zod/mini';
+import type { quizResultsSchema } from '@/lib/quiz-result-schema';
+import type { questionsSchema } from '@/lib/quiz-schema';
 
 type GeneratedQuiz = z.infer<typeof questionsSchema>;
 
@@ -16,22 +16,22 @@ export const useResault = () => {
 
   const getOptionLabel = (
     questionId: number,
-    idx: number | null | undefined
+    idx: number | null | undefined,
   ) => {
-    if (idx === null || idx === undefined) return "No answer";
+    if (idx === null || idx === undefined) { return 'No answer'; }
     const question = quiz?.questions.find((q) => q.id === questionId);
     return question?.options?.[idx] ?? `Option ${idx + 1}`;
   };
 
   useEffect(() => {
     try {
-      const rawResults = sessionStorage.getItem("quizResults");
-      const rawQuiz = sessionStorage.getItem("currentQuiz");
+      const rawResults = sessionStorage.getItem('quizResults');
+      const rawQuiz = sessionStorage.getItem('currentQuiz');
 
-      if (rawResults) setResults(JSON.parse(rawResults));
-      if (rawQuiz) setQuiz(JSON.parse(rawQuiz));
+      if (rawResults) { setResults(JSON.parse(rawResults)); }
+      if (rawQuiz) { setQuiz(JSON.parse(rawQuiz)); }
     } catch (e) {
-      console.error("Failed to load results:", e);
+      console.error('Failed to load results:', e);
     } finally {
       setIsLoading(false);
     }

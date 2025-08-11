@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useMemo } from "react";
+import Link from 'next/link';
+import { useMemo } from 'react';
 // components & hooks
-import QuestionResultCard from "@/components/ui/question-result-card";
-import RadialProgress from "@/components/ui/radial-progress";
-import ResultStats from "@/components/ui/result-stats";
-import { useResault } from "@/hooks/use-result";
+import QuestionResultCard from '@/components/ui/question-result-card';
+import RadialProgress from '@/components/ui/radial-progress';
+import ResultStats from '@/components/ui/result-stats';
+import { useResault } from '@/hooks/use-result';
 
 export default function ResultPage() {
   const { isLoading, results, getOptionLabel } = useResault();
@@ -15,17 +15,17 @@ export default function ResultPage() {
     const date = results ? new Date(results.completedAt) : new Date();
 
     return date.toLocaleString();
-  }, [results?.completedAt]);
+  }, [results?.completedAt, results]);
 
   const handleNewQuiz = () => {
-    sessionStorage.removeItem("quizResults");
+    sessionStorage.removeItem('quizResults');
   };
 
   if (isLoading) {
     return (
-      <div className="max-w-3xl mx-auto text-center py-16">
-        <span className="loading loading-spinner loading-lg text-primary mb-4"></span>
-        <h2 className="text-2xl font-bold mb-2">Preparing Results...</h2>
+      <div className="mx-auto max-w-3xl py-16 text-center">
+        <span className="loading loading-spinner loading-lg mb-4 text-primary"></span>
+        <h2 className="mb-2 font-bold text-2xl">Preparing Results...</h2>
         <p className="text-base-content/70">Please wait</p>
       </div>
     );
@@ -33,10 +33,10 @@ export default function ResultPage() {
 
   if (!results) {
     return (
-      <div className="max-w-3xl mx-auto text-center py-20">
-        <div className="text-6xl mb-4">ℹ️</div>
-        <h2 className="text-2xl font-bold mb-2">No Results Found</h2>
-        <p className="text-base-content/70 mb-6">
+      <div className="mx-auto max-w-3xl py-20 text-center">
+        <div className="mb-4 text-6xl">ℹ️</div>
+        <h2 className="mb-2 font-bold text-2xl">No Results Found</h2>
+        <p className="mb-6 text-base-content/70">
           Upload a PDF and complete a quiz to see results here.
         </p>
         <Link href="/start" className="btn btn-primary" onClick={handleNewQuiz}>
@@ -47,14 +47,14 @@ export default function ResultPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto pt-6 space-y-6">
+    <div className="mx-auto max-w-4xl space-y-6 pt-6">
       {/* Summary */}
       <div className="card bg-base-100 shadow-lg">
         <div className="card-body">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
               <h1 className="card-title text-2xl">
-                {results.title || "Quiz Results"}
+                {results.title || 'Quiz Results'}
               </h1>
               <p className="text-base-content/70">
                 Completed at: {formattedCompletionDate}
@@ -107,12 +107,12 @@ export default function ResultPage() {
       {/* Footer actions */}
       <div className="card bg-base-100 shadow-lg">
         <div className="card-body">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <div className="text-sm text-base-content/70">
-              Your results are saved automatically. You can{" "}
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div className="text-base-content/70 text-sm">
+              Your results are saved automatically. You can{' '}
               <Link href="/results" className="link">
                 view past results
-              </Link>{" "}
+              </Link>{' '}
               or share your score with others!
             </div>
             <div className="flex flex-wrap gap-2">

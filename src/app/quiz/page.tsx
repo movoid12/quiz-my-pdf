@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { useQuiz } from "@/hooks/use-quiz";
-import Loading from "@/components/ui/loading";
-import ErrorFallback from "@/components/ui/error-fallback";
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import ErrorFallback from '@/components/ui/error-fallback';
+import Loading from '@/components/ui/loading';
+import { useQuiz } from '@/hooks/use-quiz';
 
 export default function QuizPage() {
   const {
@@ -51,7 +51,7 @@ export default function QuizPage() {
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, "0")}`;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   const currentQ = generatedQuiz?.questions[currentQuestion];
@@ -79,8 +79,7 @@ export default function QuizPage() {
   }
 
   if (
-    !generatedQuiz ||
-    !generatedQuiz.questions ||
+    !(generatedQuiz?.questions) ||
     generatedQuiz.questions.length === 0
   ) {
     return (
@@ -92,23 +91,23 @@ export default function QuizPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto pt-6">
+    <div className="mx-auto max-w-4xl pt-6">
       {/* Header */}
-      <div className="card bg-base-100 border-1 border-dashed border-base-content/25 m-0.5">
+      <div className="card m-0.5 border-1 border-base-content/25 border-dashed bg-base-100">
         <div className="card-body">
-          <div className="flex justify-between items-center mb-4">
+          <div className="mb-4 flex items-center justify-between">
             <div>
-              <h1 className="text-lg font-bold card-title">
+              <h1 className="card-title font-bold text-lg">
                 {generatedQuiz?.title}
               </h1>
               <p className="text-base-content/70">📄 "example.pdf"</p>
             </div>
             <div className="text-right">
-              <div className="text-lg font-semibold text-accent">
+              <div className="font-semibold text-accent text-lg">
                 ⏱️ {formatTime(timeLeft)}
               </div>
-              <div className="text-xs text-base-content/70">
-                Question {currentQuestion + 1} of{" "}
+              <div className="text-base-content/70 text-xs">
+                Question {currentQuestion + 1} of{' '}
                 {generatedQuiz?.questions.length}
               </div>
             </div>
@@ -123,24 +122,24 @@ export default function QuizPage() {
       </div>
 
       {/* Question Card */}
-      <div className="card bg-base-100 shadow-lg mb-6">
+      <div className="card mb-6 bg-base-100 shadow-lg">
         <div className="card-body">
           <div className="mb-6">
-            <div className="badge badge-accent font-bold mb-4">
+            <div className="badge badge-accent mb-4 font-bold">
               Question {currentQuestion + 1}
             </div>
-            <h2 className="text-xl font-semibold card-title">
+            <h2 className="card-title font-semibold text-xl">
               {currentQ?.question}
             </h2>
           </div>
 
           {/* Answer Options */}
-          {currentQ?.type === "multiple-choice" && (
+          {currentQ?.type === 'multiple-choice' && (
             <div className="form-control flex flex-col gap-6">
               {currentQ.options?.map((option, index) => (
                 <label
                   key={index}
-                  className="cursor-pointer flex text-base-content/75"
+                  className="flex cursor-pointer text-base-content/75"
                 >
                   <input
                     type="radio"
@@ -159,7 +158,7 @@ export default function QuizPage() {
       </div>
 
       {/* Navigation */}
-      <div className="flex justify-between items-center m-2">
+      <div className="m-2 flex items-center justify-between">
         <button className="nav-button btn btn-error join-item">
           <Link href="/">Exit Quiz</Link>
         </button>
@@ -202,19 +201,19 @@ export default function QuizPage() {
       </div>
 
       {/* Question Navigator */}
-      <div className="card bg-base-100 shadow-lg mt-2 items-center">
+      <div className="card mt-2 items-center bg-base-100 shadow-lg">
         <div className="card-body">
           <div className="flex flex-wrap gap-2">
-            {generatedQuiz?.questions.map((question, index) => (
+            {generatedQuiz?.questions.map((_question, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentQuestion(index)}
                 className={`nav-button btn ${
                   index === currentQuestion
-                    ? "btn-primary"
+                    ? 'btn-primary'
                     : answers[generatedQuiz.questions[index].id] !== undefined
-                    ? "btn-success"
-                    : "btn-outline"
+                      ? 'btn-success'
+                      : 'btn-outline'
                 }`}
               >
                 {index + 1}

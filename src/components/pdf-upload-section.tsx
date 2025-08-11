@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { Check } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { Check } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useCallback, useState } from 'react';
 
 export default function PdfUploadSection() {
   const router = useRouter();
@@ -23,64 +23,69 @@ export default function PdfUploadSection() {
     setIsDragOver(false);
   }, []);
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      setIsDragOver(false);
 
-    const files = Array.from(e.dataTransfer.files);
-    const pdfFile = files.find((file) => file.type === "application/pdf");
+      const files = Array.from(e.dataTransfer.files);
+      const pdfFile = files.find((file) => file.type === 'application/pdf');
 
-    if (pdfFile) {
-      console.log("is here", uploadedFile);
-      setUploadedFile(pdfFile);
-    } else {
-      alert("Please upload a PDF file");
-    }
-  }, []);
+      if (pdfFile) {
+        console.log('is here', uploadedFile);
+        setUploadedFile(pdfFile);
+      } else {
+        alert('Please upload a PDF file');
+      }
+    },
+    [uploadedFile],
+  );
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file && file.type === "application/pdf") {
+    if (file && file.type === 'application/pdf') {
       setUploadedFile(file);
       setError(null);
     } else {
-      setError("Please select a valid PDF file");
+      setError('Please select a valid PDF file');
     }
   };
 
-  const handleProcessPDF = async () => {
-    if (!uploadedFile) return;
+  const handleProcessPdf = async () => {
+    if (!uploadedFile) {
+      return;
+    }
 
     setIsProcessing(true);
     setError(null);
 
     try {
       const formData = new FormData();
-      formData.append("pdf", uploadedFile);
+      formData.append('pdf', uploadedFile);
 
-      const response = await fetch("/api/process-pdf", {
-        method: "POST",
+      const response = await fetch('/api/process-pdf', {
+        method: 'POST',
         body: formData,
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to process PDF");
+        throw new Error(data.error || 'Failed to process PDF');
       }
 
       // Validate the response data structure
-      if (!data || !data.questions) {
-        throw new Error("Invalid quiz data received from server");
+      if (!data?.questions) {
+        throw new Error('Invalid quiz data received from server');
       }
 
-      sessionStorage.setItem("currentQuiz", JSON.stringify(data));
+      sessionStorage.setItem('currentQuiz', JSON.stringify(data));
 
-      router.push("/quiz");
+      router.push('/quiz');
     } catch (error) {
-      console.error("Processing error:", error);
+      console.error('Processing error:', error);
       setError(
-        error instanceof Error ? error.message : "Failed to process PDF"
+        error instanceof Error ? error.message : 'Failed to process PDF',
       );
     } finally {
       setIsProcessing(false);
@@ -95,7 +100,7 @@ export default function PdfUploadSection() {
 
   if (uploadedFile) {
     return (
-      <div className="text-center space-y-6">
+      <div className="space-y-6 text-center">
         <div className="alert alert-success flex justify-center">
           <Check />
           <span>
@@ -104,21 +109,22 @@ export default function PdfUploadSection() {
           </span>
         </div>
 
-        <div className="card bg-base-200 shadow-md max-w-md mx-auto">
+        <div className="card mx-auto max-w-md bg-base-200 shadow-md">
           <div className="card-body">
-            <div className="flex items-center justify-center space-x-4 mb-4">
+            <div className="mb-4 flex items-center justify-center space-x-4">
               <div className="text-4xl">📄</div>
               <div>
-                <h3 className="font-semibold truncate">{uploadedFile.name}</h3>
+                <h3 className="truncate font-semibold">{uploadedFile.name}</h3>
                 <p className="text-sm opacity-70">
                   {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
                 </p>
               </div>
             </div>
 
-            <div className="flex gap-4 justify-center">
+            <div className="flex justify-center gap-4">
               <button
-                onClick={handleProcessPDF}
+                type="button"
+                onClick={handleProcessPdf}
                 disabled={isProcessing}
                 className="btn btn-primary"
               >
@@ -128,10 +134,14 @@ export default function PdfUploadSection() {
                     Generating Quiz...
                   </>
                 ) : (
-                  "Generate Quiz"
+                  'Generate Quiz'
                 )}
               </button>
-              <button onClick={resetUpload} className="btn btn-outline">
+              <button
+                type="button"
+                onClick={resetUpload}
+                className="btn btn-outline"
+              >
                 Upload Different PDF
               </button>
             </div>
@@ -139,7 +149,7 @@ export default function PdfUploadSection() {
         </div>
 
         {isProcessing && (
-          <div className="space-y-4 max-w-md mx-auto">
+          <div className="mx-auto max-w-md space-y-4">
             <progress className="progress progress-primary w-full"></progress>
             <p className="text-sm opacity-70">
               Our AI is analyzing your PDF and creating relevant questions...
@@ -155,11 +165,12 @@ export default function PdfUploadSection() {
       {error && (
         <div className="alert alert-error">
           <svg
-            className="w-6 h-6"
+            className="h-6 w-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
           >
+            <title>Error Icon</title>
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -170,11 +181,12 @@ export default function PdfUploadSection() {
           <span>{error}</span>
         </div>
       )}
+      {/** biome-ignore lint/a11y/useSemanticElements: <explanation> */}
       <div
-        className={`drop-zone border-2 border-dashed rounded-lg p-12 text-center transition-colors cursor-pointer ${
+        className={`drop-zone cursor-pointer rounded-lg border-2 border-dashed p-12 text-center transition-colors ${
           isDragOver
-            ? "border-primary bg-primary/10"
-            : "border-base-300 hover:border-primary/70"
+            ? 'border-primary bg-primary/10'
+            : 'border-base-300 hover:border-primary/70'
         }`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -182,17 +194,17 @@ export default function PdfUploadSection() {
         tabIndex={0}
         role="button"
       >
-        <div className="text-6xl mb-4">📄</div>
-        <h3 className="text-xl font-semibold mb-2">
+        <div className="mb-4 text-6xl">📄</div>
+        <h3 className="mb-2 font-semibold text-xl">
           Drag & drop your PDF here
         </h3>
-        <p className="opacity-70 mb-6">or click to browse files</p>
+        <p className="mb-6 opacity-70">or click to browse files</p>
 
         <input
           type="file"
           accept=".pdf"
           onChange={handleFileSelect}
-          className="file-input file-input-bordered file-input-primary w-full max-w-xs mx-auto"
+          className="file-input file-input-bordered file-input-primary mx-auto w-full max-w-xs"
         />
 
         <div className="mt-4 text-sm opacity-60">
@@ -200,13 +212,13 @@ export default function PdfUploadSection() {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6 hero-content">
+      <div className="hero-content grid gap-6 md:grid-cols-2">
         <div className="space-y-2">
-          <h4 className="font-semibold flex items-center">
-            <span className="text-success mr-2">✓</span>
+          <h4 className="flex items-center font-semibold">
+            <span className="mr-2 text-success">✓</span>
             What we support:
           </h4>
-          <ul className="space-y-1 opacity-70 ml-6 list-disc">
+          <ul className="ml-6 list-disc space-y-1 opacity-70">
             <li>Text-based PDFs</li>
             <li>Academic papers</li>
             <li>Textbooks &amp; guides</li>
@@ -215,11 +227,11 @@ export default function PdfUploadSection() {
         </div>
 
         <div className="space-y-2">
-          <h4 className="font-semibold flex items-center">
-            <span className="text-info mr-2">ℹ</span>
+          <h4 className="flex items-center font-semibold">
+            <span className="mr-2 text-info">ℹ</span>
             AI will generate:
           </h4>
-          <ul className="space-y-1 opacity-70 ml-6 list-disc">
+          <ul className="ml-6 list-disc space-y-1 opacity-70">
             <li>Multiple choice questions</li>
             <li>True/false questions</li>
             <li>Short answer questions</li>
