@@ -19,8 +19,8 @@ export const useResault = () => {
     idx: number | null | undefined
   ) => {
     if (idx === null || idx === undefined) return "No answer";
-    const q = quiz?.questions.find((q) => q.id === questionId);
-    return q?.options?.[idx] ?? `Option ${idx + 1}`;
+    const question = quiz?.questions.find((q) => q.id === questionId);
+    return question?.options?.[idx] ?? `Option ${idx + 1}`;
   };
 
   useEffect(() => {
