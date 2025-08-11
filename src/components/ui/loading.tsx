@@ -1,5 +1,3 @@
-
-
 type Loading = {
   title: string;
   description: string;
