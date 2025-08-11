@@ -2,17 +2,20 @@
 
 A modern web app to generate and take quizzes from your PDF files using AI.
 
+[![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
+[![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
+
 ## Techstack
 
 - Next.js v15 (App Router)
 - React v19
 - Tailwind CSS
-- DaisyUI
+- DaisyUI 
 - Zod (schema validation)
 - Vercel AI SDK
 - Google Gemini API
 - TypeScript
-- Eslint / Prettier
+- Biome (Linter/formatter)
 
 ## Prerequires
 
