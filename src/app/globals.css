@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  /* biome-ignore lint/correctness/noUnknownProperty: <explanation> */
+  /* biome-ignore lint/correctness/noUnknownProperty: themes is a valid daisyui plugin property */
   themes:
     light --default,
     dark --prefersdark,

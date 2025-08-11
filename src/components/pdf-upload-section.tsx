@@ -181,7 +181,7 @@ export default function PdfUploadSection() {
           <span>{error}</span>
         </div>
       )}
-      {/** biome-ignore lint/a11y/useSemanticElements: <explanation> */}
+      {/** biome-ignore lint/a11y/useSemanticElements: Using div for drag and drop functionality */}
       <div
         className={`drop-zone cursor-pointer rounded-lg border-2 border-dashed p-12 text-center transition-colors ${
           isDragOver
