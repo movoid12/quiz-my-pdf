@@ -5,6 +5,14 @@ A modern web app to generate and take quizzes from your PDF files using AI.
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
 
+> [!WARNING]
+> This application is currently under continuous development. It uses session storage to store data temporarily. The plan is to integrate it with a PostgreSQL database in the near future.
+
+## TODO
+
+- [ ] Implement user authentication using Better Auth
+- [ ] Integrate with a real-time database like PostgreSQL
+
 ## Techstack
 
 - Next.js v15 (App Router)
@@ -24,8 +32,8 @@ A modern web app to generate and take quizzes from your PDF files using AI.
 - Google Gemini API key (for AI quiz generation)
 
 ## Get started
-
-- After cloning the repo. Enter your Google Gemini API key in .env
+- Create a `.env` file from the `.env.example` template.
+- Enter your Google Gemini API key in .env
 
 `GOOGLE_GENERATIVE_AI_API_KEY=***********`
 
