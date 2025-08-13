@@ -2,6 +2,11 @@
   "name": "quiz-my-pdf",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
+  "author": {
+    "name": "Mouaz Aldakkak",
+    "url": "https://maldakkak.de"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",

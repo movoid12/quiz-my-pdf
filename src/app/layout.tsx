@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'Quiz My PDF',
   description: 'Generate Quiz from your PDF documents using AI',
-  authors: [{ name: "Mouaz Aldakkak", url: "https://maldakkak.de" }]
+  authors: [{ name: 'Mouaz Aldakkak', url: 'https://maldakkak.de' }],
 };
 
 export default function RootLayout({
