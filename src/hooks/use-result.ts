@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import type z from 'zod/mini';
-import type { quizResultsSchema } from '@/lib/quiz-result-schema';
-import type { questionsSchema } from '@/lib/quiz-schema';
+
+import type { questionsSchema, quizResultsSchema } from '@/lib/schema';
 
 type GeneratedQuiz = z.infer<typeof questionsSchema>;
 
 type QuizResults = z.infer<typeof quizResultsSchema>;
 
-export const useResault = () => {
+export const useResult = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [results, setResults] = useState<QuizResults | null>(null);
   const [quiz, setQuiz] = useState<GeneratedQuiz | null>(null);

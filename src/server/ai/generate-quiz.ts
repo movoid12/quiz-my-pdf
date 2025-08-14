@@ -1,7 +1,7 @@
 import 'server-only';
 import { google } from '@ai-sdk/google';
 import { generateObject } from 'ai';
-import { questionsSchema } from '@/lib/quiz-schema';
+import { questionsSchema } from '@/lib/schema';
 
 function buildPrompt(extractedText: string) {
   const system =

@@ -1,7 +1,7 @@
 'use client';
 
 import type z from 'zod';
-import type { quizResultSchema } from '@/lib/quiz-result-schema';
+import type { quizResultSchema } from '@/lib/schema';
 
 type QuizResult = z.infer<typeof quizResultSchema>;
 
