@@ -50,9 +50,13 @@ jobs:
           git commit -m "chore(release): version packages and update changelog" || echo "no changes"
           git push origin HEAD:main || echo "push failed"
 
+      - name: Get package version
+        id: get_version
+        run: echo "version=$(jq -r '.version' package.json)" >> $GITHUB_OUTPUT
+
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:
-          tag: "v$(jq -r '.version' package.json)"
-          name: "Release $(jq -r '.version' package.json)"
-          body: "$(cat CHANGELOG.md)"
+          tag: v${{ steps.get_version.outputs.version }}
+          name: Release ${{ steps.get_version.outputs.version }}
+          body: ${{ steps.changeset.outputs.changelog }}Ï
