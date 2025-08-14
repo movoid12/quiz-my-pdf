@@ -3,6 +3,7 @@
 import { Check } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
+import QuizLevelModal from './quiz-level-modal';
 
 export default function PdfUploadSection() {
   const router = useRouter();
@@ -10,6 +11,7 @@ export default function PdfUploadSection() {
   const [uploadedFile, setUploadedFile] = useState<File | null>();
   const [isProcessing, setIsProcessing] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [error, setError] = useState<string | null>(null);
 
@@ -51,17 +53,19 @@ export default function PdfUploadSection() {
     }
   };
 
-  const handleProcessPdf = async () => {
+  const handleProcessPdfWithLevel = async (level: string) => {
     if (!uploadedFile) {
       return;
     }
 
+    setIsModalOpen(false);
     setIsProcessing(true);
     setError(null);
 
     try {
       const formData = new FormData();
       formData.append('pdf', uploadedFile);
+      formData.append('level', level);
 
       const response = await fetch('/api/process-pdf', {
         method: 'POST',
@@ -74,7 +78,6 @@ export default function PdfUploadSection() {
         throw new Error(data.error || 'Failed to process PDF');
       }
 
-      // Validate the response data structure
       if (!data?.questions) {
         throw new Error('Invalid quiz data received from server');
       }
@@ -124,7 +127,7 @@ export default function PdfUploadSection() {
             <div className="flex justify-center gap-4 max-sm:flex-col">
               <button
                 type="button"
-                onClick={handleProcessPdf}
+                onClick={() => setIsModalOpen(true)}
                 disabled={isProcessing}
                 className="btn btn-primary"
               >
@@ -155,6 +158,13 @@ export default function PdfUploadSection() {
               Our AI is analyzing your PDF and creating relevant questions...
             </p>
           </div>
+        )}
+
+        {isModalOpen && (
+          <QuizLevelModal
+            handleProcessPdfWithLevel={handleProcessPdfWithLevel}
+            setIsModalOpen={setIsModalOpen}
+          />
         )}
       </div>
     );
