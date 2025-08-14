@@ -1,4 +1,4 @@
-import { type NextRequest, NextResponse } from 'next/server';
+import sanitizeHtml from 'sanitize-html';
 import { MIN_TEXT_CHARS } from '@/lib/constants';
 import { generateQuizFromText } from '@/server/ai/generate-quiz';
 import { extractTextFromPdf } from '@/server/pdf/extract-text';
@@ -7,11 +7,11 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   try {
     const contentType = request.headers.get('content-type') || '';
     if (!contentType.includes('multipart/form-data')) {
-      return NextResponse.json(
+      return Response.json(
         {
           error:
             "Unsupported Media Type. Expecting multipart/form-data with 'pdf' file.",
@@ -24,15 +24,15 @@ export async function POST(request: NextRequest) {
     const file = formData.get('pdf');
 
     if (!(file instanceof File)) {
-      return NextResponse.json(
-        { error: 'No PDF file provided' },
-        { status: 400 },
-      );
+      return Response.json({ error: 'No PDF file provided' }, { status: 400 });
     }
 
-    const text = await extractTextFromPdf(file);
+    let text = await extractTextFromPdf(file);
+
+    text = sanitizeHtml(text);
+
     if (text.length < MIN_TEXT_CHARS) {
-      return NextResponse.json(
+      return Response.json(
         { error: 'Insufficient content in PDF' },
         { status: 400 },
       );
@@ -40,34 +40,34 @@ export async function POST(request: NextRequest) {
 
     const quiz = await generateQuizFromText(text);
 
-    return NextResponse.json(quiz);
+    return Response.json(quiz);
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Internal error';
     console.error('Error processing PDF:', error);
 
     if (message.includes('multipart/form-data')) {
-      return NextResponse.json({ error: message }, { status: 415 });
+      return Response.json({ error: message }, { status: 415 });
     }
     if (message.includes('File too large')) {
-      return NextResponse.json({ error: message }, { status: 400 });
+      return Response.json({ error: message }, { status: 400 });
     }
     if (message.includes('Invalid file format')) {
-      return NextResponse.json({ error: message }, { status: 415 });
+      return Response.json({ error: message }, { status: 415 });
     }
     if (message.includes('Failed to read PDF content')) {
-      return NextResponse.json({ error: message }, { status: 400 });
+      return Response.json({ error: message }, { status: 400 });
     }
     if (message.includes('AI returned invalid data format')) {
-      return NextResponse.json({ error: message }, { status: 502 });
+      return Response.json({ error: message }, { status: 502 });
     }
     if (message.includes('The user aborted a request')) {
-      return NextResponse.json(
+      return Response.json(
         { error: 'Client aborted request' },
         { status: 499 },
       );
     }
 
-    return NextResponse.json(
+    return Response.json(
       { error: 'Upstream AI error or invalid response' },
       { status: 502 },
     );
