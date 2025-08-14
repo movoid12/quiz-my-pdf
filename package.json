@@ -10,6 +10,9 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "changeset": "changeset",
+    "version:changeset": "changeset version",
+    "changelog:generate": "changeset status || true",
     "format": "biome format --write",
     "check": "biome check",
     "lint": "biome lint --write --unsafe",
@@ -42,6 +45,7 @@
     "@types/react-dom": "^19",
     "@types/sanitize-html": "^2.16.0",
     "tailwindcss": "^4.1.11",
-    "typescript": "^5"
+    "typescript": "^5",
+    "@changesets/cli": "2.29.5"
   }
 }
