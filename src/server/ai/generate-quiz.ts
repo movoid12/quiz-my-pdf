@@ -7,14 +7,15 @@ function buildPrompt(extractedText: string) {
   const system =
     'You are an expert quiz generator. Return only JSON matching the provided Zod schema. No extra text.';
   const user = `
-Create exactly 5 challenging but fair multiple-choice questions based on the provided text and its language.
+Create exactly 5 challenging but fair multiple-choice questions based on the provided text.
+- the language of the questions and answers must be the same as the provided text
 - Use 4 options per question.
 - correctAnswer must be the index (0-based) of the correct option.
 - Ensure answers are accurate and derived from the text.
 
 Text:
-${extractedText}
-  `.trim();
+${extractedText}`.trim();
+
   return { system, user };
 }
 
@@ -22,7 +23,7 @@ export async function generateQuizFromText(text: string) {
   const { system, user } = buildPrompt(text);
 
   const { object } = await generateObject({
-    model: google('gemini-2.5-flash-lite'),
+    model: google('gemini-2.0-flash'),
     schema: questionsSchema,
     system,
     messages: [{ role: 'user', content: user }],
