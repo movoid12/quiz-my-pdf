@@ -1,0 +1,56 @@
+name: Create Changeset from Merged PR
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  create-changeset:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm 📦
+        with:
+          version: 10
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+
+      - name: Create changeset file
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          echo "---" > .changeset/pr-${PR_NUMBER}.md
+          echo "'quiz-my-pdf: patch'" >> .changeset/pr-${PR_NUMBER}.md
+          echo "---" >> .changeset/pr-${PR_NUMBER}.md
+          echo "" >> .changeset/pr-${PR_NUMBER}.md
+          echo "# ${PR_TITLE}" >> .changeset/pr-${PR_NUMBER}.md
+          echo "" >> .changeset/pr-${PR_NUMBER}.md
+          if [ -n "${PR_BODY}" ]; then
+            echo "${PR_BODY}" >> .changeset/pr-${PR_NUMBER}.md
+          fi
+
+      - name: Commit changeset
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .changeset/pr-${{ github.event.pull_request.number }}.md
+          git commit -m "chore(changeset): add changeset for PR #${{ github.event.pull_request.number }}" || echo "no changes"
+          git push origin HEAD:${{ github.ref }}
