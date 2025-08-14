@@ -183,7 +183,7 @@ export default function PdfUploadSection() {
       )}
       {/** biome-ignore lint/a11y/useSemanticElements: Using div for drag and drop functionality */}
       <div
-        className={`drop-zone cursor-pointer rounded-lg border-2 border-dashed p-12 text-center transition-colors ${
+        className={`drop-zone cursor-pointer rounded-lg border-2 border-dashed m-2 p-12 text-center transition-colors ${
           isDragOver
             ? 'border-primary bg-primary/10'
             : 'border-base-300 hover:border-primary/70'
