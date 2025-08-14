@@ -18,7 +18,7 @@ export default function QuizPage() {
     setCurrentQuestion,
   } = useQuiz();
 
-  const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(210); // 3 minutes 30 seconds
 
   useEffect(() => {
     const id = window.setInterval(() => {
