@@ -1,6 +1,8 @@
 'use client';
 
+import ListItem from '@/components/list-item';
 import PdfUploadSection from '@/components/pdf-upload-section';
+import FeatureCard from '@/components/ui/feature-card';
 
 export default function StartPage() {
   return (
@@ -27,33 +29,21 @@ export default function StartPage() {
 
       {/* Features Section */}
       <div className="mb-12 grid gap-8 md:grid-cols-3">
-        <div className="card bg-base-100 shadow-lg">
-          <div className="card-body items-center text-center">
-            <div className="mb-4 text-4xl">🎓</div>
-            <h3 className="card-title justify-center">For Students</h3>
-            <p className="text-base-content/70">
-              Perfect for exam preparation and self-assessment
-            </p>
-          </div>
-        </div>
-        <div className="card bg-base-100 shadow-lg">
-          <div className="card-body items-center text-center">
-            <div className="mb-4 text-4xl">👨‍🏫</div>
-            <h3 className="card-title justify-center">For Educators</h3>
-            <p className="text-base-content/70">
-              Create engaging classroom activities effortlessly
-            </p>
-          </div>
-        </div>
-        <div className="card bg-base-100 shadow-lg">
-          <div className="card-body items-center text-center">
-            <div className="mb-4 text-4xl">📚</div>
-            <h3 className="card-title justify-center">For Learners</h3>
-            <p className="text-base-content/70">
-              Enhance understanding and retention of any material
-            </p>
-          </div>
-        </div>
+        <FeatureCard
+          emoji="🎓"
+          title="For Students"
+          description="Perfect for exam preparation and self-assessment"
+        />
+        <FeatureCard
+          emoji="👨‍🏫"
+          title="For Educators"
+          description="Create engaging classroom activities effortlessly"
+        />
+        <FeatureCard
+          emoji="📚"
+          title="For Learners"
+          description="Enhance understanding and retention of any material"
+        />
       </div>
 
       {/* Upload Section */}
@@ -73,38 +63,19 @@ export default function StartPage() {
       <div className="hero">
         <div className="hero-content">
           <ul className="steps steps-vertical sm:steps-horizontal mb-12 w-full">
-            <li className="step step-primary">
-              <div>
-                <h3 className="font-semibold">Upload PDF</h3>
-                <p className="text-base-content/70 text-sm">
-                  Choose any PDF document
-                </p>
-              </div>
-            </li>
-            <li className="step step-primary">
-              <div>
-                <h3 className="font-semibold">AI Analysis</h3>
-                <p className="text-base-content/70 text-sm">
-                  Our AI analyzes the content
-                </p>
-              </div>
-            </li>
-            <li className="step step-primary">
-              <div>
-                <h3 className="font-semibold">Generate Quiz</h3>
-                <p className="text-base-content/70 text-sm">
-                  Relevant questions are created
-                </p>
-              </div>
-            </li>
-            <li className="step step-primary">
-              <div>
-                <h3 className="font-semibold">Take Quiz</h3>
-                <p className="text-base-content/70 text-sm">
-                  Test your knowledge
-                </p>
-              </div>
-            </li>
+            <ListItem
+              title="Upload PDF"
+              description="Choose any PDF document"
+            />
+            <ListItem
+              title="AI Analysis"
+              description="Our AI analyzes the content"
+            />
+            <ListItem
+              title="Generate Quiz"
+              description="Relevant questions are created"
+            />
+            <ListItem title="Take Quiz" description="Test your knowledge" />
           </ul>
         </div>
       </div>
