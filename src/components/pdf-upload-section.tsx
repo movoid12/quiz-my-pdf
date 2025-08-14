@@ -100,7 +100,7 @@ export default function PdfUploadSection() {
 
   if (uploadedFile) {
     return (
-      <div className="space-y-6 text-center">
+      <div className="space-y-6 text-center mb-8 w-full">
         <div className="alert alert-success flex justify-center">
           <Check />
           <span>
@@ -121,7 +121,7 @@ export default function PdfUploadSection() {
               </div>
             </div>
 
-            <div className="flex justify-center gap-4">
+            <div className="flex justify-center gap-4 max-sm:flex-col">
               <button
                 type="button"
                 onClick={handleProcessPdf}
@@ -183,7 +183,7 @@ export default function PdfUploadSection() {
       )}
       {/** biome-ignore lint/a11y/useSemanticElements: Using div for drag and drop functionality */}
       <div
-        className={`drop-zone cursor-pointer rounded-lg border-2 border-dashed p-12 text-center transition-colors ${
+        className={`drop-zone cursor-pointer rounded-lg border-2 border-dashed m-2 p-12 text-center transition-colors ${
           isDragOver
             ? 'border-primary bg-primary/10'
             : 'border-base-300 hover:border-primary/70'

@@ -18,14 +18,19 @@ export default function QuizPage() {
     setCurrentQuestion,
   } = useQuiz();
 
-  const [timeLeft, setTimeLeft] = useState(1800); // 30 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(120);
 
   useEffect(() => {
     const id = window.setInterval(() => {
       setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
+
+    if (timeLeft === 0) {
+      handleSubmit();
+    }
+
     return () => window.clearInterval(id);
-  }, []);
+  }, [timeLeft, handleSubmit]);
 
   const handleAnswer = (questionId: number, answer: number) => {
     setAnswers((prev) => ({
@@ -88,7 +93,7 @@ export default function QuizPage() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl pt-6">
+    <div className="mx-auto max-w-4xl pt-6 pl-2 pr-2">
       {/* Header */}
       <div className="card m-0.5 border-1 border-base-content/25 border-dashed bg-base-100">
         <div className="card-body">
@@ -119,7 +124,7 @@ export default function QuizPage() {
       </div>
 
       {/* Question Card */}
-      <div className="card mb-6 bg-base-100 shadow-lg">
+      <div className="card mb-6 mt-2 bg-base-100  shadow-md border-1 border-base-content/10">
         <div className="card-body">
           <div className="mb-6">
             <div className="badge badge-accent mb-4 font-bold">
@@ -155,74 +160,71 @@ export default function QuizPage() {
       </div>
 
       {/* Navigation */}
-      <div className="m-2 flex items-center justify-between">
-        <button type="button" className="nav-button btn btn-error join-item">
-          <Link href="/">Exit Quiz</Link>
-        </button>
-        <div className="join">
+      <div className="border-1 border-base-content/10 rounded">
+        <div className="m-2 flex items-center justify-between">
           <button
             type="button"
-            onClick={handlePrevious}
-            disabled={currentQuestion === 0}
-            className="nav-button btn btn-outline join-item"
+            className="nav-button btn btn-error rounded join-item"
           >
-            Previous
+            <Link href="/">Exit Quiz</Link>
           </button>
-        </div>
-
-        <div className="join">
-          {generatedQuiz ? (
-            currentQuestion < generatedQuiz.questions.length - 1 ? (
-              <button
-                type="button"
-                onClick={handleNext}
-                className="nav-button btn btn-primary join-item"
-              >
-                Next Question
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={handleSubmit}
-                className="nav-button btn btn-success join-item"
-                disabled={
-                  Object.keys(answers).length < generatedQuiz.questions.length
-                }
-              >
-                Submit Quiz
-              </button>
-            )
-          ) : (
+          <div className="join">
             <button
               type="button"
-              className="nav-button btn btn-outline btn-primary join-item"
+              onClick={handlePrevious}
+              disabled={currentQuestion === 0}
+              className="nav-button btn btn-outline join-item"
             >
-              Loading...
+              Previous
             </button>
-          )}
-        </div>
-      </div>
+          </div>
 
-      {/* Question Navigator */}
-      <div className="card mt-2 items-center bg-base-100 shadow-lg">
-        <div className="card-body">
-          <div className="flex flex-wrap gap-2">
-            {generatedQuiz?.questions.map((question, index) => (
-              <button
-                key={question.id}
-                type="button"
-                onClick={() => setCurrentQuestion(index)}
-                className={`nav-button btn ${
-                  index === currentQuestion
-                    ? 'btn-primary'
-                    : answers[generatedQuiz.questions[index].id] !== undefined
-                      ? 'btn-success'
-                      : 'btn-outline'
-                }`}
-              >
-                {index + 1}
-              </button>
-            ))}
+          <div className="join">
+            {generatedQuiz &&
+              (currentQuestion < generatedQuiz.questions.length - 1 ? (
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="nav-button btn btn-primary join-item"
+                >
+                  Next Question
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleSubmit}
+                  className="nav-button btn btn-success join-item"
+                  disabled={
+                    Object.keys(answers).length < generatedQuiz.questions.length
+                  }
+                >
+                  Submit Quiz
+                </button>
+              ))}
+          </div>
+        </div>
+
+        {/* Question Navigator */}
+        <div className="card mt-2 items-center bg-base-100 shadow-lg">
+          <div className="card-body">
+            <div className="flex flex-wrap gap-2">
+              {generatedQuiz?.questions.map((question, index) => (
+                <button
+                  key={question.id}
+                  type="button"
+                  onClick={() => setCurrentQuestion(index)}
+                  className={`nav-button btn ${
+                    index === currentQuestion
+                      ? 'btn-primary'
+                      : answers[generatedQuiz.questions[index].id] !== undefined
+                        ? 'btn-success'
+                        : 'btn-outline'
+                  }`}
+                >
+                  {index + 1}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -1,11 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo } from 'react';
-// components & hooks
+import { useEffect, useMemo } from 'react';
+import Loading from '@/components/ui/loading';
 import QuestionResultCard from '@/components/ui/question-result-card';
 import RadialProgress from '@/components/ui/radial-progress';
+// components & hooks
 import ResultStats from '@/components/ui/result-stats';
+import useConfetti from '@/hooks/use-confetti';
 import { useResult } from '@/hooks/use-result';
 
 export default function ResultPage() {
@@ -21,14 +23,20 @@ export default function ResultPage() {
     sessionStorage.removeItem('quizResults');
   };
 
+  const { fire: fireConfetti } = useConfetti();
+
+  useEffect(() => {
+    if (!results) {
+      return;
+    }
+
+    if (results.correctAnswers === 5) {
+      fireConfetti();
+    }
+  }, [results, fireConfetti]);
+
   if (isLoading) {
-    return (
-      <div className="mx-auto max-w-3xl py-16 text-center">
-        <span className="loading loading-spinner loading-lg mb-4 text-primary"></span>
-        <h2 className="mb-2 font-bold text-2xl">Preparing Results...</h2>
-        <p className="text-base-content/70">Please wait</p>
-      </div>
-    );
+    return <Loading title="Preparing Results..." description="Please wait" />;
   }
 
   if (!results) {
@@ -60,7 +68,7 @@ export default function ResultPage() {
                 Completed at: {formattedCompletionDate}
               </p>
             </div>
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-6" aria-live="polite">
               <RadialProgress
                 value={results.score}
                 size="5.5rem"
@@ -105,15 +113,13 @@ export default function ResultPage() {
       </div>
 
       {/* Footer actions */}
-      <div className="card bg-base-100 shadow-lg">
+
+      <div className="card bg-base-100 border-1 border-base-content/10 shadow-sm mb-2">
         <div className="card-body">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="text-base-content/70 text-sm">
-              Your results are saved automatically. You can{' '}
-              <Link href="/results" className="link">
-                view past results
-              </Link>{' '}
-              or share your score with others!
+              Your results are saved automatically. You can retake the quiz or
+              generate a new one by uploading a new PDF.
             </div>
             <div className="flex flex-wrap gap-2">
               <Link href="/quiz" className="btn btn-outline btn-primary">
