@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-const fs = require('fs');
-const path = require('path');
+import { writeFileSync } from 'node:fs';
+import { join } from 'node:path';
 
 const [, , prNumber, title, ...bodyParts] = process.argv;
 const body = bodyParts.join(' ');
@@ -13,5 +13,5 @@ if (!(prNumber && title)) {
 
 const fileName = `.changeset/pr-${prNumber}.md`;
 const content = `---\n'quiz-my-pdf: patch'\n---\n\n# ${title}\n\n${body}\n`;
-fs.writeFileSync(path.join(process.cwd(), fileName), content, 'utf8');
+writeFileSync(join(process.cwd(), fileName), content, 'utf8');
 console.log('Wrote', fileName);
