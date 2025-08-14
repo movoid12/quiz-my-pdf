@@ -38,7 +38,9 @@ export async function POST(request: Request) {
       );
     }
 
-    const quiz = await generateQuizFromText(text);
+    const level = formData.get('level') as string;
+
+    const quiz = await generateQuizFromText(text, level);
 
     return Response.json(quiz);
   } catch (error) {
