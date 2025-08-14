@@ -29,6 +29,7 @@ A modern web app to generate and take quizzes from your PDF files using AI.
 
 - Node.js v18+
 - pnpm v8+
+- Biome Extension in your IDE
 - Google Gemini API key (for AI quiz generation)
 
 ## Get started
@@ -45,4 +46,12 @@ pnpm dev
 
 ```
 
-Open http://localhost:3000 in your browser.
+- Open http://localhost:3000 in your browser.
+
+
+
+```yml
+If you like my app,
+
+please support me with a star ⭐️ on my GitHub repo
+ ```
