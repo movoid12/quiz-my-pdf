@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import type z from 'zod/mini';
-import type { questionsSchema } from '@/lib/quiz-schema';
+import type { questionsSchema } from '@/lib/schema';
 
 type GeneratedQuiz = z.infer<typeof questionsSchema>;
 
