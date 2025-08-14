@@ -15,4 +15,4 @@ Local helper
 Notes
 
 - Ensure `@changesets/cli` is installed (it's in devDependencies).
-- Workflows assume `pnpm` and `corepack` available on the runner (default on GitHub-hosted runners).
+- Workflows assume `pnpm` available on the runner (default on GitHub-hosted runners).
