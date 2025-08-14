@@ -18,14 +18,19 @@ export default function QuizPage() {
     setCurrentQuestion,
   } = useQuiz();
 
-  const [timeLeft, setTimeLeft] = useState(210); // 3 minutes 30 seconds
+  const [timeLeft, setTimeLeft] = useState(120);
 
   useEffect(() => {
     const id = window.setInterval(() => {
       setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
+
+    if (timeLeft === 0) {
+      handleSubmit();
+    }
+
     return () => window.clearInterval(id);
-  }, []);
+  }, [timeLeft, handleSubmit]);
 
   const handleAnswer = (questionId: number, answer: number) => {
     setAnswers((prev) => ({
@@ -175,8 +180,8 @@ export default function QuizPage() {
           </div>
 
           <div className="join">
-            {generatedQuiz ? (
-              currentQuestion < generatedQuiz.questions.length - 1 ? (
+            {generatedQuiz &&
+              (currentQuestion < generatedQuiz.questions.length - 1 ? (
                 <button
                   type="button"
                   onClick={handleNext}
@@ -195,15 +200,7 @@ export default function QuizPage() {
                 >
                   Submit Quiz
                 </button>
-              )
-            ) : (
-              <button
-                type="button"
-                className="nav-button btn btn-outline btn-primary join-item"
-              >
-                Loading...
-              </button>
-            )}
+              ))}
           </div>
         </div>
 
