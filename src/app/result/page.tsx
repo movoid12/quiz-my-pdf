@@ -1,12 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import Loading from '@/components/ui/loading';
 import QuestionResultCard from '@/components/ui/question-result-card';
 import RadialProgress from '@/components/ui/radial-progress';
 // components & hooks
 import ResultStats from '@/components/ui/result-stats';
+import useConfetti from '@/hooks/use-confetti';
 import { useResult } from '@/hooks/use-result';
 
 export default function ResultPage() {
@@ -21,6 +22,18 @@ export default function ResultPage() {
   const handleNewQuiz = () => {
     sessionStorage.removeItem('quizResults');
   };
+
+  const { fire: fireConfetti } = useConfetti();
+
+  useEffect(() => {
+    if (!results) {
+      return;
+    }
+
+    if (results.correctAnswers === 5) {
+      fireConfetti();
+    }
+  }, [results, fireConfetti]);
 
   if (isLoading) {
     return <Loading title="Preparing Results..." description="Please wait" />;
@@ -55,7 +68,7 @@ export default function ResultPage() {
                 Completed at: {formattedCompletionDate}
               </p>
             </div>
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-6" aria-live="polite">
               <RadialProgress
                 value={results.score}
                 size="5.5rem"
