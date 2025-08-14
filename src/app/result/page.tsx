@@ -113,15 +113,13 @@ export default function ResultPage() {
       </div>
 
       {/* Footer actions */}
-      <div className="card bg-base-100 shadow-lg">
+
+      <div className="card bg-base-100 border-1 border-base-content/10 shadow-sm mb-2">
         <div className="card-body">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="text-base-content/70 text-sm">
-              Your results are saved automatically. You can{' '}
-              <Link href="/results" className="link">
-                view past results
-              </Link>{' '}
-              or share your score with others!
+              Your results are saved automatically. You can retake the quiz or
+              generate a new one by uploading a new PDF.
             </div>
             <div className="flex flex-wrap gap-2">
               <Link href="/quiz" className="btn btn-outline btn-primary">
