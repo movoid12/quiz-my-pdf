@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import { useMemo } from 'react';
-// components & hooks
+import Loading from '@/components/ui/loading';
 import QuestionResultCard from '@/components/ui/question-result-card';
 import RadialProgress from '@/components/ui/radial-progress';
+// components & hooks
 import ResultStats from '@/components/ui/result-stats';
 import { useResult } from '@/hooks/use-result';
 
@@ -22,13 +23,7 @@ export default function ResultPage() {
   };
 
   if (isLoading) {
-    return (
-      <div className="mx-auto max-w-3xl py-16 text-center">
-        <span className="loading loading-spinner loading-lg mb-4 text-primary"></span>
-        <h2 className="mb-2 font-bold text-2xl">Preparing Results...</h2>
-        <p className="text-base-content/70">Please wait</p>
-      </div>
-    );
+    return <Loading title="Preparing Results..." description="Please wait" />;
   }
 
   if (!results) {
