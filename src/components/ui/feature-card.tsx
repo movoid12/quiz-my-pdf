@@ -10,7 +10,7 @@ export default function FeatureCard({
   description: string;
 }) {
   return (
-    <div className="card bg-base-100 shadow-lg">
+    <div className="card bg-base-100 border-1 border-base-content/10">
       <div className="card-body items-center text-center">
         <div className="mb-4 text-4xl">{emoji}</div>
         <h3 className="card-title justify-center">{title}</h3>

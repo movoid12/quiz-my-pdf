@@ -28,7 +28,7 @@ export default function StartPage() {
       </div>
 
       {/* Features Section */}
-      <div className="mb-12 grid gap-8 md:grid-cols-3">
+      <div className="mb-12 grid gap-10 sm:grid-cols-3 max-sm:p-4">
         <FeatureCard
           emoji="🎓"
           title="For Students"
