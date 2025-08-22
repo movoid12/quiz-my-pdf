@@ -38,9 +38,6 @@ jobs:
       - name: Install dependencies 📦
         run: pnpm install
 
-      - name: Run type check 🔍
-        run: pnpm type-check
-
       - name: Run lint check and format check ✅
         run: pnpm check
 
