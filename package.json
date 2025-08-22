@@ -10,9 +10,6 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "changeset": "changeset",
-    "version:changeset": "changeset version",
-    "changelog:generate": "changeset status || true",
     "format": "biome format --write",
     "check": "biome check",
     "lint": "biome lint --write --unsafe",
