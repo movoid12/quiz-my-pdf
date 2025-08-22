@@ -1,10 +1,13 @@
 'use client';
 
+import { useId } from 'react';
 import ListItem from '@/components/list-item';
 import PdfUploadSection from '@/components/pdf-upload-section';
 import FeatureCard from '@/components/ui/feature-card';
 
 export default function StartPage() {
+  const uploadSectionId = useId();
+
   return (
     <div className="mx-auto max-w-4xl">
       {/* Hero Section */}
@@ -19,7 +22,10 @@ export default function StartPage() {
               AI
             </p>
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
-              <a href="#upload" className="btn btn-primary btn-lg">
+              <a
+                href={`#${uploadSectionId}`}
+                className="btn btn-primary btn-lg"
+              >
                 Upload PDF & Start
               </a>
             </div>
@@ -48,7 +54,7 @@ export default function StartPage() {
 
       {/* Upload Section */}
       <div
-        id="upload"
+        id={uploadSectionId}
         className="card bg-base-100 border-1 border-base-content/10"
       >
         <div className="card-body">
