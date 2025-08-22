@@ -8,13 +8,14 @@
     "url": "https://maldakkak.de"
   },
   "scripts": {
-    "dev": "next dev --turbopack",
     "build": "next build",
-    "format": "biome format --write",
     "check": "biome check",
+    "dev": "next dev --turbopack",
+    "format": "biome format --write",
     "lint": "biome lint --write --unsafe",
     "lint:format": "biome check --write",
-    "start": "next start"
+    "start": "next start",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@ai-sdk/google": "2.0.8",
