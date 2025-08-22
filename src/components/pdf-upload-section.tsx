@@ -153,7 +153,9 @@ export default function PdfUploadSection() {
 
         {isProcessing && (
           <div className="mx-auto max-w-md space-y-4">
-            <progress className="progress progress-primary w-full"></progress>
+            <progress className="progress progress-primary w-full">
+              {''}
+            </progress>
             <p className="text-sm opacity-70">
               Our AI is analyzing your PDF and creating relevant questions...
             </p>
