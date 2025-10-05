@@ -20,3 +20,27 @@
 .nav-button {
   @apply btn-sm md:btn-md lg:btn-md xl:btn-lg;
 }
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Use --gradient-speed to override duration per-instance; default 8s */
+.animate-gradient {
+  animation: gradient var(--gradient-speed, 8s) linear infinite;
+  background-size: 300% 100%;
+}
+
+/* text clip helper */
+.bg-clip-text {
+  -webkit-background-clip: text;
+  background-clip: text;
+}
