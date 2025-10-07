@@ -228,7 +228,7 @@ export default function PdfUploadSection() {
         <div className="space-y-2">
           <h4 className="flex items-center font-semibold">
             <span className="mr-2 text-success">✓</span>
-            What we support:
+            The App support:
           </h4>
           <ul className="ml-6 list-disc space-y-1 opacity-70">
             <li>Text-based PDFs</li>
@@ -245,8 +245,6 @@ export default function PdfUploadSection() {
           </h4>
           <ul className="ml-6 list-disc space-y-1 opacity-70">
             <li>Multiple choice questions</li>
-            <li>True/false questions</li>
-            <li>Short answer questions</li>
             <li>Difficulty-based scoring</li>
           </ul>
         </div>
