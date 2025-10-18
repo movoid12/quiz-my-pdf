@@ -78,10 +78,10 @@ export default function PdfUploadSection() {
         setError(data?.error || 'Failed to process PDF');
       }
 
-      if (response.ok) {
-      sessionStorage.setItem('currentQuiz', JSON.stringify(data));
+      if (response.ok && data?.questions) {
+        sessionStorage.setItem('currentQuiz', JSON.stringify(data));
 
-      router.push('/dashboard/quiz');
+        router.push('/dashboard/quiz');
       }
     } catch (error) {
       console.error('Processing error:', error);
@@ -100,7 +100,7 @@ export default function PdfUploadSection() {
     setError(null);
     setIsProcessing(false);
   };
-  
+
   const handleRetry = useCallback(() => {
     setError(null);
     setUploadedFile(null);
