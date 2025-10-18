@@ -6,7 +6,7 @@ export default function Home() {
   const router = useRouter();
 
   const navigateToStartPage = () => {
-    router.push('/start');
+    router.push('/dashboard/start');
   };
 
   return (

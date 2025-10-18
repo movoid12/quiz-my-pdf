@@ -3,7 +3,7 @@
 import { Check } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
-import QuizLevelModal from './quiz-level-modal';
+import QuizLevelModal from '../quiz-level-modal';
 
 export default function PdfUploadSection() {
   const router = useRouter();
@@ -84,7 +84,7 @@ export default function PdfUploadSection() {
 
       sessionStorage.setItem('currentQuiz', JSON.stringify(data));
 
-      router.push('/quiz');
+      router.push('/dashboard/quiz');
     } catch (error) {
       console.error('Processing error:', error);
       setError(
