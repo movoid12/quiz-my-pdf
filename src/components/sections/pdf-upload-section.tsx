@@ -75,7 +75,7 @@ export default function PdfUploadSection() {
       const data = await response.json();
 
       if (!response.ok) {
-        setError('Failed to process PDF');
+        setError(data?.error || 'Failed to process PDF');
       }
 
       if (response.ok) {
@@ -100,12 +100,13 @@ export default function PdfUploadSection() {
     setError(null);
     setIsProcessing(false);
   };
-  if (error) {
-    const handleRetry = () => {
-      setError(null);
-      setUploadedFile(null);
-    };
+  
+  const handleRetry = useCallback(() => {
+    setError(null);
+    setUploadedFile(null);
+  }, []);
 
+  if (error) {
     return (
       <div className="space-y-6">
         <div className="alert alert-error">
