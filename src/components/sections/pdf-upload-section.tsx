@@ -75,20 +75,20 @@ export default function PdfUploadSection() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to process PDF');
+        setError('Failed to process PDF');
       }
 
-      if (!data?.questions) {
-        throw new Error('Invalid quiz data received from server');
-      }
-
+      if (response.ok) {
       sessionStorage.setItem('currentQuiz', JSON.stringify(data));
 
       router.push('/dashboard/quiz');
+      }
     } catch (error) {
       console.error('Processing error:', error);
       setError(
-        error instanceof Error ? error.message : 'Failed to process PDF',
+        error instanceof Error
+          ? error.message
+          : 'You reached the limit of requests.',
       );
     } finally {
       setIsProcessing(false);
