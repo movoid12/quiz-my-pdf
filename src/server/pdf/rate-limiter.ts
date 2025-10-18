@@ -25,10 +25,7 @@ export function getIp(req: Request): string {
   return 'unknown';
 }
 
-export function checkRateLimit(
-  req: Request,
-  res: Response,
-): boolean {
+export function checkRateLimit(req: Request, res: Response): boolean {
   const ip = getIp(req);
   const now = Math.floor(Date.now() / 1000);
 
