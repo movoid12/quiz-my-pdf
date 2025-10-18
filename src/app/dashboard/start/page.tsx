@@ -2,8 +2,10 @@
 
 import { useId } from 'react';
 import ListItem from '@/components/list-item';
-import PdfUploadSection from '@/components/pdf-upload-section';
+import PdfUploadSection from '@/components/sections/pdf-upload-section';
+
 import FeatureCard from '@/components/ui/feature-card';
+import GradientText from '@/components/ui/gradient-text';
 
 export default function StartPage() {
   const uploadSectionId = useId();
@@ -14,9 +16,12 @@ export default function StartPage() {
       <div className="hero mb-12 min-h-[60vh] rounded-2xl">
         <div className="hero-content text-center">
           <div className="max-w-2xl">
-            <h1 className="mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text font-bold text-5xl text-transparent">
+            <GradientText
+              className="text-5xl mb-4 font-bold"
+              animationSpeed={10}
+            >
               Quiz My PDF
-            </h1>
+            </GradientText>
             <p className="mb-8 text-base-content/70 text-xl">
               Transform any PDF document into an interactive quiz using advanced
               AI

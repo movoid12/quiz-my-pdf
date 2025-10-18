@@ -13,16 +13,19 @@ export default function ThemeChanger() {
   }, []);
 
   return (
-    <div>
-      <button type="button" className="btn" onClick={toggleTheme}>
-        <span className="flex items-center">
-          {theme === 'light' ? (
-            <Moon className="h-4 w-4" />
-          ) : (
-            <Sun className="h-4 w-4" />
-          )}
-        </span>
-      </button>
-    </div>
+    <button
+      type="button"
+      className="btn border-0 btn-ghost
+         hover:bg-transparent hover:border-transparent hover:shadow-none"
+      onClick={toggleTheme}
+    >
+      <span className="flex items-center">
+        {theme === 'light' ? (
+          <Moon className="h-4 w-4" />
+        ) : (
+          <Sun className="h-4 w-4 text-black" />
+        )}
+      </span>
+    </button>
   );
 }
