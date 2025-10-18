@@ -62,7 +62,7 @@ export default function BubbleMenu({
   className,
   style,
   menuAriaLabel = 'Toggle menu',
-  menuBg = '#7ff9c2',
+  menuBg = '#d3d3d3f5',
   menuContentColor = '#111',
   useFixedPosition = false,
   items: menuItems,
