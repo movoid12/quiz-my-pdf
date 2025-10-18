@@ -1,9 +1,4 @@
-import { MAX_TEXT_CHARS } from './constants';
-
-export function normalizeText(
-  input: string,
-  limit: number = MAX_TEXT_CHARS,
-): string {
+export function normalizeText(input: string, limit: number): string {
   return input.replace(/\s+/g, ' ').trim().slice(0, limit);
 }
 
