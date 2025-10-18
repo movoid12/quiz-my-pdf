@@ -84,7 +84,7 @@ export default function PdfUploadSection() {
 
       sessionStorage.setItem('currentQuiz', JSON.stringify(data));
 
-      router.push('/quiz');
+      router.push('/dashboard/quiz');
     } catch (error) {
       console.error('Processing error:', error);
       setError(

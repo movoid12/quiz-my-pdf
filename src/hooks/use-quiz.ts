@@ -61,7 +61,7 @@ export const useQuiz = () => {
 
     // Simulate processing time
     setTimeout(() => {
-      router.push('/result');
+      router.push('/dashboard/result');
     }, 1500);
   };
 
@@ -73,14 +73,14 @@ export const useQuiz = () => {
         if (parsedQuiz?.questions && parsedQuiz.questions.length > 0) {
           setGeneratedQuiz(parsedQuiz);
         } else {
-          router.push('/');
+          router.push('/dashboard');
         }
       } else {
-        router.push('/');
+        router.push('/dashboard');
       }
     } catch (error) {
       console.error('Error loading quiz data:', error);
-      router.push('/');
+      router.push('/dashboard');
     } finally {
       setIsLoading(false);
     }

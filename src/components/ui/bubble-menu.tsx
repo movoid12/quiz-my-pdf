@@ -18,21 +18,6 @@ export type MenuItem = {
   };
 };
 
-export type BubbleMenuProps = {
-  logo: ReactNode | string;
-  onMenuClick?: (open: boolean) => void;
-  className?: string;
-  style?: CSSProperties;
-  menuAriaLabel?: string;
-  menuBg?: string;
-  menuContentColor?: string;
-  useFixedPosition?: boolean;
-  items?: MenuItem[];
-  animationEase?: string;
-  animationDuration?: number;
-  staggerDelay?: number;
-};
-
 /* const DEFAULT_ITEMS: MenuItem[] = [
   {
     label: 'home',
@@ -77,14 +62,27 @@ export default function BubbleMenu({
   className,
   style,
   menuAriaLabel = 'Toggle menu',
-  menuBg = '#fff',
+  menuBg = '#f5f5f5',
   menuContentColor = '#111',
   useFixedPosition = false,
   items: menuItems,
   animationEase = 'back.out(1.5)',
   animationDuration = 0.5,
   staggerDelay = 0.12,
-}: BubbleMenuProps) {
+}: {
+  logo: ReactNode | string;
+  onMenuClick?: (open: boolean) => void;
+  className?: string;
+  style?: CSSProperties;
+  menuAriaLabel?: string;
+  menuBg?: string;
+  menuContentColor?: string;
+  useFixedPosition?: boolean;
+  items?: MenuItem[];
+  animationEase?: string;
+  animationDuration?: number;
+  staggerDelay?: number;
+}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
 
@@ -272,7 +270,7 @@ export default function BubbleMenu({
             className={[
               'logo-content',
               'inline-flex items-center justify-center',
-              'w-[120px] h-full',
+              'w-[20px] h-full',
             ].join(' ')}
             style={
               {

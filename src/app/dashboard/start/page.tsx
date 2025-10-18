@@ -1,11 +1,11 @@
 'use client';
 
 import { useId } from 'react';
-import GradientText from '@/components/ui/gradient-text';
 import ListItem from '@/components/list-item';
+import PdfUploadSection from '@/components/sections/pdf-upload-section';
 
 import FeatureCard from '@/components/ui/feature-card';
-import PdfUploadSection from '@/components/sections/pdf-upload-section';
+import GradientText from '@/components/ui/gradient-text';
 
 export default function StartPage() {
   const uploadSectionId = useId();
