@@ -3,7 +3,7 @@
 import { Check } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
-import QuizLevelModal from './quiz-level-modal';
+import QuizLevelModal from '../quiz-level-modal';
 
 export default function PdfUploadSection() {
   const router = useRouter();
