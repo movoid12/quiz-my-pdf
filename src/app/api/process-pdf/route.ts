@@ -2,13 +2,19 @@ import sanitizeHtml from 'sanitize-html';
 import { MIN_TEXT_CHARS } from '@/lib/constants';
 import { generateQuizFromText } from '@/server/ai/generate-quiz';
 import { extractTextFromPdf } from '@/server/pdf/extract-text';
+import { checkRateLimit } from '@/server/pdf/rate-limiter';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
-export async function POST(request: Request) {
+export async function POST(request: Request, response: Response) {
   try {
+    // Rate limit check (IP-based)
+    if (!checkRateLimit(request, response)) {
+      return;
+    }
+
     const contentType = request.headers.get('content-type') || '';
     if (!contentType.includes('multipart/form-data')) {
       return Response.json(
