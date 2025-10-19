@@ -140,20 +140,20 @@ export default function PdfUploadSection() {
   if (uploadedFile) {
     return (
       <div className="space-y-6 text-center mb-8 w-full">
-        <div className="alert alert-success flex justify-center mx-12">
+        <div className="alert alert-success flex justify-center mx-8">
           <Check />
           <span>
             PDF uploaded successfully:
-            <span className="font-bold">{uploadedFile.name}</span>
+            <span className="font-bold break-normal">{uploadedFile.name}</span>
           </span>
         </div>
 
-        <div className="card mx-auto max-w-md bg-base-200 shadow-md">
+        <div className="card mx-8 bg-base-200 shadow-md">
           <div className="card-body">
             <div className="mb-4 flex items-center justify-center space-x-4">
               <div className="text-4xl">📄</div>
               <div>
-                <h3 className="truncate font-semibold">{uploadedFile.name}</h3>
+                <h3 className="font-semibold break-normal">{uploadedFile.name}</h3>
                 <p className="text-sm opacity-70">
                   {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
                 </p>
