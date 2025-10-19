@@ -5,6 +5,11 @@ type Entry = {
   hourReset: number; // epoch seconds
 };
 
+type RateLimitResult = {
+  allowed: boolean;
+  retryAfter?: number;
+};
+
 const store = new Map<string, Entry>();
 
 const MINUTE_WINDOW = 60; // seconds
@@ -25,7 +30,7 @@ export function getIp(req: Request): string {
   return 'unknown';
 }
 
-export function checkRateLimit(req: Request, res: Response): boolean {
+export function checkRateLimit(req: Request): RateLimitResult {
   const ip = getIp(req);
   const now = Math.floor(Date.now() / 1000);
 
@@ -52,22 +57,25 @@ export function checkRateLimit(req: Request, res: Response): boolean {
     entry.hourReset = now + HOUR_WINDOW;
   }
 
-  // check limits
+  // check minute limit
   if (entry.minuteCount + 1 > MAX_PER_MINUTE) {
     const retryAfter = Math.max(0, entry.minuteReset - now);
-    res.headers.set('Retry-After', String(retryAfter));
-    return false;
+    return { allowed: false, retryAfter };
   }
 
+  // check hour limit
   if (entry.hourCount + 1 > MAX_PER_HOUR) {
     const retryAfter = Math.max(0, entry.hourReset - now);
-    res.headers.set('Retry-After', String(retryAfter));
-    return false;
+    return { allowed: false, retryAfter };
   }
 
   // allow and increment
   entry.minuteCount += 1;
   entry.hourCount += 1;
 
-  return true;
+  // allow and increment
+  entry.minuteCount += 1;
+  entry.hourCount += 1;
+
+  return { allowed: true };
 }
