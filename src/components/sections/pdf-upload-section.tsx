@@ -140,7 +140,7 @@ export default function PdfUploadSection() {
   if (uploadedFile) {
     return (
       <div className="space-y-6 text-center mb-8 w-full">
-        <div className="alert alert-success flex justify-center">
+        <div className="alert alert-success flex justify-center mx-12">
           <Check />
           <span>
             PDF uploaded successfully:
@@ -238,32 +238,6 @@ export default function PdfUploadSection() {
 
         <div className="mt-4 text-sm opacity-60">
           Supported format: PDF (max 10MB)
-        </div>
-      </div>
-
-      <div className="hero-content items-start grid gap-6 md:grid-cols-2 ">
-        <div className="space-y-2">
-          <h4 className="flex items-center font-semibold">
-            <span className="mr-2 text-success">✓</span>
-            The App support:
-          </h4>
-          <ul className="ml-6 list-disc space-y-1 opacity-70">
-            <li>Text-based PDFs</li>
-            <li>Academic papers</li>
-            <li>Textbooks &amp; guides</li>
-            <li>Research documents</li>
-          </ul>
-        </div>
-
-        <div className="space-y-2">
-          <h4 className="flex items-center font-semibold">
-            <span className="mr-2 text-info">ℹ</span>
-            AI will generate:
-          </h4>
-          <ul className="ml-6 list-disc space-y-1 opacity-70">
-            <li>Multiple choice questions</li>
-            <li>Difficulty-based scoring</li>
-          </ul>
         </div>
       </div>
     </div>

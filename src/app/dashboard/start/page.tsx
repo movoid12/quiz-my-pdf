@@ -2,8 +2,8 @@
 
 import { useId } from 'react';
 import ListItem from '@/components/list-item';
+import About from '@/components/sections/about';
 import PdfUploadSection from '@/components/sections/pdf-upload-section';
-
 import FeatureCard from '@/components/ui/feature-card';
 import GradientText from '@/components/ui/gradient-text';
 
@@ -69,6 +69,8 @@ export default function StartPage() {
         </div>
         <PdfUploadSection />
       </div>
+      <div className="divider"></div>
+      <About />
 
       {/* How it Works */}
       <h2 className="mt-16 mb-4 text-center font-bold text-3xl">
