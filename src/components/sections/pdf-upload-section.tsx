@@ -154,7 +154,9 @@ export default function PdfUploadSection() {
             <div className="mb-4 flex items-center justify-center space-x-4">
               <div className="text-4xl">📄</div>
               <div>
-                <h3 className="font-semibold break-normal">{uploadedFile.name}</h3>
+                <h3 className="font-semibold break-normal">
+                  {uploadedFile.name}
+                </h3>
                 <p className="text-sm opacity-70">
                   {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
                 </p>
