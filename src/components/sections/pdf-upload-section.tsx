@@ -3,7 +3,7 @@
 import { Check } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
-import QuizLevelModal from '../quiz-level-modal';
+import QuizLevelModal from '../modals/quiz-level-modal';
 
 export default function PdfUploadSection() {
   const router = useRouter();
@@ -64,6 +64,7 @@ export default function PdfUploadSection() {
 
     try {
       const formData = new FormData();
+
       formData.append('pdf', uploadedFile);
       formData.append('level', level);
 
@@ -140,20 +141,22 @@ export default function PdfUploadSection() {
   if (uploadedFile) {
     return (
       <div className="space-y-6 text-center mb-8 w-full">
-        <div className="alert alert-success flex justify-center">
+        <div className="alert alert-success flex justify-center mx-8">
           <Check />
           <span>
             PDF uploaded successfully:
-            <span className="font-bold">{uploadedFile.name}</span>
+            <span className="font-bold break-normal">{uploadedFile.name}</span>
           </span>
         </div>
 
-        <div className="card mx-auto max-w-md bg-base-200 shadow-md">
+        <div className="card mx-8 bg-base-200 shadow-md">
           <div className="card-body">
             <div className="mb-4 flex items-center justify-center space-x-4">
               <div className="text-4xl">📄</div>
               <div>
-                <h3 className="truncate font-semibold">{uploadedFile.name}</h3>
+                <h3 className="font-semibold break-normal">
+                  {uploadedFile.name}
+                </h3>
                 <p className="text-sm opacity-70">
                   {(uploadedFile.size / 1024 / 1024).toFixed(2)} MB
                 </p>
@@ -238,32 +241,6 @@ export default function PdfUploadSection() {
 
         <div className="mt-4 text-sm opacity-60">
           Supported format: PDF (max 10MB)
-        </div>
-      </div>
-
-      <div className="hero-content items-start grid gap-6 md:grid-cols-2 ">
-        <div className="space-y-2">
-          <h4 className="flex items-center font-semibold">
-            <span className="mr-2 text-success">✓</span>
-            The App support:
-          </h4>
-          <ul className="ml-6 list-disc space-y-1 opacity-70">
-            <li>Text-based PDFs</li>
-            <li>Academic papers</li>
-            <li>Textbooks &amp; guides</li>
-            <li>Research documents</li>
-          </ul>
-        </div>
-
-        <div className="space-y-2">
-          <h4 className="flex items-center font-semibold">
-            <span className="mr-2 text-info">ℹ</span>
-            AI will generate:
-          </h4>
-          <ul className="ml-6 list-disc space-y-1 opacity-70">
-            <li>Multiple choice questions</li>
-            <li>Difficulty-based scoring</li>
-          </ul>
         </div>
       </div>
     </div>
