@@ -1,11 +1,11 @@
 'use client';
 
 import { useId } from 'react';
-import ListItem from '@/components/list-item';
 import About from '@/components/sections/about';
 import PdfUploadSection from '@/components/sections/pdf-upload-section';
 import FeatureCard from '@/components/ui/feature-card';
 import GradientText from '@/components/ui/gradient-text';
+import Timeline from '@/components/ui/timeline';
 
 export default function StartPage() {
   const uploadSectionId = useId();
@@ -69,8 +69,13 @@ export default function StartPage() {
         </div>
         <PdfUploadSection />
       </div>
-      <div className="divider"></div>
-      <About />
+
+      {/* About Section */}
+      <div className="card bg-base-100 border-1 border-base-content/10 mt-8">
+        <div className="card-body">
+          <About />
+        </div>
+      </div>
 
       {/* How it Works */}
       <h2 className="mt-16 mb-4 text-center font-bold text-3xl">
@@ -79,19 +84,19 @@ export default function StartPage() {
       <div className="hero">
         <div className="hero-content">
           <ul className="steps steps-vertical sm:steps-horizontal mb-12 w-full">
-            <ListItem
+            <Timeline
               title="Upload PDF"
               description="Choose any PDF document"
             />
-            <ListItem
+            <Timeline
               title="AI Analysis"
               description="Our AI analyzes the content"
             />
-            <ListItem
+            <Timeline
               title="Generate Quiz"
               description="Relevant questions are created"
             />
-            <ListItem title="Take Quiz" description="Test your knowledge" />
+            <Timeline title="Take Quiz" description="Test your knowledge" />
           </ul>
         </div>
       </div>
