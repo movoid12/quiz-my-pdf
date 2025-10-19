@@ -8,14 +8,22 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
-export async function POST(request: Request, response: Response) {
+export async function POST(request: Request) {
   try {
     // Rate limit check (IP-based)
-    if (!checkRateLimit(request, response)) {
-      return;
+    const rateLimit = checkRateLimit(request);
+    if (!rateLimit.allowed) {
+      return new Response(JSON.stringify({ error: 'Too many requests' }), {
+        status: 429,
+        headers: {
+          'Retry-After': String(rateLimit.retryAfter ?? 60),
+          'Content-Type': 'application/json',
+        },
+      });
     }
 
     const contentType = request.headers.get('content-type') || '';
+
     if (!contentType.includes('multipart/form-data')) {
       return Response.json(
         {
