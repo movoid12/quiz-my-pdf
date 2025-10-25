@@ -36,8 +36,8 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.7",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^11.0.4",
+    "@semantic-release/git": "10.0.1",
+    "@semantic-release/github": "11.0.6",
     "@tailwindcss/postcss": "4.1.12",
     "@types/canvas-confetti": "1.9.0",
     "@types/node": "24.9.1",
@@ -45,7 +45,7 @@
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
     "@types/sanitize-html": "2.16.0",
-    "semantic-release": "^24.2.7",
+    "semantic-release": "24.2.9",
     "tailwindcss": "4.1.12",
     "typescript": "5.9.3"
   }
