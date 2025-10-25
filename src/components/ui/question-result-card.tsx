@@ -28,13 +28,15 @@ export default function QuestionResultCard({
       <div className="card-body">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <div className="badge badge-primary mb-2">Question {index + 1}</div>
+            <div className="badge badge-soft mb-2 text-xs">
+              Question {index + 1}
+            </div>
             <h3 className="card-title text-base md:text-lg">
               {quizResult.question}
             </h3>
           </div>
           <div
-            className={`badge ${isCorrect ? 'badge-success' : 'badge-error'}`}
+            className={`badge ${isCorrect ? 'badge-success' : 'badge-error'} font-semibold`}
           >
             {isCorrect ? 'Correct' : 'Incorrect'}
           </div>
