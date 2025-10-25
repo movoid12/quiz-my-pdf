@@ -18,11 +18,11 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ai-sdk/google": "2.0.8",
-    "@ai-sdk/react": "2.0.22",
-    "ai": "5.0.22",
-    "canvas-confetti": "1.9.3",
-    "daisyui": "5.0.50",
+    "@ai-sdk/google": "2.0.23",
+    "@ai-sdk/react": "2.0.78",
+    "ai": "5.0.78",
+    "canvas-confetti": "1.9.4",
+    "daisyui": "5.0.55",
     "gsap": "3.13.0",
     "lucide-react": "0.541.0",
     "next": "15.5.0",
