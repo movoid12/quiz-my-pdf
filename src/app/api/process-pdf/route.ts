@@ -1,8 +1,9 @@
 import sanitizeHtml from 'sanitize-html';
-import { MIN_TEXT_CHARS } from '@/lib/constants';
+import { MAX_FILE_SIZE, MIN_TEXT_CHARS } from '@/lib/constants';
 import { generateQuizFromText } from '@/server/ai/generate-quiz';
 import { extractTextFromPdf } from '@/server/pdf/extract-text';
 import { checkRateLimit } from '@/server/pdf/rate-limiter';
+import { isLikelyPdf } from '@/lib/utils';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -39,6 +40,24 @@ export async function POST(request: Request) {
 
     if (!(file instanceof File)) {
       return Response.json({ error: 'No PDF file provided' }, { status: 400 });
+    }
+
+    if (file.size > MAX_FILE_SIZE) {
+      return Response.json(
+        { error: 'File too large (max 10MB)' },
+        { status: 400 },
+      );
+    }
+
+    // Strict validation: PDF magic number (%PDF-)
+    const headerBuffer = Buffer.from(
+      new Uint8Array(await file.slice(0, 5).arrayBuffer()),
+    );
+    if (!isLikelyPdf(headerBuffer)) {
+      return Response.json(
+        { error: 'Invalid file format. Please upload a PDF.' },
+        { status: 415 },
+      );
     }
 
     let text = await extractTextFromPdf(file);
