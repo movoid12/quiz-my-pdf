@@ -3,6 +3,7 @@
 import { Check } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
+import { MAX_FILE_SIZE } from '@/lib/constants';
 import QuizLevelModal from '../modals/quiz-level-modal';
 
 export default function PdfUploadSection() {
@@ -34,8 +35,15 @@ export default function PdfUploadSection() {
       const pdfFile = files.find((file) => file.type === 'application/pdf');
 
       if (pdfFile) {
+        if (pdfFile.size > MAX_FILE_SIZE) {
+          setError(
+            `File size exceeds the limit of ${MAX_FILE_SIZE / 1024 / 1024}MB`,
+          );
+          return;
+        }
         console.log('is here', uploadedFile);
         setUploadedFile(pdfFile);
+        setError(null);
       } else {
         alert('Please upload a PDF file');
       }
@@ -46,6 +54,12 @@ export default function PdfUploadSection() {
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file && file.type === 'application/pdf') {
+      if (file.size > MAX_FILE_SIZE) {
+        setError(
+          `File size exceeds the limit of ${MAX_FILE_SIZE / 1024 / 1024}MB`,
+        );
+        return;
+      }
       setUploadedFile(file);
       setError(null);
     } else {
