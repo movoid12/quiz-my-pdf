@@ -1,5 +1,6 @@
 import sanitizeHtml from 'sanitize-html';
 import { MIN_TEXT_CHARS } from '@/lib/constants';
+import { errorJson, mapErrorToResponse, validatePdfUpload } from '@/lib/utils';
 import { generateQuizFromText } from '@/server/ai/generate-quiz';
 import { extractTextFromPdf } from '@/server/pdf/extract-text';
 import { checkRateLimit } from '@/server/pdf/rate-limiter';
@@ -13,24 +14,17 @@ export async function POST(request: Request) {
     // Rate limit check (IP-based)
     const rateLimit = checkRateLimit(request);
     if (!rateLimit.allowed) {
-      return new Response(JSON.stringify({ error: 'Too many requests' }), {
-        status: 429,
-        headers: {
-          'Retry-After': String(rateLimit.retryAfter ?? 60),
-          'Content-Type': 'application/json',
-        },
+      return errorJson('Too many requests', 429, {
+        'Retry-After': String(rateLimit.retryAfter ?? 60),
       });
     }
 
     const contentType = request.headers.get('content-type') || '';
 
     if (!contentType.includes('multipart/form-data')) {
-      return Response.json(
-        {
-          error:
-            "Unsupported Media Type. Expecting multipart/form-data with 'pdf' file.",
-        },
-        { status: 415 },
+      return errorJson(
+        "Unsupported Media Type. Expecting multipart/form-data with 'pdf' file.",
+        415,
       );
     }
 
@@ -38,18 +32,18 @@ export async function POST(request: Request) {
     const file = formData.get('pdf');
 
     if (!(file instanceof File)) {
-      return Response.json({ error: 'No PDF file provided' }, { status: 400 });
+      return errorJson('No PDF file provided', 400);
     }
+
+    // Strict validation of the uploaded file (size + magic number)
+    await validatePdfUpload(file);
 
     let text = await extractTextFromPdf(file);
 
     text = sanitizeHtml(text);
 
     if (text.length < MIN_TEXT_CHARS) {
-      return Response.json(
-        { error: 'Insufficient content in PDF' },
-        { status: 400 },
-      );
+      return errorJson('Insufficient content in PDF', 400);
     }
 
     const level = formData.get('level') as string;
@@ -60,32 +54,6 @@ export async function POST(request: Request) {
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Internal error';
     console.error('Error processing PDF:', error);
-
-    if (message.includes('multipart/form-data')) {
-      return Response.json({ error: message }, { status: 415 });
-    }
-    if (message.includes('File too large')) {
-      return Response.json({ error: message }, { status: 400 });
-    }
-    if (message.includes('Invalid file format')) {
-      return Response.json({ error: message }, { status: 415 });
-    }
-    if (message.includes('Failed to read PDF content')) {
-      return Response.json({ error: message }, { status: 400 });
-    }
-    if (message.includes('AI returned invalid data format')) {
-      return Response.json({ error: message }, { status: 502 });
-    }
-    if (message.includes('The user aborted a request')) {
-      return Response.json(
-        { error: 'Client aborted request' },
-        { status: 499 },
-      );
-    }
-
-    return Response.json(
-      { error: 'Upstream AI error or invalid response' },
-      { status: 502 },
-    );
+    return mapErrorToResponse(message);
   }
 }
