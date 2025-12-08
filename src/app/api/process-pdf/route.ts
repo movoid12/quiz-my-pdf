@@ -1,9 +1,9 @@
-import { scanPdfContent } from '@/server/pdf/pdf-scanner';
 import sanitizeHtml from 'sanitize-html';
 import { MIN_TEXT_CHARS } from '@/lib/constants';
 import { errorJson, mapErrorToResponse, validatePdfUpload } from '@/lib/utils';
 import { generateQuizFromText } from '@/server/ai/generate-quiz';
 import { extractTextFromPdf } from '@/server/pdf/extract-text';
+import { scanPdfContent } from '@/server/pdf/pdf-scanner';
 import { checkRateLimit } from '@/server/pdf/rate-limiter';
 
 export const runtime = 'nodejs';
