@@ -19,7 +19,7 @@ jobs:
       id-token: write # to enable use of OIDC for npm provenance
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -30,10 +30,9 @@ jobs:
           run_install: false
 
       - name: Install Node.js 🌐
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
-          cache: "pnpm"
+          node-version: 24
 
       - name: Install dependencies 📦
         run: pnpm install
@@ -44,4 +43,4 @@ jobs:
       - name: Release 🚀
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
+        run: pnpm release
