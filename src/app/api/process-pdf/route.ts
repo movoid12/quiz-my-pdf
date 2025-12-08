@@ -1,3 +1,4 @@
+import { scanPdfContent } from '@/server/pdf/pdf-scanner';
 import sanitizeHtml from 'sanitize-html';
 import { MIN_TEXT_CHARS } from '@/lib/constants';
 import { errorJson, mapErrorToResponse, validatePdfUpload } from '@/lib/utils';
@@ -37,6 +38,11 @@ export async function POST(request: Request) {
 
     // Strict validation of the uploaded file (size + magic number)
     await validatePdfUpload(file);
+
+    // Security scan for malicious content
+    const buffer = Buffer.from(await file.arrayBuffer());
+
+    await scanPdfContent(buffer);
 
     let text = await extractTextFromPdf(file);
 

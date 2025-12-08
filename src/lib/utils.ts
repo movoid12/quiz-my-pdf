@@ -51,5 +51,8 @@ export function mapErrorToResponse(message: string): Response {
   if (message.includes('AI returned invalid data format')) {
     return errorJson(message, 502);
   }
+  if (message.includes('Potential malicious content detected')) {
+    return errorJson(message, 400);
+  }
   return errorJson('Upstream AI error or invalid response', 502);
 }
