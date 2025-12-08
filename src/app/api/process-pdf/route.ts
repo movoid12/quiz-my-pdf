@@ -3,6 +3,7 @@ import { MIN_TEXT_CHARS } from '@/lib/constants';
 import { errorJson, mapErrorToResponse, validatePdfUpload } from '@/lib/utils';
 import { generateQuizFromText } from '@/server/ai/generate-quiz';
 import { extractTextFromPdf } from '@/server/pdf/extract-text';
+import { scanPdfContent } from '@/server/pdf/pdf-scanner';
 import { checkRateLimit } from '@/server/pdf/rate-limiter';
 
 export const runtime = 'nodejs';
@@ -37,6 +38,11 @@ export async function POST(request: Request) {
 
     // Strict validation of the uploaded file (size + magic number)
     await validatePdfUpload(file);
+
+    // Security scan for malicious content
+    const buffer = Buffer.from(await file.arrayBuffer());
+
+    await scanPdfContent(buffer);
 
     let text = await extractTextFromPdf(file);
 
