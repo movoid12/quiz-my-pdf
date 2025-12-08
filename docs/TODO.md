@@ -39,3 +39,5 @@ Replace session storage with PostgreSQL database for persistent data storage and
 - Database migrations work properly
 - Data integrity constraints in place
 
+## Done
+- PDF Scanning
