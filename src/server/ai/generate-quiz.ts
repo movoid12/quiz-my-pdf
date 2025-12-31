@@ -23,7 +23,7 @@ export async function generateQuizFromText(text: string, level: string) {
   const { system, user } = buildPrompt(text, level);
 
   const { object } = await generateObject({
-    model: google('gemini-2.0-flash'),
+    model: google('gemini-2.5-flash'),
     schema: questionsSchema,
     system,
     messages: [{ role: 'user', content: user }],
