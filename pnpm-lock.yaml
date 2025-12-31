@@ -84,6 +84,9 @@ importers:
       '@types/sanitize-html':
         specifier: 2.16.0
         version: 2.16.0
+      semantic-release:
+        specifier: 25.0.2
+        version: 25.0.2(typescript@5.9.3)
       tailwindcss:
         specifier: 4.1.12
         version: 4.1.12
