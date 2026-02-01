@@ -49,10 +49,10 @@ export default function GlobalNotFound() {
           </p>
 
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <Link href="/" className="btn btn-primary">
+            <Link href="/dashboard/start" className="btn btn-primary">
               Back to Home
             </Link>
-            <Link href="/quiz" className="btn btn-outline">
+            <Link href="/dashboard/quiz'" className="btn btn-outline">
               Go to Quiz
             </Link>
           </div>

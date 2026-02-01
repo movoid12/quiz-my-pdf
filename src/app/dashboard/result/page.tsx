@@ -1,14 +1,15 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { useEffect, useMemo } from 'react';
-import Loading from '@/components/ui/loading';
-import QuestionResultCard from '@/components/ui/question-result-card';
-import RadialProgress from '@/components/ui/radial-progress';
+import Link from "next/link";
+import { useEffect, useMemo } from "react";
+import Loading from "@/components/ui/loading";
+import QuestionResultCard from "@/components/ui/question-result-card";
+import RadialProgress from "@/components/ui/radial-progress";
 // components & hooks
-import ResultStats from '@/components/ui/result-stats';
-import useConfetti from '@/hooks/use-confetti';
-import { useResult } from '@/hooks/use-result';
+import ResultStats from "@/components/ui/result-stats";
+import useConfetti from "@/hooks/use-confetti";
+import { useResult } from "@/hooks/use-result";
+import { menuItems } from "@/lib/constants";
 
 export default function ResultPage() {
   const { isLoading, results, getOptionLabel } = useResult();
@@ -20,7 +21,7 @@ export default function ResultPage() {
   }, [results?.completedAt, results]);
 
   const handleNewQuiz = () => {
-    sessionStorage.removeItem('quizResults');
+    sessionStorage.removeItem("quizResults");
   };
 
   const { fire: fireConfetti } = useConfetti();
@@ -47,7 +48,11 @@ export default function ResultPage() {
         <p className="mb-6 text-base-content/70">
           Upload a PDF and complete a quiz to see results here.
         </p>
-        <Link href="/start" className="btn btn-primary" onClick={handleNewQuiz}>
+        <Link
+          href={menuItems[1].href}
+          className="btn btn-primary"
+          onClick={handleNewQuiz}
+        >
           Back to Upload
         </Link>
       </div>
@@ -62,7 +67,7 @@ export default function ResultPage() {
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
               <h1 className="card-title text-2xl">
-                {results.title || 'Quiz Results'}
+                {results.title || "Quiz Results"}
               </h1>
               <p className="text-base-content/70">
                 Completed at: {formattedCompletionDate}
@@ -82,10 +87,17 @@ export default function ResultPage() {
           </div>
 
           <div className="mt-4 flex flex-wrap gap-3">
-            <Link href="/quiz" className="btn btn-outline btn-primary">
+            <Link
+              href={menuItems[3].href}
+              className="btn btn-outline btn-primary"
+            >
               Retake Quiz
             </Link>
-            <Link href="/" className="btn btn-primary" onClick={handleNewQuiz}>
+            <Link
+              href={menuItems[1].href}
+              className="btn btn-primary"
+              onClick={handleNewQuiz}
+            >
               Generate New Quiz
             </Link>
           </div>
@@ -122,11 +134,14 @@ export default function ResultPage() {
               generate a new one by uploading a new PDF.
             </div>
             <div className="flex flex-wrap gap-2">
-              <Link href="/quiz" className="btn btn-outline btn-primary">
+              <Link
+                href={menuItems[3].href}
+                className="btn btn-outline btn-primary"
+              >
                 Retake Quiz
               </Link>
               <Link
-                href="/"
+                href={menuItems[1].href}
                 className="btn btn-primary"
                 onClick={handleNewQuiz}
               >
