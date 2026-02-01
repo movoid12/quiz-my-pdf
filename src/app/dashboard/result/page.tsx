@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useEffect, useMemo } from "react";
-import Loading from "@/components/ui/loading";
-import QuestionResultCard from "@/components/ui/question-result-card";
-import RadialProgress from "@/components/ui/radial-progress";
+import Link from 'next/link';
+import { useEffect, useMemo } from 'react';
+import Loading from '@/components/ui/loading';
+import QuestionResultCard from '@/components/ui/question-result-card';
+import RadialProgress from '@/components/ui/radial-progress';
 // components & hooks
-import ResultStats from "@/components/ui/result-stats";
-import useConfetti from "@/hooks/use-confetti";
-import { useResult } from "@/hooks/use-result";
-import { menuItems } from "@/lib/constants";
+import ResultStats from '@/components/ui/result-stats';
+import useConfetti from '@/hooks/use-confetti';
+import { useResult } from '@/hooks/use-result';
+import { menuItems } from '@/lib/constants';
 
 export default function ResultPage() {
   const { isLoading, results, getOptionLabel } = useResult();
@@ -21,7 +21,7 @@ export default function ResultPage() {
   }, [results?.completedAt, results]);
 
   const handleNewQuiz = () => {
-    sessionStorage.removeItem("quizResults");
+    sessionStorage.removeItem('quizResults');
   };
 
   const { fire: fireConfetti } = useConfetti();
@@ -67,7 +67,7 @@ export default function ResultPage() {
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
               <h1 className="card-title text-2xl">
-                {results.title || "Quiz Results"}
+                {results.title || 'Quiz Results'}
               </h1>
               <p className="text-base-content/70">
                 Completed at: {formattedCompletionDate}
