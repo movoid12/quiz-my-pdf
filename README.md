@@ -4,6 +4,7 @@ A modern web app to generate and take quizzes from your PDF files using AI.
 
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev)
+[![React Doctor](https://www.react.doctor/share/badge?p=quiz-my-pdf&s=94&w=9&f=7)](https://www.react.doctor/share?p=quiz-my-pdf&s=94&w=9&f=7)
 
 > [!WARNING]
 > This application is currently under continuous development. It uses session storage to store data temporarily. The plan is to integrate it with a PostgreSQL database in the near future.
