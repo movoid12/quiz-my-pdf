@@ -216,9 +216,9 @@ export default function QuizPage() {
                   className={`nav-button btn ${
                     index === currentQuestion
                       ? 'btn-primary'
-                      : answers[generatedQuiz.questions[index].id] !== undefined
-                        ? 'btn-success'
-                        : 'btn-outline'
+                      : answers[generatedQuiz.questions[index].id] === undefined
+                        ? 'btn-outline'
+                        : 'btn-success'
                   }`}
                 >
                   {index + 1}

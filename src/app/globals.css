@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  /* biome-ignore lint/correctness/noUnknownProperty: themes is a valid daisyui plugin property */
   themes:
     light --default,
     dark --prefersdark,
@@ -13,6 +12,7 @@
 }
 
 @theme inline {
+  --color-*: intial;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
