@@ -1,4 +1,4 @@
-import pdf from 'pdf-parse';
+import { PDFParse } from 'pdf-parse';
 import { MAX_FILE_SIZE, MAX_TEXT_CHARS } from '@/lib/constants';
 import { isLikelyPdf, normalizeText } from '@/lib/utils';
 
@@ -16,7 +16,9 @@ export async function extractTextFromPdf(file: File) {
   }
 
   try {
-    const parsed = await pdf(buffer);
+    const pdf = new PDFParse({ data: buffer });
+
+    const parsed = await pdf.getText();
     return normalizeText(parsed.text || '', MAX_TEXT_CHARS);
   } catch {
     throw new Error('Failed to read PDF content');
