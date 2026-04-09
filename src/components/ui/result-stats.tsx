@@ -8,7 +8,7 @@ export default function ResultStats({
   totalQuestions: number;
 }) {
   return (
-    <div className="stats border-1 border-dashed text-gray-300 shadow">
+    <div className="stats border border-dashed text-gray-300 shadow">
       <div className="stat">
         <div className="stat-title">Correct</div>
         <div className="stat-value text-success">{correctAnswers}</div>

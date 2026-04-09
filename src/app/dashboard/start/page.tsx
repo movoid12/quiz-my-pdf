@@ -60,7 +60,7 @@ export default function StartPage() {
       {/* Upload Section */}
       <div
         id={uploadSectionId}
-        className="card bg-base-100 border-1 border-base-content/10"
+        className="card bg-base-100 border border-base-content/10"
       >
         <div className="card-body">
           <h2 className="card-title mb-6 justify-center text-2xl">
@@ -71,7 +71,7 @@ export default function StartPage() {
       </div>
 
       {/* About Section */}
-      <div className="card bg-base-100 border-1 border-base-content/10 mt-8">
+      <div className="card bg-base-100 border border-base-content/10 mt-8">
         <div className="card-body">
           <About />
         </div>

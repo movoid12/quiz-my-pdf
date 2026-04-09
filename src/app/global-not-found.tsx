@@ -17,7 +17,7 @@ export default function GlobalNotFound() {
         <div className="relative flex min-h-[70vh] flex-col items-center justify-center px-6 text-center">
           {/* Soft ambient glow */}
           <div className="-z-10 pointer-events-none absolute inset-0 flex items-center justify-center">
-            <div className="h-56 w-56 animate-pulse rounded-full bg-gradient-to-tr from-primary/30 via-secondary/30 to-accent/30 opacity-40 blur-3xl md:h-80 md:w-80" />
+            <div className="h-56 w-56 animate-pulse rounded-full bg-linear-to-tr from-primary/30 via-secondary/30 to-accent/30 opacity-40 blur-3xl md:h-80 md:w-80" />
           </div>
 
           {/* 404 animated */}
@@ -28,12 +28,12 @@ export default function GlobalNotFound() {
 
             <span className="relative inline-flex items-center justify-center">
               {/* Center label */}
-              <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text font-black text-6xl text-transparent tracking-tight md:text-8xl">
+              <span className="bg-linear-to-r from-primary to-secondary bg-clip-text font-black text-6xl text-transparent tracking-tight md:text-8xl">
                 0
               </span>
               {/* Spinning ring */}
               <span
-                className="absolute inset-0 m-auto h-[3.5rem] w-[3.5rem] animate-spin rounded-full border-4 border-primary/40 border-dashed md:h-[5rem] md:w-[5rem]"
+                className="absolute inset-0 m-auto h-14 w-14 animate-spin rounded-full border-4 border-primary/40 border-dashed md:h-20 md:w-20"
                 style={{ animationDuration: '5s' }}
                 aria-hidden="true"
               />

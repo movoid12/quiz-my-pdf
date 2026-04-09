@@ -126,7 +126,7 @@ export default function ResultPage() {
 
       {/* Footer actions */}
 
-      <div className="card bg-base-100 border-1 border-base-content/10 shadow-sm mb-2">
+      <div className="card bg-base-100 border border-base-content/10 shadow-sm mb-2">
         <div className="card-body">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="text-base-content/70 text-sm">
