@@ -1,6 +1,6 @@
 import 'server-only';
 import { google } from '@ai-sdk/google';
-import { generateObject } from 'ai';
+import { generateText, Output } from 'ai';
 import { questionsSchema } from '@/lib/schema';
 
 function buildPrompt(extractedText: string, level: string) {
@@ -22,16 +22,18 @@ ${extractedText}`.trim();
 export async function generateQuizFromText(text: string, level: string) {
   const { system, user } = buildPrompt(text, level);
 
-  const { object } = await generateObject({
+  const { output } = await generateText({
     model: google('gemini-2.5-flash-lite'),
-    schema: questionsSchema,
-    system,
+    output: Output.object({
+      schema: questionsSchema,
+    }),
+    system: system,
     messages: [{ role: 'user', content: user }],
     temperature: 0.5,
     maxOutputTokens: 1500,
   });
 
-  const parsed = questionsSchema.safeParse(object);
+  const parsed = questionsSchema.safeParse(output);
 
   if (!parsed.success) {
     throw new Error('AI returned invalid data format');
