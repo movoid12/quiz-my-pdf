@@ -1,3 +1,7 @@
+---
+description: Guidelines to reduce common LLM coding mistakes in this repository. Apply them with project-specific instructions as needed. These guidelines bias toward caution over speed. For trivial tasks, use judgment.
+---
+
 These guidelines reduce common LLM coding mistakes in this repository.
 Apply them with project-specific instructions as needed.
 
