@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   description: 'The page you are looking for does not exist.',
 };
 
+//TODO: fix the corrupted routing behavior
+
 export default function GlobalNotFound() {
   return (
     <html lang="en" className={inter.className}>
@@ -52,7 +54,7 @@ export default function GlobalNotFound() {
             <Link href="/dashboard/start" className="btn btn-primary">
               Back to Home
             </Link>
-            <Link href="/dashboard/quiz'" className="btn btn-outline">
+            <Link href="/dashboard/start" className="btn btn-outline" >
               Go to Quiz
             </Link>
           </div>
