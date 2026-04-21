@@ -2,10 +2,22 @@
 description: Guidelines to reduce common LLM coding mistakes in this repository. Apply them with project-specific instructions as needed. These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 ---
 
-These guidelines reduce common LLM coding mistakes in this repository.
-Apply them with project-specific instructions as needed.
+## Dev Commands
+- `pnpm dev` - Start dev server with Turbopack
+- `pnpm build` - Production build
+- `pnpm check` - Biome check (lint + format check)
+- `pnpm format` - Biome format write
+- `pnpm lint` - Biome lint with unsafe fixes
+- `pnpm typecheck` - TypeScript check
+- Run `check -> typecheck -> build` before committing
 
-**Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
+## Tech Stack
+- Next.js 16 (App Router), React 19, TypeScript
+- Biome (lint/format) - single quotes, kebab-case filenames
+- Tailwind CSS 4 + DaisyUI
+- Better Auth (auth.ts)
+- Drizzle ORM + Neon Postgres
+- Vercel AI SDK + Google Gemini
 
 ## 1. Think Before Coding
 
