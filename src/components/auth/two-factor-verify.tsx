@@ -95,10 +95,14 @@ export const TwoFactorVerify = ({ onSuccess }: TwoFactorVerifyProps) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">
+        <label
+          htmlFor="two-factor-code"
+          className="block text-sm font-medium text-gray-900 mb-2"
+        >
           {verifyMethod === 'totp' ? 'Enter 6-digit code' : 'Enter backup code'}
         </label>
         <input
+          id="two-factor-code"
           type="text"
           value={code}
           onChange={(e) => {
@@ -118,6 +122,7 @@ export const TwoFactorVerify = ({ onSuccess }: TwoFactorVerifyProps) => {
       {error && <div className="text-red-600 text-sm">{error}</div>}
 
       <button
+        type="button"
         onClick={handleVerify}
         disabled={loading || !code}
         className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"

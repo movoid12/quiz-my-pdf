@@ -32,7 +32,7 @@ export const SignUpForm = () => {
     setLoading(true);
 
     try {
-      const { data, error: err } = await authClient.signUp.email({
+      const { error: err } = await authClient.signUp.email({
         email,
         password,
         name,
@@ -103,6 +103,7 @@ export const SignUpForm = () => {
           </p>
         </div>
         <button
+          type="button"
           onClick={() => router.push('/dashboard/start')}
           className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
@@ -127,10 +128,14 @@ export const SignUpForm = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">
+        <label
+          htmlFor="name"
+          className="block text-sm font-medium text-gray-900 mb-2"
+        >
           Full Name
         </label>
         <input
+          id="name"
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -142,10 +147,14 @@ export const SignUpForm = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">
+        <label
+          htmlFor="email"
+          className="block text-sm font-medium text-gray-900 mb-2"
+        >
           Email
         </label>
         <input
+          id="email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -157,10 +166,14 @@ export const SignUpForm = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">
+        <label
+          htmlFor="password"
+          className="block text-sm font-medium text-gray-900 mb-2"
+        >
           Password
         </label>
         <input
+          id="password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -172,10 +185,14 @@ export const SignUpForm = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">
+        <label
+          htmlFor="confirmPassword"
+          className="block text-sm font-medium text-gray-900 mb-2"
+        >
           Confirm Password
         </label>
         <input
+          id="confirmPassword"
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}

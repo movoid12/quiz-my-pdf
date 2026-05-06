@@ -1,10 +1,10 @@
 import type { NextRequest } from 'next/server';
 import { auth } from '@/server/auth';
 
-export async function POST(request: NextRequest) {
+export function POST(request: NextRequest) {
   return auth.handler(request);
 }
 
-export async function GET(request: NextRequest) {
+export function GET(request: NextRequest) {
   return auth.handler(request);
 }

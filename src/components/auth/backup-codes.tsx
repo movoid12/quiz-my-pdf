@@ -42,8 +42,8 @@ export const BackupCodes = ({ codes, onConfirmed }: BackupCodesProps) => {
       </div>
 
       <div className="bg-gray-50 p-4 rounded border font-mono text-sm space-y-2">
-        {codes.map((code, i) => (
-          <div key={i} className="text-gray-800">
+        {codes.map((code) => (
+          <div key={code} className="text-gray-800">
             {code}
           </div>
         ))}
@@ -51,12 +51,14 @@ export const BackupCodes = ({ codes, onConfirmed }: BackupCodesProps) => {
 
       <div className="space-y-2">
         <button
+          type="button"
           onClick={handleCopy}
           className="w-full px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
         >
           {copied ? '✓ Copied' : 'Copy Codes'}
         </button>
         <button
+          type="button"
           onClick={handleDownload}
           className="w-full px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
         >
@@ -65,6 +67,7 @@ export const BackupCodes = ({ codes, onConfirmed }: BackupCodesProps) => {
       </div>
 
       <button
+        type="button"
         onClick={onConfirmed}
         className="w-full px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 font-bold"
       >

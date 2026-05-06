@@ -5,11 +5,11 @@ import { useState } from 'react';
 import { authClient } from '@/lib/auth-client';
 
 interface TotpSetupProps {
-  totpURI: string;
+  totpUri: string;
   onVerified: () => void;
 }
 
-export const TotpSetup = ({ totpURI, onVerified }: TotpSetupProps) => {
+export const TotpSetup = ({ totpUri, onVerified }: TotpSetupProps) => {
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -50,15 +50,19 @@ export const TotpSetup = ({ totpURI, onVerified }: TotpSetupProps) => {
           Authy, Microsoft Authenticator)
         </p>
         <div className="flex justify-center p-4 bg-white rounded border">
-          <QRCodeSVG value={totpURI} size={200} />
+          <QRCodeSVG value={totpUri} size={200} />
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">
+        <label
+          htmlFor="totp-code"
+          className="block text-sm font-medium text-gray-900 mb-2"
+        >
           Enter 6-digit code
         </label>
         <input
+          id="totp-code"
           type="text"
           value={code}
           onChange={(e) =>
@@ -74,6 +78,7 @@ export const TotpSetup = ({ totpURI, onVerified }: TotpSetupProps) => {
       {error && <div className="text-red-600 text-sm">{error}</div>}
 
       <button
+        type="button"
         onClick={handleVerify}
         disabled={loading || code.length !== 6}
         className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
