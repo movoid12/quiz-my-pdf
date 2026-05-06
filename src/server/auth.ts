@@ -98,7 +98,6 @@ export const auth = betterAuth({
   databaseHooks: {
     session: {
       create: {
-
         after: async ({ data, ctx }: any) => {
           const ip =
             (ctx?.request?.headers?.get?.('x-forwarded-for') as string) ||

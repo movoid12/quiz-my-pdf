@@ -1,5 +1,5 @@
-import { auth } from '@/server/auth';
 import type { NextRequest } from 'next/server';
+import { auth } from '@/server/auth';
 
 export async function POST(request: NextRequest) {
   return auth.handler(request);

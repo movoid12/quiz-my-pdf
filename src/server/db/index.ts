@@ -1,5 +1,5 @@
-import { Pool } from 'pg';
 import { drizzle } from 'drizzle-orm/node-postgres';
+import { Pool } from 'pg';
 
 const connectionString = process.env.NEON_DATABASE_URL;
 if (!connectionString) {

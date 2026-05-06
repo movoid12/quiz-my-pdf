@@ -1,15 +1,15 @@
+import { relations } from 'drizzle-orm';
 import {
+  bigint,
+  boolean,
+  index,
+  integer,
   pgTable,
   serial,
   text,
-  varchar,
-  integer,
   timestamp,
-  boolean,
-  bigint,
-  index,
+  varchar,
 } from 'drizzle-orm/pg-core';
-import { relations } from 'drizzle-orm';
 
 // Better Auth Tables
 export const user = pgTable('user', {

@@ -1,10 +1,10 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { authClient } from '@/lib/auth-client';
-import { TotpSetup } from './totp-setup';
 import { BackupCodes } from './backup-codes';
+import { TotpSetup } from './totp-setup';
 
 type SignUpStep = 'form' | 'totp' | 'backupCodes' | 'success';
 
