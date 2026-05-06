@@ -95,7 +95,9 @@ export const SignUpForm = () => {
     return (
       <div className="space-y-4 max-w-sm mx-auto p-6 border rounded-lg text-center">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">✓ Account Created</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            ✓ Account Created
+          </h2>
           <p className="text-gray-600 mb-6">
             Your account is ready! 2FA is now enabled for your security.
           </p>
@@ -111,14 +113,23 @@ export const SignUpForm = () => {
   }
 
   return (
-    <form onSubmit={handleSignUp} className="space-y-4 max-w-sm mx-auto p-6 border rounded-lg">
+    <form
+      onSubmit={handleSignUp}
+      className="space-y-4 max-w-sm mx-auto p-6 border rounded-lg"
+    >
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Create Account</h2>
-        <p className="text-sm text-gray-600 mb-4">2FA will be required during setup</p>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          Create Account
+        </h2>
+        <p className="text-sm text-gray-600 mb-4">
+          2FA will be required during setup
+        </p>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">Full Name</label>
+        <label className="block text-sm font-medium text-gray-900 mb-2">
+          Full Name
+        </label>
         <input
           type="text"
           value={name}
@@ -131,7 +142,9 @@ export const SignUpForm = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">Email</label>
+        <label className="block text-sm font-medium text-gray-900 mb-2">
+          Email
+        </label>
         <input
           type="email"
           value={email}
@@ -144,7 +157,9 @@ export const SignUpForm = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">Password</label>
+        <label className="block text-sm font-medium text-gray-900 mb-2">
+          Password
+        </label>
         <input
           type="password"
           value={password}
@@ -157,7 +172,9 @@ export const SignUpForm = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">Confirm Password</label>
+        <label className="block text-sm font-medium text-gray-900 mb-2">
+          Confirm Password
+        </label>
         <input
           type="password"
           value={confirmPassword}

@@ -30,7 +30,7 @@ export const SignInForm = () => {
           onError: (context: any) => {
             setError(context.error?.message || 'Sign-in failed');
           },
-        }
+        },
       );
 
       if (err) {
@@ -44,13 +44,18 @@ export const SignInForm = () => {
   };
 
   return (
-    <form onSubmit={handleSignIn} className="space-y-4 max-w-sm mx-auto p-6 border rounded-lg">
+    <form
+      onSubmit={handleSignIn}
+      className="space-y-4 max-w-sm mx-auto p-6 border rounded-lg"
+    >
       <div>
         <h2 className="text-2xl font-bold text-gray-900 mb-6">Sign In</h2>
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">Email</label>
+        <label className="block text-sm font-medium text-gray-900 mb-2">
+          Email
+        </label>
         <input
           type="email"
           value={email}
@@ -63,7 +68,9 @@ export const SignInForm = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">Password</label>
+        <label className="block text-sm font-medium text-gray-900 mb-2">
+          Password
+        </label>
         <input
           type="password"
           value={password}

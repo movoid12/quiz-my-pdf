@@ -1,4 +1,14 @@
-import { pgTable, serial, text, varchar, integer, timestamp, boolean, bigint, index } from 'drizzle-orm/pg-core';
+import {
+  pgTable,
+  serial,
+  text,
+  varchar,
+  integer,
+  timestamp,
+  boolean,
+  bigint,
+  index,
+} from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 // Better Auth Tables

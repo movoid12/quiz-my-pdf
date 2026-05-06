@@ -46,7 +46,8 @@ export const TotpSetup = ({ totpURI, onVerified }: TotpSetupProps) => {
       <div>
         <h2 className="text-xl font-bold text-gray-900 mb-4">Scan QR Code</h2>
         <p className="text-sm text-gray-600 mb-4">
-          Scan this QR code with your authenticator app (Google Authenticator, Authy, Microsoft Authenticator)
+          Scan this QR code with your authenticator app (Google Authenticator,
+          Authy, Microsoft Authenticator)
         </p>
         <div className="flex justify-center p-4 bg-white rounded border">
           <QRCodeSVG value={totpURI} size={200} />
@@ -54,11 +55,15 @@ export const TotpSetup = ({ totpURI, onVerified }: TotpSetupProps) => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-900 mb-2">Enter 6-digit code</label>
+        <label className="block text-sm font-medium text-gray-900 mb-2">
+          Enter 6-digit code
+        </label>
         <input
           type="text"
           value={code}
-          onChange={(e) => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+          onChange={(e) =>
+            setCode(e.target.value.replace(/\D/g, '').slice(0, 6))
+          }
           placeholder="000000"
           maxLength={6}
           className="w-full px-3 py-2 border rounded text-center tracking-widest text-lg text-black"

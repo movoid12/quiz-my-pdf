@@ -20,7 +20,10 @@ export const BackupCodes = ({ codes, onConfirmed }: BackupCodesProps) => {
   const handleDownload = () => {
     const text = codes.join('\n');
     const element = document.createElement('a');
-    element.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(text)}`);
+    element.setAttribute(
+      'href',
+      `data:text/plain;charset=utf-8,${encodeURIComponent(text)}`,
+    );
     element.setAttribute('download', 'backup-codes.txt');
     element.style.display = 'none';
     document.body.appendChild(element);
@@ -33,7 +36,8 @@ export const BackupCodes = ({ codes, onConfirmed }: BackupCodesProps) => {
       <div>
         <h2 className="text-xl font-bold mb-2">Save Backup Codes</h2>
         <p className="text-sm text-gray-600 mb-4">
-          Save these codes in a secure location. Each code can be used once to recover your account if you lose access to your authenticator.
+          Save these codes in a secure location. Each code can be used once to
+          recover your account if you lose access to your authenticator.
         </p>
       </div>
 

@@ -30,8 +30,11 @@ export const TwoFactorVerify = ({ onSuccess }: TwoFactorVerifyProps) => {
           trustDevice: false,
         });
 
-        if (err) { setError(err.message || 'Invalid code'); }
-        else { onSuccess(); }
+        if (err) {
+          setError(err.message || 'Invalid code');
+        } else {
+          onSuccess();
+        }
       } else {
         if (!code) {
           setError('Backup code is required');
@@ -44,8 +47,11 @@ export const TwoFactorVerify = ({ onSuccess }: TwoFactorVerifyProps) => {
           trustDevice: false,
         });
 
-        if (err) { setError(err.message || 'Invalid backup code'); }
-        else { onSuccess(); }
+        if (err) {
+          setError(err.message || 'Invalid backup code');
+        } else {
+          onSuccess();
+        }
       }
     } catch (_e) {
       setError('Verification failed');
@@ -57,8 +63,12 @@ export const TwoFactorVerify = ({ onSuccess }: TwoFactorVerifyProps) => {
   return (
     <div className="space-y-6 max-w-sm mx-auto p-6 border rounded-lg">
       <div>
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Two-Factor Authentication</h2>
-        <p className="text-sm text-gray-600">Enter your authentication code to continue</p>
+        <h2 className="text-xl font-bold text-gray-900 mb-4">
+          Two-Factor Authentication
+        </h2>
+        <p className="text-sm text-gray-600">
+          Enter your authentication code to continue
+        </p>
       </div>
 
       <div className="space-y-3">
