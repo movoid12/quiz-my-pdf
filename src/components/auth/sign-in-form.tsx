@@ -27,7 +27,7 @@ export const SignInForm = () => {
               router.push('/dashboard');
             }
           },
-          onError: (context: any) => {
+          onError: (context) => {
             setError(context.error?.message || 'Sign-in failed');
           },
         },

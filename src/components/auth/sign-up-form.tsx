@@ -73,7 +73,7 @@ export const SignUpForm = () => {
     return (
       <div>
         <TotpSetup
-          totpURI={totpUri}
+          totpUri={totpUri}
           onVerified={() => setStep('backupCodes')}
         />
       </div>
