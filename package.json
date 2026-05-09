@@ -22,7 +22,7 @@
     "@ai-sdk/google": "3.0.64",
     "@ai-sdk/react": "3.0.170",
     "ai": "6.0.168",
-    "better-auth": "^1.6.9",
+    "better-auth": "^1.6.5",
     "canvas-confetti": "1.9.4",
     "daisyui": "5.5.19",
     "drizzle-kit": "^0.31.10",
