@@ -3,9 +3,11 @@
 import { createAuthClient } from 'better-auth/client';
 import { twoFactorClient } from 'better-auth/client/plugins';
 
+import { env } from '@/env';
+
 export const authClient = createAuthClient({
   // biome-ignore lint/style/useNamingConvention: better-auth setup
-  baseURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL,
+  baseURL: env.NEXT_PUBLIC_BETTER_AUTH_URL,
   plugins: [
     twoFactorClient({
       onTwoFactorRedirect() {

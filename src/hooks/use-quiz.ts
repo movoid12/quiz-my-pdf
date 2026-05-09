@@ -73,14 +73,14 @@ export const useQuiz = () => {
         if (parsedQuiz?.questions && parsedQuiz.questions.length > 0) {
           setGeneratedQuiz(parsedQuiz);
         } else {
-          router.push('/dashboard');
+          router.push('/dashboard/start');
         }
       } else {
-        router.push('/dashboard');
+        router.push('/dashboard/start');
       }
     } catch (error) {
       console.error('Error loading quiz data:', error);
-      router.push('/dashboard');
+      router.push('/dashboard/start');
     } finally {
       setIsLoading(false);
     }

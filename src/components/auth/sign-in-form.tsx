@@ -24,7 +24,7 @@ export const SignInForm = () => {
             if (context.data?.twoFactorRedirect) {
               router.push('/auth/2fa');
             } else {
-              router.push('/dashboard');
+              router.push('/dashboard/start');
             }
           },
           onError: (context) => {
@@ -51,7 +51,7 @@ export const SignInForm = () => {
       const { error: err } = await authClient.signIn.social({
         provider: 'google',
         // biome-ignore lint/style/useNamingConvention: Better Auth uses callbackURL
-        callbackURL: '/dashboard',
+        callbackURL: '/dashboard/start',
         // biome-ignore lint/style/useNamingConvention: Better Auth uses newUserCallbackURL
         newUserCallbackURL: '/dashboard/start',
       });

@@ -8,6 +8,7 @@ import { twoFactor } from 'better-auth/plugins/two-factor';
 import { nextCookies } from 'better-auth/next-js';
 
 import { db } from '@/server/db';
+import { env } from '@/env';
 import { getBetterAuthUrl } from '@/server/auth-url';
 import * as schema from '@/db/schema';
 
@@ -16,15 +17,15 @@ const betterAuthUrl = getBetterAuthUrl();
 
 export const auth = betterAuth({
   appName: 'Quiz My PDF',
-  secret: process.env.BETTER_AUTH_SECRET,
+  secret: env.BETTER_AUTH_SECRET,
 
   baseURL: betterAuthUrl,
   database: drizzleAdapter(db, { schema, provider: 'pg' }),
   emailAndPassword: { enabled: true },
   socialProviders: {
     google: {
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
       prompt: 'select_account',
     },
   },

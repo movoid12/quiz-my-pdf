@@ -77,7 +77,7 @@ export const SignUpForm = () => {
       const { error: err } = await authClient.signIn.social({
         provider: 'google',
         // biome-ignore lint/style/useNamingConvention: Better Auth uses callbackURL
-        callbackURL: '/dashboard',
+        callbackURL: '/dashboard/start',
         // biome-ignore lint/style/useNamingConvention: Better Auth uses newUserCallbackURL
         newUserCallbackURL: '/dashboard/start',
       });
