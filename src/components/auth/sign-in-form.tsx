@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { type SyntheticEvent, useState } from 'react';
 import { authClient } from '@/lib/auth-client';
 
 export const SignInForm = () => {
@@ -11,7 +11,7 @@ export const SignInForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSignIn = async (e: React.FormEvent) => {
+  const handleSignIn = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError('');

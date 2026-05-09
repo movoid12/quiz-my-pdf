@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { type SyntheticEvent, useState } from 'react';
 import { authClient } from '@/lib/auth-client';
 import { BackupCodes } from './backup-codes';
 import { TotpSetup } from './totp-setup';
@@ -20,7 +20,7 @@ export const SignUpForm = () => {
   const [totpUri, setTotpUri] = useState('');
   const [backupCodes, setBackupCodes] = useState<string[]>([]);
 
-  const handleSignUp = async (e: React.FormEvent) => {
+  const handleSignUp = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
 
