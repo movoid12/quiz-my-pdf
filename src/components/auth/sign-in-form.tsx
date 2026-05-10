@@ -19,7 +19,7 @@ export const SignInForm = () => {
     setError('');
 
     try {
-      const { error: err } = await authClient.signIn.email(
+      await authClient.signIn.email(
         { email, password },
         {
           onSuccess: (context) => {
@@ -34,10 +34,6 @@ export const SignInForm = () => {
           },
         },
       );
-
-      if (err) {
-        setError(err.message || 'Sign-in failed');
-      }
     } catch (_e) {
       setError('An error occurred during sign-in');
     } finally {
