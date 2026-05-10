@@ -40,4 +40,11 @@ export const menuItems: MenuItem[] = [
     rotation: -8,
     hoverStyles: { bgColor: '#ec4899' },
   },
+  {
+    id: 6,
+    label: 'History',
+    href: '/dashboard/history',
+    rotation: 8,
+    hoverStyles: { bgColor: '#06b6d4' },
+  },
 ];

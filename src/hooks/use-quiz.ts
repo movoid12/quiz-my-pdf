@@ -3,8 +3,8 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import type z from 'zod';
-import type { clientQuizSchema } from '@/lib/validation';
 import { trpc } from '@/lib/trpc';
+import type { clientQuizSchema } from '@/lib/validation';
 
 type ClientQuiz = z.infer<typeof clientQuizSchema>;
 
@@ -19,7 +19,7 @@ export const useQuiz = () => {
   const saveAttempt = trpc.quiz.saveAttempt.useMutation({
     onSuccess: (result) => {
       const quiz = generatedQuiz;
-      if (!quiz) return;
+      if (!quiz) { return; }
 
       const quizResults = {
         title: quiz.title,
@@ -46,7 +46,7 @@ export const useQuiz = () => {
   });
 
   const handleSubmit = () => {
-    if (!generatedQuiz) return;
+    if (!generatedQuiz) { return; }
 
     saveAttempt.mutate({
       quizId: generatedQuiz.quizId,

@@ -1,8 +1,8 @@
 import sanitizeHtml from 'sanitize-html';
 import { questionAnswers, questions, quizzes } from '@/db/schema';
 import { MIN_TEXT_CHARS } from '@/lib/constants';
-import { QUIZ_DIFFICULTIES } from '@/lib/validation';
 import { errorJson, mapErrorToResponse, validatePdfUpload } from '@/lib/utils';
+import { QUIZ_DIFFICULTIES } from '@/lib/validation';
 import { generateQuizFromText } from '@/server/ai/generate-quiz';
 import { auth } from '@/server/auth';
 import { db } from '@/server/db';
