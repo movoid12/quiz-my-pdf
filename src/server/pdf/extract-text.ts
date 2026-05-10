@@ -1,12 +1,6 @@
-import { createRequire } from 'node:module';
+import { extractText, getDocumentProxy } from 'unpdf';
 import { MAX_FILE_SIZE, MAX_TEXT_CHARS } from '@/lib/constants';
 import { isLikelyPdf, normalizeText } from '@/lib/utils';
-
-const require = createRequire(import.meta.url);
-
-function loadPdfParse(): (buffer: Buffer) => Promise<{ text: string }> {
-  return require('pdf-parse');
-}
 
 export async function extractTextFromPdf(file: File) {
   if (file.size > MAX_FILE_SIZE) {
@@ -14,7 +8,6 @@ export async function extractTextFromPdf(file: File) {
   }
 
   const bytes = await file.arrayBuffer();
-
   const buffer = Buffer.from(bytes);
 
   if (!isLikelyPdf(buffer)) {
@@ -22,9 +15,9 @@ export async function extractTextFromPdf(file: File) {
   }
 
   try {
-    const pdfParse = loadPdfParse();
-    const parsed = await pdfParse(buffer);
-    return normalizeText(parsed.text || '', MAX_TEXT_CHARS);
+    const pdf = await getDocumentProxy(new Uint8Array(bytes));
+    const { text } = await extractText(pdf, { mergePages: true });
+    return normalizeText(text, MAX_TEXT_CHARS);
   } catch {
     throw new Error('Failed to read PDF content');
   }
