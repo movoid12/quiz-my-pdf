@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/claude-code-settings.json",
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./drizzle.config.ts)",
+      "Read(./.next/**)",
+      "Read(./node_modules/**)",
+      "Edit(./.env)",
+      "Edit(./.env.*)",
+      "Edit(./drizzle.config.ts)",
+      "Edit(./.next/**)",
+      "Edit(./node_modules/**)",
+      "Write(./.env)",
+      "Write(./.env.*)",
+      "Write(./drizzle.config.ts)",
+      "Write(./.next/**)",
+      "Write(./node_modules/**)"
+    ],
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(npm install *)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git add *)",
+      "Bash(npx drizzle-kit *)"
+    ]
+  }
+}
