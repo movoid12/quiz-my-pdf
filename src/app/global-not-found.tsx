@@ -1,7 +1,6 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import Link from 'next/link';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -49,12 +48,12 @@ export default function GlobalNotFound() {
           </p>
 
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <Link href="/dashboard/start" className="btn btn-primary">
+            <a href="/" className="btn btn-primary">
               Back to Home
-            </Link>
-            <Link href="/dashboard/quiz'" className="btn btn-outline">
+            </a>
+            <a href="/dashboard/start" className="btn btn-outline">
               Go to Quiz
-            </Link>
+            </a>
           </div>
         </div>
       </body>

@@ -13,25 +13,29 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         name: Install pnpm 📦
         with:
-          version: 10
+          version: 11
           run_install: false
 
       - name: Install Node.js 🌐
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: "pnpm"
 
       - name: Check dependencies Security (high severity) 🔒
         run: pnpm audit --audit-level high
 
-      - name: Install dependencies 📦
-        run: pnpm install
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
 
-      - name: Run lint check and format check ✅
-        run: pnpm check
+      - name: Run Biome
+        run: biome ci .
