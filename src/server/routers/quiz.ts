@@ -19,9 +19,18 @@ export const quizRouter = router({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const quiz = await db.query.quizzes.findFirst({
-        where: eq(quizzes.id, input.quizId),
-      });
+      // Fetch quiz metadata and correct answers in parallel — neither depends on the other
+      const [quiz, correctAnswerRows] = await Promise.all([
+        db.query.quizzes.findFirst({ where: eq(quizzes.id, input.quizId) }),
+        db
+          .select({
+            questionId: questionAnswers.questionId,
+            correctAnswer: questionAnswers.correctAnswer,
+          })
+          .from(questionAnswers)
+          .innerJoin(questions, eq(questions.id, questionAnswers.questionId))
+          .where(eq(questions.quizId, input.quizId)),
+      ]);
 
       if (!quiz) {
         throw new TRPCError({ code: 'NOT_FOUND' });
@@ -29,15 +38,6 @@ export const quizRouter = router({
       if (quiz.userId !== ctx.session.user.id) {
         throw new TRPCError({ code: 'FORBIDDEN' });
       }
-
-      const correctAnswerRows = await db
-        .select({
-          questionId: questionAnswers.questionId,
-          correctAnswer: questionAnswers.correctAnswer,
-        })
-        .from(questionAnswers)
-        .innerJoin(questions, eq(questions.id, questionAnswers.questionId))
-        .where(eq(questions.quizId, input.quizId));
 
       const answerMap = new Map(
         correctAnswerRows.map((r) => [r.questionId, r.correctAnswer]),
@@ -137,18 +137,17 @@ export const quizRouter = router({
   delete: protectedProcedure
     .input(z.object({ quizId: z.uuid() }))
     .mutation(async ({ ctx, input }) => {
-      const quiz = await db.query.quizzes.findFirst({
-        where: and(
-          eq(quizzes.id, input.quizId),
-          eq(quizzes.userId, ctx.session.user.id),
-        ),
-      });
+      const [deleted] = await db
+        .delete(quizzes)
+        .where(
+          and(
+            eq(quizzes.id, input.quizId),
+            eq(quizzes.userId, ctx.session.user.id),
+          ),
+        )
+        .returning({ id: quizzes.id });
 
-      if (!quiz) {
-        throw new TRPCError({ code: 'NOT_FOUND' });
-      }
-
-      await db.delete(quizzes).where(eq(quizzes.id, input.quizId));
+      if (!deleted) { throw new TRPCError({ code: 'NOT_FOUND' }); }
 
       return { success: true };
     }),

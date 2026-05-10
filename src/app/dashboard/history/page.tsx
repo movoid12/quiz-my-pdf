@@ -2,7 +2,7 @@
 
 import { History, RotateCcw, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useRef, useState } from 'react';
+import { useRef, useState, useTransition } from 'react';
 import Loading from '@/components/ui/loading';
 import { trpc } from '@/lib/trpc';
 
@@ -29,7 +29,8 @@ export default function HistoryPage() {
   const utils = trpc.useUtils();
 
   const [offset, setOffset] = useState(0);
-  const [retakingId, setRetakingId] = useState<string | null>(null);
+  const [retakingQuizId, setRetakingQuizId] = useState<string | null>(null);
+  const [isPendingRetake, startRetakeTransition] = useTransition();
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<{
     quizId: string;
@@ -62,9 +63,9 @@ export default function HistoryPage() {
     deleteDialogRef.current?.close();
   };
 
-  const handleRetake = async (quizId: string) => {
-    setRetakingId(quizId);
-    try {
+  const handleRetake = (quizId: string) => {
+    setRetakingQuizId(quizId);
+    startRetakeTransition(async () => {
       const quiz = await utils.quiz.getById.fetch({ quizId });
       sessionStorage.setItem(
         'currentQuiz',
@@ -83,9 +84,7 @@ export default function HistoryPage() {
         }),
       );
       router.push('/dashboard/quiz');
-    } finally {
-      setRetakingId(null);
-    }
+    });
   };
 
   if (isLoading) {
@@ -170,9 +169,9 @@ export default function HistoryPage() {
                       type="button"
                       className="btn btn-outline btn-primary btn-sm gap-1"
                       onClick={() => handleRetake(attempt.quizId)}
-                      disabled={retakingId === attempt.quizId}
+                      disabled={isPendingRetake && retakingQuizId === attempt.quizId}
                     >
-                      {retakingId === attempt.quizId ? (
+                      {isPendingRetake && retakingQuizId === attempt.quizId ? (
                         <span className="loading loading-spinner loading-xs" />
                       ) : (
                         <RotateCcw className="h-3.5 w-3.5" />
