@@ -1,7 +1,11 @@
 import sanitizeHtml from 'sanitize-html';
+import { questionAnswers, questions, quizzes } from '@/db/schema';
 import { MIN_TEXT_CHARS } from '@/lib/constants';
+import { QUIZ_DIFFICULTIES } from '@/lib/validation';
 import { errorJson, mapErrorToResponse, validatePdfUpload } from '@/lib/utils';
 import { generateQuizFromText } from '@/server/ai/generate-quiz';
+import { auth } from '@/server/auth';
+import { db } from '@/server/db';
 import { extractTextFromPdf } from '@/server/pdf/extract-text';
 import { scanPdfContent } from '@/server/pdf/pdf-scanner';
 import { checkRateLimit } from '@/server/pdf/rate-limiter';
@@ -12,7 +16,6 @@ export const maxDuration = 60;
 
 export async function POST(request: Request) {
   try {
-    // Rate limit check (IP-based)
     const rateLimit = checkRateLimit(request);
     if (!rateLimit.allowed) {
       return errorJson('Too many requests', 429, {
@@ -20,8 +23,12 @@ export async function POST(request: Request) {
       });
     }
 
-    const contentType = request.headers.get('content-type') || '';
+    const session = await auth.api.getSession({ headers: request.headers });
+    if (!session?.user) {
+      return errorJson('Unauthorized', 401);
+    }
 
+    const contentType = request.headers.get('content-type') || '';
     if (!contentType.includes('multipart/form-data')) {
       return errorJson(
         "Unsupported Media Type. Expecting multipart/form-data with 'pdf' file.",
@@ -36,27 +43,72 @@ export async function POST(request: Request) {
       return errorJson('No PDF file provided', 400);
     }
 
-    // Strict validation of the uploaded file (size + magic number)
     await validatePdfUpload(file);
 
-    // Security scan for malicious content
     const buffer = Buffer.from(await file.arrayBuffer());
-
     await scanPdfContent(buffer);
 
     let text = await extractTextFromPdf(file);
-
     text = sanitizeHtml(text);
 
     if (text.length < MIN_TEXT_CHARS) {
       return errorJson('Insufficient content in PDF', 400);
     }
 
-    const level = formData.get('level') as string;
+    const rawLevel = (formData.get('level') as string | null) ?? 'medium';
+    const difficulty = (
+      QUIZ_DIFFICULTIES.includes(rawLevel as (typeof QUIZ_DIFFICULTIES)[number])
+        ? rawLevel
+        : 'medium'
+    ) as (typeof QUIZ_DIFFICULTIES)[number];
 
-    const quiz = await generateQuizFromText(text, level);
+    const quiz = await generateQuizFromText(text, difficulty);
 
-    return Response.json(quiz);
+    // Persist quiz — correct answers go to a separate table, never returned to client
+    const [savedQuiz] = await db
+      .insert(quizzes)
+      .values({
+        userId: session.user.id,
+        title: quiz.title,
+        category: quiz.category,
+        difficulty,
+      })
+      .returning();
+
+    const savedQuestions = await db
+      .insert(questions)
+      .values(
+        quiz.questions.map((q, i) => ({
+          quizId: savedQuiz.id,
+          question: q.question,
+          options: q.options,
+          displayOrder: i,
+          type: q.type,
+        })),
+      )
+      .returning();
+
+    await db.insert(questionAnswers).values(
+      savedQuestions.map((sq, i) => ({
+        questionId: sq.id,
+        correctAnswer: quiz.questions[i].correctAnswer,
+      })),
+    );
+
+    // Return client-safe shape — no correctAnswer
+    return Response.json({
+      quizId: savedQuiz.id,
+      title: savedQuiz.title,
+      category: savedQuiz.category,
+      difficulty: savedQuiz.difficulty,
+      questions: savedQuestions.map((sq, i) => ({
+        id: sq.id,
+        question: sq.question,
+        type: sq.type,
+        options: sq.options,
+        order: i,
+      })),
+    });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Internal error';
     console.error('Error processing PDF:', error);
