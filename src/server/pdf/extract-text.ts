@@ -4,10 +4,8 @@ import { isLikelyPdf, normalizeText } from '@/lib/utils';
 
 const require = createRequire(import.meta.url);
 
-type PdfParseModule = typeof import('pdf-parse');
-
-function loadPdfParse() {
-  return require('pdf-parse') as PdfParseModule;
+function loadPdfParse(): (buffer: Buffer) => Promise<{ text: string }> {
+  return require('pdf-parse');
 }
 
 export async function extractTextFromPdf(file: File) {
@@ -24,10 +22,8 @@ export async function extractTextFromPdf(file: File) {
   }
 
   try {
-    const { PDFParse } = loadPdfParse();
-    const pdf = new PDFParse({ data: buffer });
-
-    const parsed = await pdf.getText();
+    const pdfParse = loadPdfParse();
+    const parsed = await pdfParse(buffer);
     return normalizeText(parsed.text || '', MAX_TEXT_CHARS);
   } catch {
     throw new Error('Failed to read PDF content');
