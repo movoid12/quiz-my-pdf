@@ -27,6 +27,9 @@ importers:
       '@ai-sdk/react':
         specifier: 3.0.170
         version: 3.0.170(react@19.2.5)(zod@4.3.6)
+      '@nosecone/next':
+        specifier: ^1.4.0
+        version: 1.4.0(next@16.2.4(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5))
       '@t3-oss/env-nextjs':
         specifier: ^0.13.11
         version: 0.13.11(typescript@6.0.3)(zod@4.3.6)
@@ -1206,6 +1209,12 @@ packages:
   '@noble/hashes@2.2.0':
     resolution: {integrity: sha512-IYqDGiTXab6FniAgnSdZwgWbomxpy9FtYvLKs7wCUs2a8RkITG+DFGO1DM9cr+E3/RgADRpFjrKVaJ1z6sjtEg==}
     engines: {node: '>= 20.19.0'}
+
+  '@nosecone/next@1.4.0':
+    resolution: {integrity: sha512-W8TKN2VZMRlzXMJGjrVxxIs2dx9ForLg4d9cZi7aJ3IFm5g/1FNPLWZpv2CG981QbQMwPLl22s7MrB0au9h9Ag==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      next: '>=15.6.0-canary.61'
 
   '@octokit/auth-token@6.0.0':
     resolution: {integrity: sha512-P4YJBPdPSpWTQ1NU4XYdvHvXJJDxM6YwpS0FZHRgP7YFkdVxsWcpWGy/NVqlAA7PcPCnMacXlRm1y2PFZRWL/w==}
@@ -2681,6 +2690,10 @@ packages:
 
   normalize-url@9.0.0:
     resolution: {integrity: sha512-z9nC87iaZXXySbWWtTHfCFJyFvKaUAW6lODhikG7ILSbVgmwuFjUqkgnheHvAUcGedO29e2QGBRXMUD64aurqQ==}
+    engines: {node: '>=20'}
+
+  nosecone@1.4.0:
+    resolution: {integrity: sha512-KSKVN4713JPBOVBHw8zOU2gvbBU160fhVSTLgXlmK1BkAXj1lii/MsEJHDSrefZdxwXAzRN63UQ+biIGdFssPQ==}
     engines: {node: '>=20'}
 
   npm-run-path@4.0.1:
@@ -4359,6 +4372,11 @@ snapshots:
 
   '@noble/hashes@2.2.0': {}
 
+  '@nosecone/next@1.4.0(next@16.2.4(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5))':
+    dependencies:
+      next: 16.2.4(@babel/core@7.29.0)(@opentelemetry/api@1.9.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      nosecone: 1.4.0
+
   '@octokit/auth-token@6.0.0': {}
 
   '@octokit/core@7.0.6':
@@ -5652,6 +5670,8 @@ snapshots:
       validate-npm-package-license: 3.0.4
 
   normalize-url@9.0.0: {}
+
+  nosecone@1.4.0: {}
 
   npm-run-path@4.0.1:
     dependencies:

@@ -1,10 +1,23 @@
+import { createMiddleware } from '@nosecone/next';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { auth } from '@/server/auth';
 
-// This function can be marked `async` if using `await` inside
-export async function middleware(request: NextRequest) {
+const securityHeadersMiddleware = createMiddleware();
+
+const applySecurityHeaders = (source: Response, target: Headers) => {
+  for (const [key, value] of source.headers) {
+    if (key === 'x-middleware-next') {
+      continue;
+    }
+
+    target.set(key, value);
+  }
+};
+
+export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const securityResponse = await securityHeadersMiddleware();
 
   // Protect dashboard routes and quiz generation API
   if (pathname.startsWith('/dashboard') || pathname === '/api/process-pdf') {
@@ -15,20 +28,29 @@ export async function middleware(request: NextRequest) {
     if (!session) {
       // For API routes, return 401 Unauthorized
       if (pathname.startsWith('/api/')) {
-        return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), {
-          status: 401,
-          headers: { 'Content-Type': 'application/json' },
-        });
+        const response = new NextResponse(
+          JSON.stringify({ error: 'Unauthorized' }),
+          {
+            status: 401,
+            headers: { 'Content-Type': 'application/json' },
+          },
+        );
+
+        applySecurityHeaders(securityResponse, response.headers);
+        return response;
       }
 
       // Redirect to sign-in if not authenticated
       const url = new URL('/auth/sign-in', request.url);
       url.searchParams.set('callbackUrl', pathname);
-      return NextResponse.redirect(url);
+      const response = NextResponse.redirect(url);
+
+      applySecurityHeaders(securityResponse, response.headers);
+      return response;
     }
   }
 
-  return NextResponse.next();
+  return securityResponse;
 }
 
 // See "Matching Paths" below to learn more
