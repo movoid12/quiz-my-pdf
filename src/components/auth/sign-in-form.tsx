@@ -1,8 +1,10 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { type SyntheticEvent, useState } from 'react';
 import { authClient } from '@/lib/auth-client';
+import { GoogleIcon } from '@/components/ui/icons/google-icon';
 
 export const SignInForm = () => {
   const router = useRouter();
@@ -67,83 +69,75 @@ export const SignInForm = () => {
   };
 
   return (
-    <form
-      onSubmit={handleSignIn}
-      className="space-y-4 max-w-sm mx-auto p-6 border rounded-lg"
-    >
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Sign In</h2>
-      </div>
+    <div className="card w-full max-w-sm mx-auto bg-base-100 shadow-xl">
+      <form onSubmit={handleSignIn} className="card-body">
+        <h2 className="card-title text-2xl justify-center mb-2">Sign In</h2>
 
-      <div>
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium text-gray-900 mb-2"
-        >
-          Email
+        {error && (
+          <div className="alert alert-error">
+            <span>{error}</span>
+          </div>
+        )}
+
+        <label className="form-control w-full">
+          <span className="label-text mb-1">Email</span>
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
+            required
+            disabled={loading}
+            className="input input-bordered w-full"
+          />
         </label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@example.com"
-          required
-          className="w-full px-3 py-2 border rounded text-black"
-          disabled={loading}
-        />
-      </div>
 
-      <div>
-        <label
-          htmlFor="password"
-          className="block text-sm font-medium text-gray-900 mb-2"
-        >
-          Password
+        <label className="form-control w-full">
+          <span className="label-text mb-1">Password</span>
+          <input
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
+            required
+            disabled={loading}
+            className="input input-bordered w-full"
+          />
         </label>
-        <input
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="••••••••"
-          required
-          className="w-full px-3 py-2 border rounded text-black"
+
+        <button
+          type="submit"
           disabled={loading}
-        />
-      </div>
+          className="btn btn-primary w-full mt-2"
+        >
+          {loading ? (
+            <span className="loading loading-spinner loading-sm" />
+          ) : (
+            'Sign In'
+          )}
+        </button>
 
-      {error && <div className="text-red-600 text-sm">{error}</div>}
+        <div className="divider my-2">OR</div>
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
-      >
-        {loading ? 'Signing in...' : 'Sign In'}
-      </button>
+        <button
+          type="button"
+          onClick={handleGoogleSignIn}
+          disabled={loading}
+          className="btn btn-outline w-full gap-2"
+        >
+          <GoogleIcon className="w-5 h-5" />
+          Continue with Google
+        </button>
 
-      <div className="flex items-center gap-3 text-sm text-gray-500">
-        <div className="h-px flex-1 bg-gray-200" />
-        <span>or</span>
-        <div className="h-px flex-1 bg-gray-200" />
-      </div>
-
-      <button
-        type="button"
-        onClick={handleGoogleSignIn}
-        disabled={loading}
-        className="w-full px-4 py-2 border border-gray-300 rounded text-gray-900 hover:bg-gray-50 disabled:opacity-50"
-      >
-        Continue with Google
-      </button>
-
-      <p className="text-center text-sm text-gray-600">
-        Don't have an account?{' '}
-        <a href="/auth/sign-up" className="text-blue-600 hover:underline">
-          Sign up
-        </a>
-      </p>
-    </form>
+        <p className="text-center text-sm text-base-content/70 mt-2">
+          Don't have an account?{' '}
+          <Link href="/auth/sign-up" className="link link-primary">
+            Sign up
+          </Link>
+        </p>
+      </form>
+    </div>
   );
 };

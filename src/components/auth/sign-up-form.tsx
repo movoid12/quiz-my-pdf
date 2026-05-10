@@ -1,10 +1,12 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { type SyntheticEvent, useState } from 'react';
 import { authClient } from '@/lib/auth-client';
 import { BackupCodes } from './backup-codes';
 import { TotpSetup } from './totp-setup';
+import { GoogleIcon } from '../ui/icons/google-icon';
 
 type SignUpStep = 'form' | 'totp' | 'backupCodes' | 'success';
 
@@ -19,6 +21,9 @@ export const SignUpForm = () => {
   const [error, setError] = useState('');
   const [totpUri, setTotpUri] = useState('');
   const [backupCodes, setBackupCodes] = useState<string[]>([]);
+
+  const passwordsMismatch =
+    confirmPassword.length > 0 && password !== confirmPassword;
 
   const handleSignUp = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,7 +46,6 @@ export const SignUpForm = () => {
       if (err) {
         setError(err.message || 'Sign-up failed');
       } else {
-        // After successful sign-up, enable 2FA
         await enable2fa();
       }
     } catch (_e) {
@@ -94,169 +98,164 @@ export const SignUpForm = () => {
 
   if (step === 'totp') {
     return (
-      <div>
-        <TotpSetup
-          totpUri={totpUri}
-          onVerified={() => setStep('backupCodes')}
-        />
-      </div>
+      <TotpSetup
+        totpUri={totpUri}
+        onVerified={() => setStep('backupCodes')}
+      />
     );
   }
 
   if (step === 'backupCodes') {
     return (
-      <div>
-        <BackupCodes
-          codes={backupCodes}
-          onConfirmed={() => setStep('success')}
-        />
-      </div>
+      <BackupCodes
+        codes={backupCodes}
+        onConfirmed={() => setStep('success')}
+      />
     );
   }
 
   if (step === 'success') {
     return (
-      <div className="space-y-4 max-w-sm mx-auto p-6 border rounded-lg text-center">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            ✓ Account Created
-          </h2>
-          <p className="text-gray-600 mb-6">
+      <div className="card w-full max-w-sm mx-auto bg-base-100 shadow-xl">
+        <div className="card-body items-center text-center">
+          <div className="w-16 h-16 rounded-full bg-success/20 flex items-center justify-center mb-2">
+            <svg
+              className="w-8 h-8 text-success"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </div>
+          <h2 className="card-title text-2xl">Account Created</h2>
+          <p className="text-base-content/70 mb-2">
             Your account is ready! 2FA is now enabled for your security.
           </p>
+          <button
+            type="button"
+            onClick={() => router.push('/dashboard/start')}
+            className="btn btn-primary w-full"
+          >
+            Continue to Dashboard
+          </button>
         </div>
-        <button
-          type="button"
-          onClick={() => router.push('/dashboard/start')}
-          className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          Continue to Dashboard
-        </button>
       </div>
     );
   }
 
   return (
-    <form
-      onSubmit={handleSignUp}
-      className="space-y-4 max-w-sm mx-auto p-6 border rounded-lg"
-    >
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">
-          Create Account
-        </h2>
-        <p className="text-sm text-gray-600 mb-4">
+    <div className="card w-full max-w-sm mx-auto bg-base-100 shadow-xl">
+      <form onSubmit={handleSignUp} className="card-body">
+        <h2 className="card-title text-2xl justify-center">Create Account</h2>
+        <p className="text-center text-sm text-base-content/70 mb-2">
           2FA will be required during setup
         </p>
-      </div>
 
-      <div>
-        <label
-          htmlFor="name"
-          className="block text-sm font-medium text-gray-900 mb-2"
-        >
-          Full Name
+        {error && (
+          <div className="alert alert-error">
+            <span>{error}</span>
+          </div>
+        )}
+
+        <label className="form-control w-full">
+          <span className="label-text mb-1">Full Name</span>
+          <input
+            id="name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="John Doe"
+            required
+            disabled={loading}
+            className="input input-bordered w-full"
+          />
         </label>
-        <input
-          id="name"
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="John Doe"
-          required
-          className="w-full px-3 py-2 border rounded text-black"
-          disabled={loading}
-        />
-      </div>
 
-      <div>
-        <label
-          htmlFor="email"
-          className="block text-sm font-medium text-gray-900 mb-2"
-        >
-          Email
+        <label className="form-control w-full">
+          <span className="label-text mb-1">Email</span>
+          <input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
+            required
+            disabled={loading}
+            className="input input-bordered w-full"
+          />
         </label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@example.com"
-          required
-          className="w-full px-3 py-2 border rounded text-black"
-          disabled={loading}
-        />
-      </div>
 
-      <div>
-        <label
-          htmlFor="password"
-          className="block text-sm font-medium text-gray-900 mb-2"
-        >
-          Password
+        <label className="form-control w-full">
+          <span className="label-text mb-1">Password</span>
+          <input
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="••••••••"
+            required
+            disabled={loading}
+            className="input input-bordered w-full"
+          />
         </label>
-        <input
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="••••••••"
-          required
-          className="w-full px-3 py-2 border rounded text-black"
-          disabled={loading}
-        />
-      </div>
 
-      <div>
-        <label
-          htmlFor="confirmPassword"
-          className="block text-sm font-medium text-gray-900 mb-2"
-        >
-          Confirm Password
+        <label className="form-control w-full">
+          <span className="label-text mb-1">Confirm Password</span>
+          <input
+            id="confirmPassword"
+            type="password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="••••••••"
+            required
+            disabled={loading}
+            className={`input input-bordered w-full ${
+              passwordsMismatch ? 'input-error' : ''
+            }`}
+          />
+          {passwordsMismatch && (
+            <span className="label-text-alt text-error mt-1">
+              Passwords do not match
+            </span>
+          )}
         </label>
-        <input
-          id="confirmPassword"
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          placeholder="••••••••"
-          required
-          className="w-full px-3 py-2 border rounded text-black"
+
+        <button
+          type="submit"
+          disabled={loading || passwordsMismatch}
+          className="btn btn-primary w-full mt-2"
+        >
+          {loading ? (
+            <span className="loading loading-spinner loading-sm" />
+          ) : (
+            'Create Account'
+          )}
+        </button>
+
+        <div className="divider my-2">OR</div>
+
+        <button
+          type="button"
+          onClick={handleGoogleSignIn}
           disabled={loading}
-        />
-      </div>
+          className="btn btn-outline w-full gap-2"
+        >
+          <GoogleIcon className="w-5 h-5" />
+          Continue with Google
+        </button>
 
-      {error && <div className="text-red-600 text-sm">{error}</div>}
-
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
-      >
-        {loading ? 'Creating Account...' : 'Create Account'}
-      </button>
-
-      <div className="flex items-center gap-3 text-sm text-gray-500">
-        <div className="h-px flex-1 bg-gray-200" />
-        <span>or</span>
-        <div className="h-px flex-1 bg-gray-200" />
-      </div>
-
-      <button
-        type="button"
-        onClick={handleGoogleSignIn}
-        disabled={loading}
-        className="w-full px-4 py-2 border border-gray-300 rounded text-gray-900 hover:bg-gray-50 disabled:opacity-50"
-      >
-        Continue with Google
-      </button>
-
-      <p className="text-center text-sm text-gray-600">
-        Already have an account?{' '}
-        <a href="/auth/sign-in" className="text-blue-600 hover:underline">
-          Sign in
-        </a>
-      </p>
-    </form>
+        <p className="text-center text-sm text-base-content/70 mt-2">
+          Already have an account?{' '}
+          <Link href="/auth/sign-in" className="link link-primary">
+            Sign in
+          </Link>
+        </p>
+      </form>
+    </div>
   );
 };
