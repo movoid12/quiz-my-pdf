@@ -4,9 +4,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { type SyntheticEvent, useState } from 'react';
 import { authClient } from '@/lib/auth-client';
+import { GoogleIcon } from '../ui/icons/google-icon';
 import { BackupCodes } from './backup-codes';
 import { TotpSetup } from './totp-setup';
-import { GoogleIcon } from '../ui/icons/google-icon';
 
 type SignUpStep = 'form' | 'totp' | 'backupCodes' | 'success';
 
@@ -98,19 +98,13 @@ export const SignUpForm = () => {
 
   if (step === 'totp') {
     return (
-      <TotpSetup
-        totpUri={totpUri}
-        onVerified={() => setStep('backupCodes')}
-      />
+      <TotpSetup totpUri={totpUri} onVerified={() => setStep('backupCodes')} />
     );
   }
 
   if (step === 'backupCodes') {
     return (
-      <BackupCodes
-        codes={backupCodes}
-        onConfirmed={() => setStep('success')}
-      />
+      <BackupCodes codes={backupCodes} onConfirmed={() => setStep('success')} />
     );
   }
 

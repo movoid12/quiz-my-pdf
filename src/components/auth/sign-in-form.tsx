@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { type SyntheticEvent, useState } from 'react';
-import { authClient } from '@/lib/auth-client';
 import { GoogleIcon } from '@/components/ui/icons/google-icon';
+import { authClient } from '@/lib/auth-client';
 
 export const SignInForm = () => {
   const router = useRouter();
