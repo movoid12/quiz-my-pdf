@@ -32,7 +32,7 @@ export default function QuizPage() {
     return () => window.clearInterval(id);
   }, [timeLeft, handleSubmit]);
 
-  const handleAnswer = (questionId: number, answer: number) => {
+  const handleAnswer = (questionId: string, answer: number) => {
     setAnswers((prev) => ({
       ...prev,
       [questionId]: answer,

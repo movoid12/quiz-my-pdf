@@ -2,20 +2,18 @@
 
 import { useEffect, useState } from 'react';
 import type z from 'zod/mini';
+import type { clientQuizSchema, quizResultsSchema } from '@/lib/validation';
 
-import type { questionsSchema, quizResultsSchema } from '@/lib/schema';
-
-type GeneratedQuiz = z.infer<typeof questionsSchema>;
-
+type ClientQuiz = z.infer<typeof clientQuizSchema>;
 type QuizResults = z.infer<typeof quizResultsSchema>;
 
 export const useResult = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [results, setResults] = useState<QuizResults | null>(null);
-  const [quiz, setQuiz] = useState<GeneratedQuiz | null>(null);
+  const [quiz, setQuiz] = useState<ClientQuiz | null>(null);
 
   const getOptionLabel = (
-    questionId: number,
+    questionId: string,
     idx: number | null | undefined,
   ) => {
     if (idx === null || idx === undefined) {

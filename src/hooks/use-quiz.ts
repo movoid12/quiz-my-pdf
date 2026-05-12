@@ -2,74 +2,70 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import type z from 'zod/mini';
-import type { questionsSchema } from '@/lib/schema';
+import type z from 'zod';
+import { trpc } from '@/lib/trpc';
+import type { clientQuizSchema } from '@/lib/validation';
 
-type GeneratedQuiz = z.infer<typeof questionsSchema>;
+type ClientQuiz = z.infer<typeof clientQuizSchema>;
 
 export const useQuiz = () => {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [answers, setAnswers] = useState<Record<number, number>>({});
-  const [generatedQuiz, setGeneratedQuiz] = useState<GeneratedQuiz | null>(
-    null,
-  );
+  const [answers, setAnswers] = useState<Record<string, number>>({});
+  const [generatedQuiz, setGeneratedQuiz] = useState<ClientQuiz | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
 
-  const handleSubmit = () => {
-    setIsSubmitting(true);
-
-    let score = 0;
-
-    const results = generatedQuiz?.questions.map((question) => {
-      const userAnswer = answers[question.id];
-
-      let isCorrect = false;
-
-      if (question.type === 'multiple-choice') {
-        isCorrect = userAnswer === question.correctAnswer;
+  const saveAttempt = trpc.quiz.saveAttempt.useMutation({
+    onSuccess: (result) => {
+      const quiz = generatedQuiz;
+      if (!quiz) {
+        return;
       }
 
-      if (isCorrect) {
-        score++;
-      }
-
-      return {
-        questionId: question.id,
-        question: question.question,
-        userAnswer,
-        correctAnswer: question.correctAnswer,
-        isCorrect,
-        type: question.type,
+      const quizResults = {
+        title: quiz.title,
+        score: result.score,
+        totalQuestions: result.total,
+        correctAnswers: result.correct,
+        completedAt: new Date().toISOString(),
+        results: result.answers.map((a) => {
+          const question = quiz.questions.find((q) => q.id === a.questionId);
+          return {
+            questionId: a.questionId,
+            question: question?.question ?? '',
+            userAnswer: a.selectedOption,
+            correctAnswer: a.correctAnswer,
+            isCorrect: a.isCorrect,
+            type: question?.type ?? 'multiple-choice',
+          };
+        }),
       };
-    });
 
-    const quizResults = {
-      title: generatedQuiz?.title,
-      score: generatedQuiz
-        ? Math.round((score / generatedQuiz.questions.length) * 100)
-        : 0,
-      totalQuestions: generatedQuiz?.questions.length || 0,
-      correctAnswers: score,
-      results,
-      completedAt: new Date().toISOString(),
-    };
-
-    sessionStorage.setItem('quizResults', JSON.stringify(quizResults));
-
-    // Simulate processing time
-    setTimeout(() => {
+      sessionStorage.setItem('quizResults', JSON.stringify(quizResults));
       router.push('/dashboard/result');
-    }, 1500);
+    },
+  });
+
+  const handleSubmit = () => {
+    if (!generatedQuiz) {
+      return;
+    }
+
+    saveAttempt.mutate({
+      quizId: generatedQuiz.quizId,
+      answers: generatedQuiz.questions.map((q) => ({
+        questionId: q.id,
+        selectedOption: answers[q.id] ?? -1,
+      })),
+    });
   };
 
   useEffect(() => {
     try {
       const quizData = sessionStorage.getItem('currentQuiz');
       if (quizData) {
-        const parsedQuiz = JSON.parse(quizData);
+        const parsedQuiz = JSON.parse(quizData) as ClientQuiz;
         if (parsedQuiz?.questions && parsedQuiz.questions.length > 0) {
           setGeneratedQuiz(parsedQuiz);
         } else {
@@ -87,7 +83,7 @@ export const useQuiz = () => {
   }, [router]);
 
   return {
-    isSubmitting,
+    isSubmitting: saveAttempt.isPending,
     isLoading,
     answers,
     setAnswers,

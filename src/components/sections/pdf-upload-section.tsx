@@ -93,9 +93,8 @@ export default function PdfUploadSection() {
         setError(data?.error || 'Failed to process PDF');
       }
 
-      if (response.ok && data?.questions) {
+      if (response.ok && data?.quizId && data?.questions) {
         sessionStorage.setItem('currentQuiz', JSON.stringify(data));
-
         router.push('/dashboard/quiz');
       }
     } catch (error) {

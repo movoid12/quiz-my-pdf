@@ -10,15 +10,14 @@ on:
 jobs:
   check-code:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
         with:
           persist-credentials: false
 
-      - uses: pnpm/action-setup@v6
-        name: Install pnpm 📦
+      - name: Install pnpm 📦
+        uses: pnpm/action-setup@v6
         with:
           version: 11
           run_install: false
@@ -27,7 +26,6 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 24
-          cache: "pnpm"
 
       - name: Check dependencies Security (high severity) 🔒
         run: pnpm audit --audit-level high
