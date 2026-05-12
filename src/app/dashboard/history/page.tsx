@@ -58,7 +58,9 @@ export default function HistoryPage() {
   };
 
   const confirmDelete = () => {
-    if (!deleteTarget) { return; }
+    if (!deleteTarget) {
+      return;
+    }
     deleteMutation.mutate({ quizId: deleteTarget.quizId });
     deleteDialogRef.current?.close();
   };
@@ -169,7 +171,9 @@ export default function HistoryPage() {
                       type="button"
                       className="btn btn-outline btn-primary btn-sm gap-1"
                       onClick={() => handleRetake(attempt.quizId)}
-                      disabled={isPendingRetake && retakingQuizId === attempt.quizId}
+                      disabled={
+                        isPendingRetake && retakingQuizId === attempt.quizId
+                      }
                     >
                       {isPendingRetake && retakingQuizId === attempt.quizId ? (
                         <span className="loading loading-spinner loading-xs" />

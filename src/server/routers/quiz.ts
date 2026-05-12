@@ -147,7 +147,9 @@ export const quizRouter = router({
         )
         .returning({ id: quizzes.id });
 
-      if (!deleted) { throw new TRPCError({ code: 'NOT_FOUND' }); }
+      if (!deleted) {
+        throw new TRPCError({ code: 'NOT_FOUND' });
+      }
 
       return { success: true };
     }),
