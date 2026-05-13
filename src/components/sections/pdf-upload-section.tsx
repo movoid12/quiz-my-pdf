@@ -4,10 +4,12 @@ import { Check } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import { MAX_FILE_SIZE } from '@/lib/constants';
+import { useAppStore } from '@/lib/stores/store';
 import QuizLevelModal from '../modals/quiz-level-modal';
 
 export default function PdfUploadSection() {
   const router = useRouter();
+  const setCurrentQuiz = useAppStore((s) => s.setCurrentQuiz);
 
   const [uploadedFile, setUploadedFile] = useState<File | null>();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -94,7 +96,7 @@ export default function PdfUploadSection() {
       }
 
       if (response.ok && data?.quizId && data?.questions) {
-        sessionStorage.setItem('currentQuiz', JSON.stringify(data));
+        setCurrentQuiz(data);
         router.push('/dashboard/quiz');
       }
     } catch (error) {

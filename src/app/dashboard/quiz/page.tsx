@@ -5,18 +5,11 @@ import { useEffect, useState } from 'react';
 import ErrorFallback from '@/components/ui/error-fallback';
 import Loading from '@/components/ui/loading';
 import { useQuiz } from '@/hooks/use-quiz';
+import { useAppStore } from '@/lib/stores/store';
 
 export default function QuizPage() {
-  const {
-    isSubmitting,
-    isLoading,
-    answers,
-    setAnswers,
-    generatedQuiz,
-    handleSubmit,
-    currentQuestion,
-    setCurrentQuestion,
-  } = useQuiz();
+  const quiz = useAppStore((s) => s.currentQuiz);
+  const { isSubmitting, answers, setAnswers, handleSubmit, currentQuestion, setCurrentQuestion } = useQuiz();
 
   const [timeLeft, setTimeLeft] = useState(120);
 
@@ -40,8 +33,8 @@ export default function QuizPage() {
   };
 
   const handleNext = () => {
-    if (generatedQuiz) {
-      if (currentQuestion < generatedQuiz.questions.length - 1) {
+    if (quiz) {
+      if (currentQuestion < quiz.questions.length - 1) {
         setCurrentQuestion((prev) => prev + 1);
       }
     }
@@ -59,10 +52,10 @@ export default function QuizPage() {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const currentQ = generatedQuiz?.questions[currentQuestion];
+  const currentQ = quiz?.questions[currentQuestion];
 
-  const progress = generatedQuiz
-    ? ((currentQuestion + 1) / generatedQuiz.questions.length) * 100
+  const progress = quiz
+    ? ((currentQuestion + 1) / quiz.questions.length) * 100
     : 0;
 
   if (isSubmitting) {
@@ -74,16 +67,7 @@ export default function QuizPage() {
     );
   }
 
-  if (isLoading) {
-    return (
-      <Loading
-        title="Loading Quiz..."
-        description="Please wait while we load your quiz."
-      />
-    );
-  }
-
-  if (!generatedQuiz?.questions || generatedQuiz.questions.length === 0) {
+  if (!quiz?.questions || quiz.questions.length === 0) {
     return (
       <ErrorFallback
         title="No Quiz Available"
@@ -94,15 +78,14 @@ export default function QuizPage() {
 
   return (
     <div className="mx-auto max-w-4xl pt-6 pl-2 pr-2">
-      {/* Header */}
       <div className="card m-0.5 border border-base-content/25 border-dashed bg-base-100">
         <div className="card-body">
           <div className="mb-4 flex items-center justify-between">
             <div>
               <h1 className="card-title font-bold text-lg">
-                {generatedQuiz?.title}
+                {quiz?.title}
               </h1>
-              <p className="text-base-content/70">📄 "example.pdf"</p>
+              <p className="text-base-content/70">📄 &quot;example.pdf&quot;</p>
             </div>
             <div className="text-right">
               <div className="font-semibold text-accent text-lg">
@@ -110,7 +93,7 @@ export default function QuizPage() {
               </div>
               <div className="text-base-content/70 text-xs">
                 Question {currentQuestion + 1} of{' '}
-                {generatedQuiz?.questions.length}
+                {quiz?.questions.length}
               </div>
             </div>
           </div>
@@ -123,7 +106,6 @@ export default function QuizPage() {
         </div>
       </div>
 
-      {/* Question Card */}
       <div className="card mb-6 mt-2 bg-base-100 shadow-md border border-base-content/10">
         <div className="card-body">
           <div className="mb-6">
@@ -135,7 +117,6 @@ export default function QuizPage() {
             </h2>
           </div>
 
-          {/* Answer Options */}
           {currentQ?.type === 'multiple-choice' && (
             <div className="form-control flex flex-col gap-6">
               {currentQ.options?.map((option, index) => (
@@ -159,7 +140,6 @@ export default function QuizPage() {
         </div>
       </div>
 
-      {/* Navigation */}
       <div className="border border-base-content/10 rounded">
         <div className="m-2 flex items-center justify-between">
           <button
@@ -180,8 +160,8 @@ export default function QuizPage() {
           </div>
 
           <div className="join">
-            {generatedQuiz &&
-              (currentQuestion < generatedQuiz.questions.length - 1 ? (
+            {quiz &&
+              (currentQuestion < quiz.questions.length - 1 ? (
                 <button
                   type="button"
                   onClick={handleNext}
@@ -195,7 +175,7 @@ export default function QuizPage() {
                   onClick={handleSubmit}
                   className="nav-button btn btn-success join-item"
                   disabled={
-                    Object.keys(answers).length < generatedQuiz.questions.length
+                    Object.keys(answers).length < quiz.questions.length
                   }
                 >
                   Submit Quiz
@@ -204,11 +184,10 @@ export default function QuizPage() {
           </div>
         </div>
 
-        {/* Question Navigator */}
         <div className="card mt-2 items-center bg-base-100 shadow-lg">
           <div className="card-body">
             <div className="flex flex-wrap gap-2">
-              {generatedQuiz?.questions.map((question, index) => (
+              {quiz?.questions.map((question, index) => (
                 <button
                   key={question.id}
                   type="button"
@@ -216,7 +195,7 @@ export default function QuizPage() {
                   className={`nav-button btn ${
                     index === currentQuestion
                       ? 'btn-primary'
-                      : answers[generatedQuiz.questions[index].id] === undefined
+                      : answers[quiz.questions[index].id] === undefined
                         ? 'btn-outline'
                         : 'btn-success'
                   }`}

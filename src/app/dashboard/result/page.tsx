@@ -2,26 +2,39 @@
 
 import Link from 'next/link';
 import { useEffect, useMemo } from 'react';
-import Loading from '@/components/ui/loading';
 import QuestionResultCard from '@/components/ui/question-result-card';
 import RadialProgress from '@/components/ui/radial-progress';
-// components & hooks
 import ResultStats from '@/components/ui/result-stats';
 import useConfetti from '@/hooks/use-confetti';
-import { useResult } from '@/hooks/use-result';
 import { menuItems } from '@/lib/constants';
+import { useAppStore } from '@/lib/stores/store';
+
+const getOptionLabel = (
+  quiz: { questions: { id: string; options: string[] }[] } | null,
+  questionId: string,
+  idx: number | null | undefined,
+) => {
+  if (idx === null || idx === undefined) {
+    return 'No answer';
+  }
+  const question = quiz?.questions.find((q) => q.id === questionId);
+  return question?.options?.[idx] ?? `Option ${idx + 1}`;
+};
 
 export default function ResultPage() {
-  const { isLoading, results, getOptionLabel } = useResult();
+  const clearQuizResults = useAppStore((s) => s.clearQuizResults);
+  const clearCurrentQuiz = useAppStore((s) => s.clearCurrentQuiz);
+  const results = useAppStore((s) => s.quizResults);
+  const quiz = useAppStore((s) => s.currentQuiz);
 
   const formattedCompletionDate = useMemo(() => {
     const date = results ? new Date(results.completedAt) : new Date();
-
     return date.toLocaleString();
   }, [results?.completedAt, results]);
 
   const handleNewQuiz = () => {
-    sessionStorage.removeItem('quizResults');
+    clearQuizResults();
+    clearCurrentQuiz();
   };
 
   const { fire: fireConfetti } = useConfetti();
@@ -35,10 +48,6 @@ export default function ResultPage() {
       fireConfetti();
     }
   }, [results, fireConfetti]);
-
-  if (isLoading) {
-    return <Loading title="Preparing Results..." description="Please wait" />;
-  }
 
   if (!results) {
     return (
@@ -61,7 +70,6 @@ export default function ResultPage() {
 
   return (
     <div className="mx-auto max-w-4xl space-y-6 pt-6">
-      {/* Summary */}
       <div className="card bg-base-100 shadow-lg">
         <div className="card-body">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
@@ -104,12 +112,11 @@ export default function ResultPage() {
         </div>
       </div>
 
-      {/* Per-question breakdown */}
       <div className="space-y-4">
         {results.results.map((r, idx) => {
           const isCorrect = r.isCorrect;
-          const userLabel = getOptionLabel(r.questionId, r.userAnswer);
-          const correctLabel = getOptionLabel(r.questionId, r.correctAnswer);
+          const userLabel = getOptionLabel(quiz, r.questionId, r.userAnswer);
+          const correctLabel = getOptionLabel(quiz, r.questionId, r.correctAnswer);
 
           return (
             <QuestionResultCard
@@ -123,8 +130,6 @@ export default function ResultPage() {
           );
         })}
       </div>
-
-      {/* Footer actions */}
 
       <div className="card bg-base-100 border border-base-content/10 shadow-sm mb-2">
         <div className="card-body">
