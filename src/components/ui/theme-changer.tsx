@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { Moon, Sun } from "lucide-react";
-import { useEffect } from "react";
-import { useThemeStore } from "@/lib/stores/theme-store";
+import { Moon, Sun } from 'lucide-react';
+import { useEffect } from 'react';
+import { useThemeStore } from '@/lib/stores/theme-store';
 
 export default function ThemeChanger() {
   const { theme, toggleTheme } = useThemeStore();
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
   return (
@@ -19,7 +19,7 @@ export default function ThemeChanger() {
       onClick={toggleTheme}
     >
       <span className="flex items-center">
-        {theme === "light" ? (
+        {theme === 'light' ? (
           <Moon className="h-4 w-4" />
         ) : (
           <Sun className="h-4 w-4 text-black" />

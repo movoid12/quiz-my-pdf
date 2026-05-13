@@ -4,7 +4,6 @@ import { History, RotateCcw, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useRef, useState, useTransition } from 'react';
 import Loading from '@/components/ui/loading';
-import { useAppStore } from '@/lib/stores/store';
 import { trpc } from '@/lib/trpc';
 
 const DIFFICULTY_BADGE: Record<string, string> = {
@@ -28,7 +27,6 @@ const PAGE_SIZE = 10;
 export default function HistoryPage() {
   const router = useRouter();
   const utils = trpc.useUtils();
-  const setCurrentQuiz = useAppStore((s) => s.setCurrentQuiz);
 
   const [offset, setOffset] = useState(0);
   const [retakingQuizId, setRetakingQuizId] = useState<string | null>(null);
@@ -70,21 +68,8 @@ export default function HistoryPage() {
   const handleRetake = (quizId: string) => {
     setRetakingQuizId(quizId);
     startRetakeTransition(async () => {
-      const quiz = await utils.quiz.getById.fetch({ quizId });
-      setCurrentQuiz({
-        quizId: quiz.id,
-        title: quiz.title,
-        category: quiz.category,
-        difficulty: quiz.difficulty,
-        questions: quiz.questions.map((q) => ({
-          id: q.id,
-          question: q.question,
-          type: q.type as 'multiple-choice',
-          options: q.options,
-          order: q.displayOrder,
-        })),
-      });
-      router.push('/dashboard/quiz');
+      await utils.quiz.getById.ensureData({ quizId });
+      router.push(`/dashboard/quiz/${quizId}`);
     });
   };
 

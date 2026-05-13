@@ -14,6 +14,8 @@ import {
   varchar,
 } from 'drizzle-orm/pg-core';
 
+export type Difficulty = (typeof quizDifficultyEnum.enumValues)[number];
+
 // Better Auth Tables
 export const user = pgTable('user', {
   id: text('id').primaryKey(),

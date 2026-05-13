@@ -28,23 +28,9 @@ export const menuItems: MenuItem[] = [
   },
   {
     id: 4,
-    label: 'My Quiz',
-    href: '/dashboard/quiz',
-    rotation: 8,
-    hoverStyles: { bgColor: '#8b5cf6' },
-  },
-  {
-    id: 5,
-    label: 'My Result',
-    href: '/dashboard/result',
-    rotation: -8,
-    hoverStyles: { bgColor: '#ec4899' },
-  },
-  {
-    id: 6,
     label: 'History',
     href: '/dashboard/history',
-    rotation: 8,
-    hoverStyles: { bgColor: '#06b6d4' },
+    rotation: -8,
+    hoverStyles: { bgColor: '#ec4899' },
   },
 ];

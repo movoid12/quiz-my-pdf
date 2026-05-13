@@ -4,7 +4,7 @@ import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 type ThemeStore = {
   theme: 'light' | 'dark';
   toggleTheme: () => void;
-}
+};
 
 export const useThemeStore = create<ThemeStore>()(
   devtools(

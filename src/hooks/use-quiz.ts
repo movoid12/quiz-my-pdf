@@ -2,49 +2,22 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useAppStore } from '@/lib/stores/store';
 import { trpc } from '@/lib/trpc';
+import type { ClientQuiz } from '@/lib/validation';
 
-export const useQuiz = () => {
+export const useQuiz = (quiz: ClientQuiz | null) => {
   const router = useRouter();
 
-  const setQuizResults = useAppStore((s) => s.setQuizResults);
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [currentQuestion, setCurrentQuestion] = useState(0);
 
   const saveAttempt = trpc.quiz.saveAttempt.useMutation({
     onSuccess: (result) => {
-      const quiz = useAppStore.getState().currentQuiz;
-      if (!quiz) {
-        return;
-      }
-
-      const quizResults = {
-        title: quiz.title,
-        score: result.score,
-        totalQuestions: result.total,
-        correctAnswers: result.correct,
-        completedAt: new Date().toISOString(),
-        results: result.answers.map((a) => {
-          const question = quiz.questions.find((q) => q.id === a.questionId);
-          return {
-            questionId: a.questionId,
-            question: question?.question ?? '',
-            userAnswer: a.selectedOption,
-            correctAnswer: a.correctAnswer,
-            isCorrect: a.isCorrect,
-            type: question?.type ?? 'multiple-choice',
-          };
-        }),
-      };
-
-      setQuizResults(quizResults);
-      router.push('/dashboard/result');
+      router.push(`/dashboard/result/${result.attemptId}`);
     },
   });
 
   const handleSubmit = () => {
-    const quiz = useAppStore.getState().currentQuiz;
     if (!quiz) {
       return;
     }
