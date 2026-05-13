@@ -2,12 +2,12 @@
 
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import Confetti from '@/components/ui/confetti';
 import Loading from '@/components/ui/loading';
 import QuestionResultCard from '@/components/ui/question-result-card';
 import RadialProgress from '@/components/ui/radial-progress';
 import ResultStats from '@/components/ui/result-stats';
-import useConfetti from '@/hooks/use-confetti';
 import { trpc } from '@/lib/trpc';
 
 const getOptionLabel = (options: string[], idx: number | null | undefined) => {
@@ -27,7 +27,7 @@ export default function ResultPage() {
     { enabled: Boolean(attemptId) },
   );
 
-  const { fire: fireConfetti } = useConfetti();
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const formattedCompletionDate = useMemo(() => {
     const date = result ? new Date(result.completedAt) : new Date();
@@ -36,10 +36,10 @@ export default function ResultPage() {
   }, [result]);
 
   useEffect(() => {
-    if (result?.correctAnswers === 5) {
-      fireConfetti();
+    if (result && result.correctAnswers === result.totalQuestions) {
+      setShowConfetti(true);
     }
-  }, [result, fireConfetti]);
+  }, [result]);
 
   if (isLoading) {
     return <Loading title="Preparing Results..." description="Please wait" />;
@@ -62,6 +62,7 @@ export default function ResultPage() {
 
   return (
     <div className="mx-auto max-w-4xl space-y-6 pt-6">
+      <Confetti active={showConfetti} />
       <div className="card bg-base-100 shadow-lg">
         <div className="card-body">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
