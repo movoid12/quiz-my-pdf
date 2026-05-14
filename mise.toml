@@ -1,0 +1,21 @@
+# mise.toml — React + TypeScript + pnpm defaults
+[tools]
+node = "24"
+pnpm = "11"
+
+[env]
+NODE_ENV = 'development'
+NEXT_PUBLIC_API_URL = "http://localhost:3000"
+
+[tasks.dev]
+description = "start dev server"
+run = "pnpm -w run dev"
+
+[tasks.lint]
+description = "run linter/format checks"
+run = "pnpm -w run lint"
+
+[tasks.build]
+description = "build production bundle"
+run = "pnpm -w run build"
+

@@ -16,18 +16,22 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Install pnpm 📦
-        uses: pnpm/action-setup@v6
-        with:
-          version: 11
-          run_install: false
+      - name: Install mise
+        run: curl https://mise.run | sh
 
-      - name: Install Node.js 🌐
-        uses: actions/setup-node@v6
-        with:
-          node-version: 24
+      - name: Activate mise in PATH
+        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: Check dependencies Security (high severity) 🔒
+      - name: Install tools from mise.toml
+        run: mise install
+
+      - name: Run tests (via mise)
+        run: mise run test
+
+      - name: Run lint & typecheck (via mise)
+        run: mise run lint
+
+      - name: Check dependencies Security (high severity)
         run: pnpm audit --audit-level high
 
       - name: Setup Biome
