@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useRef, useState, useTransition } from 'react';
 import Loading from '@/components/ui/loading';
 import { trpc } from '@/lib/trpc';
+import { formatFullDate, formatRelativeTime } from '@/lib/utils';
 
 const DIFFICULTY_BADGE: Record<string, string> = {
   easy: 'badge-success',
@@ -121,9 +122,14 @@ export default function HistoryPage() {
                     <h2 className="truncate font-semibold text-base">
                       {attempt.title}
                     </h2>
-                    <p className="mt-0.5 text-base-content/50 text-xs">
-                      {new Date(attempt.completedAt).toLocaleString()}
-                    </p>
+                    <div
+                      className="tooltip tooltip-bottom"
+                      data-tip={formatFullDate(attempt.completedAt)}
+                    >
+                      <p className="mt-0.5 text-base-content/50 text-xs">
+                        {formatRelativeTime(attempt.completedAt)}
+                      </p>
+                    </div>
                   </div>
 
                   <div className="flex shrink-0 items-center gap-2">

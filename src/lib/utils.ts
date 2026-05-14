@@ -1,4 +1,37 @@
+import dayjs from 'dayjs';
 import { MAX_FILE_SIZE } from '@/lib/constants';
+
+export function formatRelativeTime(
+  date: Date | string | number | null | undefined,
+): string {
+  const start = date ? dayjs(date) : dayjs();
+  const end = dayjs();
+
+  const diffInSeconds = end.diff(start, 'second');
+  const diffInMinutes = end.diff(start, 'minute');
+  const diffInHours = end.diff(start, 'hour');
+  const diffInDays = end.diff(start, 'day');
+
+  if (diffInSeconds < 60) {
+    return 'Just now';
+  }
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes} minute${diffInMinutes > 1 ? 's' : ''} ago`;
+  }
+  if (diffInHours < 24) {
+    return `${diffInHours} hour${diffInHours > 1 ? 's' : ''} ago`;
+  }
+  if (diffInDays < 7) {
+    return `${diffInDays} day${diffInDays > 1 ? 's' : ''} ago`;
+  }
+
+  return start.toDate().toLocaleString();
+}
+
+export function formatFullDate(date: Date | string | number): string {
+  //in german locale, only date and time without seconds
+  return dayjs(date).locale('de').format('DD.MM.YYYY, HH:mm');
+}
 
 export function normalizeText(input: string, limit: number): string {
   return input.replace(/\s+/g, ' ').trim().slice(0, limit);
