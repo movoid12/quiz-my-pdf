@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import { History, RotateCcw, Trash2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useRef, useState, useTransition } from "react";
-import Loading from "@/components/ui/loading";
-import { trpc } from "@/lib/trpc";
-import { formatFullDate, formatRelativeTime } from "@/lib/utils";
+import { History, RotateCcw, Trash2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useRef, useState, useTransition } from 'react';
+import Loading from '@/components/ui/loading';
+import { trpc } from '@/lib/trpc';
+import { formatFullDate, formatRelativeTime } from '@/lib/utils';
 
 const DIFFICULTY_BADGE: Record<string, string> = {
-  easy: "badge-success",
-  medium: "badge-warning",
-  hard: "badge-error",
+  easy: 'badge-success',
+  medium: 'badge-warning',
+  hard: 'badge-error',
 };
 
 const SCORE_BADGE = (score: number) => {
   if (score >= 80) {
-    return "badge-success";
+    return 'badge-success';
   }
   if (score >= 60) {
-    return "badge-warning";
+    return 'badge-warning';
   }
-  return "badge-error";
+  return 'badge-error';
 };
 
 const PAGE_SIZE = 10;
@@ -147,7 +147,7 @@ export default function HistoryPage() {
                       {attempt.category}
                     </span>
                     <span
-                      className={`badge badge-soft capitalize ${DIFFICULTY_BADGE[attempt.difficulty] ?? ""}`}
+                      className={`badge badge-soft capitalize ${DIFFICULTY_BADGE[attempt.difficulty] ?? ''}`}
                     >
                       {attempt.difficulty}
                     </span>
@@ -226,7 +226,7 @@ export default function HistoryPage() {
           <p className="py-4 text-base-content/70">
             <span className="font-medium text-base-content">
               &ldquo;{deleteTarget?.title}&rdquo;
-            </span>{" "}
+            </span>{' '}
             and all its attempts will be permanently deleted. This cannot be
             undone.
           </p>
