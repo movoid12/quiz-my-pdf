@@ -11,6 +11,7 @@ import { trpc } from '@/lib/trpc';
 export default function QuizPage() {
   const params = useParams<{ quizId: string }>();
   const quizId = params.quizId;
+
   const { data: quiz, isLoading } = trpc.quiz.getById.useQuery(
     { quizId },
     { enabled: Boolean(quizId) },
