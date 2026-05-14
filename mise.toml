@@ -15,6 +15,10 @@ run = "pnpm -w run dev"
 description = "run linter/format checks"
 run = "pnpm -w run lint"
 
+[tasks.audit]
+description = "check dependency vulnerabilities (high severity)"
+run = "pnpm audit --audit-level high"
+
 [tasks.build]
 description = "build production bundle"
 run = "pnpm -w run build"
