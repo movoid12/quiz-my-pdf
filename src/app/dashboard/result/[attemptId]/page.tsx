@@ -2,13 +2,14 @@
 
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Confetti from '@/components/ui/confetti';
 import Loading from '@/components/ui/loading';
 import QuestionResultCard from '@/components/ui/question-result-card';
 import RadialProgress from '@/components/ui/radial-progress';
 import ResultStats from '@/components/ui/result-stats';
 import { trpc } from '@/lib/trpc';
+import { formatRelativeTime } from '@/lib/utils';
 
 const getOptionLabel = (options: string[], idx: number | null | undefined) => {
   if (idx === null || idx === undefined) {
@@ -29,11 +30,7 @@ export default function ResultPage() {
 
   const [showConfetti, setShowConfetti] = useState(false);
 
-  const formattedCompletionDate = useMemo(() => {
-    const date = result ? new Date(result.completedAt) : new Date();
-
-    return date.toLocaleString();
-  }, [result]);
+  const formattedCompletionDate = formatRelativeTime(result?.completedAt);
 
   useEffect(() => {
     if (result && result.correctAnswers === result.totalQuestions) {

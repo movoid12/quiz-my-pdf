@@ -55,6 +55,9 @@ importers:
       daisyui:
         specifier: 5.5.19
         version: 5.5.19
+      dayjs:
+        specifier: ^1.11.20
+        version: 1.11.20
       drizzle-kit:
         specifier: 0.31.10
         version: 0.31.10
@@ -1924,6 +1927,9 @@ packages:
 
   daisyui@5.5.19:
     resolution: {integrity: sha512-pbFAkl1VCEh/MPCeclKL61I/MqRIFFhNU7yiXoDDRapXN4/qNCoMxeCCswyxEEhqL5eiTTfwHvucFtOE71C9sA==}
+
+  dayjs@1.11.20:
+    resolution: {integrity: sha512-YbwwqR/uYpeoP4pu043q+LTDLFBLApUP6VxRihdfNTqu4ubqMlGDLd6ErXhEgsyvY0K6nCs7nggYumAN+9uEuQ==}
 
   debug@4.4.3:
     resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
@@ -5072,6 +5078,8 @@ snapshots:
   csstype@3.2.3: {}
 
   daisyui@5.5.19: {}
+
+  dayjs@1.11.20: {}
 
   debug@4.4.3:
     dependencies:
