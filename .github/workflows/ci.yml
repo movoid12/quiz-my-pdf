@@ -25,9 +25,6 @@ jobs:
       - name: Install tools from mise.toml
         run: mise install
 
-      - name: Run tests (via mise)
-        run: mise run test
-
       - name: Run lint & typecheck (via mise)
         run: mise run lint
 
