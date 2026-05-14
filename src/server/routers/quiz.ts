@@ -2,8 +2,35 @@ import { TRPCError } from '@trpc/server';
 import { and, asc, desc, eq } from 'drizzle-orm';
 import z from 'zod';
 import { questionAnswers, questions, quizAttempts, quizzes } from '@/db/schema';
+import type { ClientQuiz } from '@/lib/validation';
 import { db } from '../db';
 import { protectedProcedure, router } from '../trpc';
+
+const toClientQuiz = (quiz: {
+  id: string;
+  title: string;
+  category: ClientQuiz['category'];
+  difficulty: ClientQuiz['difficulty'];
+  questions: Array<{
+    id: string;
+    question: string;
+    type: string;
+    options: string[];
+    displayOrder: number;
+  }>;
+}): ClientQuiz => ({
+  quizId: quiz.id,
+  title: quiz.title,
+  category: quiz.category,
+  difficulty: quiz.difficulty,
+  questions: quiz.questions.map((question) => ({
+    id: question.id,
+    question: question.question,
+    type: 'multiple-choice',
+    options: question.options,
+    order: question.displayOrder,
+  })),
+});
 
 export const quizRouter = router({
   saveAttempt: protectedProcedure
@@ -44,6 +71,7 @@ export const quizRouter = router({
       );
 
       let correct = 0;
+
       const scoredAnswers = input.answers.map((a) => {
         const correctAnswer = answerMap.get(a.questionId) ?? -1;
         const isCorrect = correctAnswer === a.selectedOption;
@@ -59,6 +87,7 @@ export const quizRouter = router({
       });
 
       const total = input.answers.length;
+
       const score = total > 0 ? Math.round((correct / total) * 100) : 0;
 
       const [attempt] = await db
@@ -131,7 +160,57 @@ export const quizRouter = router({
         throw new TRPCError({ code: 'FORBIDDEN' });
       }
 
-      return quiz;
+      return toClientQuiz(quiz);
+    }),
+
+  getAttemptById: protectedProcedure
+    .input(z.object({ attemptId: z.uuid() }))
+    .query(async ({ ctx, input }) => {
+      const attempt = await db.query.quizAttempts.findFirst({
+        where: eq(quizAttempts.id, input.attemptId),
+        with: {
+          quiz: {
+            with: {
+              questions: {
+                orderBy: (question) => [asc(question.displayOrder)],
+              },
+            },
+          },
+        },
+      });
+
+      if (!attempt) {
+        throw new TRPCError({ code: 'NOT_FOUND' });
+      }
+      if (attempt.userId !== ctx.session.user.id) {
+        throw new TRPCError({ code: 'FORBIDDEN' });
+      }
+
+      return {
+        attemptId: attempt.id,
+        quizId: attempt.quiz.id,
+        title: attempt.quiz.title,
+        score: attempt.score,
+        totalQuestions: attempt.totalQuestions,
+        correctAnswers: attempt.correctAnswers,
+        completedAt: attempt.completedAt.toISOString(),
+        results: attempt.answers.map((answer) => {
+          const question = attempt.quiz.questions.find(
+            (item) => item.id === answer.questionId,
+          );
+
+          return {
+            questionId: answer.questionId,
+            question: question?.question ?? '',
+            userAnswer:
+              answer.selectedOption >= 0 ? answer.selectedOption : null,
+            correctAnswer: answer.correctAnswer,
+            isCorrect: answer.isCorrect,
+            type: question?.type ?? 'multiple-choice',
+            options: question?.options ?? [],
+          };
+        }),
+      };
     }),
 
   delete: protectedProcedure

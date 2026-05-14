@@ -1,16 +1,14 @@
 /** biome-ignore-all lint/style/useNamingConvention: better-auth config file */
 /** biome-ignore-all lint/suspicious/noExplicitAny: better-auth setup */
 /** biome-ignore-all lint/suspicious/useAwait: better-auth setup */
-// biome-ignore assist/source/organizeImports: better-auth config file
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
-import { twoFactor } from 'better-auth/plugins/two-factor';
 import { nextCookies } from 'better-auth/next-js';
-
-import { db } from '@/server/db';
+import { twoFactor } from 'better-auth/plugins/two-factor';
+import * as schema from '@/db/schema';
 import { env } from '@/env';
 import { getBetterAuthUrl } from '@/server/auth-url';
-import * as schema from '@/db/schema';
+import { db } from '@/server/db';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const betterAuthUrl = getBetterAuthUrl();

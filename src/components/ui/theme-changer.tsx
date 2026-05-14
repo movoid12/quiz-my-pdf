@@ -2,15 +2,14 @@
 
 import { Moon, Sun } from 'lucide-react';
 import { useEffect } from 'react';
-import { themeChange } from 'theme-change';
-import useTheme from '@/hooks/use-theme';
+import { useThemeStore } from '@/lib/stores/theme-store';
 
 export default function ThemeChanger() {
-  const { toggleTheme, theme } = useTheme();
+  const { theme, toggleTheme } = useThemeStore();
 
   useEffect(() => {
-    themeChange(false);
-  }, []);
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
 
   return (
     <button

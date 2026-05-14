@@ -18,6 +18,11 @@ export default function QuestionResultCard({
   userLabel: string;
   quizResult: QuizResult;
 }) {
+  const userAnswerIndex =
+    quizResult.userAnswer === null || quizResult.userAnswer === undefined
+      ? null
+      : quizResult.userAnswer + 1;
+
   return (
     <div
       key={quizResult.questionId ?? index}
@@ -47,10 +52,14 @@ export default function QuestionResultCard({
             <div className="mb-1 text-base-content/70 text-sm">Your answer</div>
             <div className="font-medium">
               {userLabel}
-              <br />
-              <span className="text-base-content/60">
-                (#{Number(quizResult.userAnswer) + 1})
-              </span>
+              {userAnswerIndex ? (
+                <>
+                  <br />
+                  <span className="text-base-content/60">
+                    (#{userAnswerIndex})
+                  </span>
+                </>
+              ) : null}
             </div>
           </div>
 

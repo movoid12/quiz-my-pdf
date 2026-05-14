@@ -1,21 +1,9 @@
 import z from 'zod';
+import { quizCategoryEnum, quizDifficultyEnum } from '@/db/schema';
 
-export const QUIZ_CATEGORIES = [
-  'science',
-  'history',
-  'mathematics',
-  'technology',
-  'language',
-  'geography',
-  'arts',
-  'sports',
-  'medicine',
-  'law',
-  'economics',
-  'other',
-] as const;
+export type ClientQuiz = z.infer<typeof clientQuizSchema>;
 
-export const QUIZ_DIFFICULTIES = ['easy', 'medium', 'hard'] as const;
+export type QuizResults = z.infer<typeof quizResultsSchema>;
 
 // Full server-side schema — includes correctAnswer, used for AI output and DB storage
 export const questionSchema = z.object({
@@ -30,7 +18,7 @@ export const questionSchema = z.object({
 
 export const questionsSchema = z.object({
   title: z.string().min(1).max(200),
-  category: z.enum(QUIZ_CATEGORIES),
+  category: z.enum(quizCategoryEnum.enumValues),
   questions: z
     .array(questionSchema)
     .length(5, 'Exactly 5 questions are required'),
@@ -48,8 +36,8 @@ export const clientQuestionSchema = z.object({
 export const clientQuizSchema = z.object({
   quizId: z.uuid(),
   title: z.string(),
-  category: z.enum(QUIZ_CATEGORIES),
-  difficulty: z.enum(QUIZ_DIFFICULTIES),
+  category: z.enum(quizCategoryEnum.enumValues),
+  difficulty: z.enum(quizDifficultyEnum.enumValues),
   questions: z.array(clientQuestionSchema),
 });
 

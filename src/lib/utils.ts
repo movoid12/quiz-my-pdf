@@ -1,3 +1,5 @@
+import { MAX_FILE_SIZE } from '@/lib/constants';
+
 export function normalizeText(input: string, limit: number): string {
   return input.replace(/\s+/g, ' ').trim().slice(0, limit);
 }
@@ -5,8 +7,6 @@ export function normalizeText(input: string, limit: number): string {
 export function isLikelyPdf(buffer: Buffer): boolean {
   return buffer.subarray(0, 5).toString('utf-8') === '%PDF-';
 }
-
-import { MAX_FILE_SIZE } from '@/lib/constants';
 
 export function errorJson(
   message: string,

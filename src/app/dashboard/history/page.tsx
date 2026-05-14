@@ -68,24 +68,8 @@ export default function HistoryPage() {
   const handleRetake = (quizId: string) => {
     setRetakingQuizId(quizId);
     startRetakeTransition(async () => {
-      const quiz = await utils.quiz.getById.fetch({ quizId });
-      sessionStorage.setItem(
-        'currentQuiz',
-        JSON.stringify({
-          quizId: quiz.id,
-          title: quiz.title,
-          category: quiz.category,
-          difficulty: quiz.difficulty,
-          questions: quiz.questions.map((q) => ({
-            id: q.id,
-            question: q.question,
-            type: q.type,
-            options: q.options,
-            order: q.displayOrder,
-          })),
-        }),
-      );
-      router.push('/dashboard/quiz');
+      await utils.quiz.getById.ensureData({ quizId });
+      router.push(`/dashboard/quiz/${quizId}`);
     });
   };
 

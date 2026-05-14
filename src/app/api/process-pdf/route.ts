@@ -1,8 +1,12 @@
 import sanitizeHtml from 'sanitize-html';
-import { questionAnswers, questions, quizzes } from '@/db/schema';
+import {
+  type Difficulty,
+  questionAnswers,
+  questions,
+  quizzes,
+} from '@/db/schema';
 import { MIN_TEXT_CHARS } from '@/lib/constants';
 import { errorJson, mapErrorToResponse, validatePdfUpload } from '@/lib/utils';
-import { QUIZ_DIFFICULTIES } from '@/lib/validation';
 import { generateQuizFromText } from '@/server/ai/generate-quiz';
 import { auth } from '@/server/auth';
 import { db } from '@/server/db';
@@ -17,6 +21,7 @@ export const maxDuration = 60;
 export async function POST(request: Request) {
   try {
     const rateLimit = checkRateLimit(request);
+
     if (!rateLimit.allowed) {
       return errorJson('Too many requests', 429, {
         'Retry-After': String(rateLimit.retryAfter ?? 60),
@@ -55,12 +60,7 @@ export async function POST(request: Request) {
       return errorJson('Insufficient content in PDF', 400);
     }
 
-    const rawLevel = (formData.get('level') as string | null) ?? 'medium';
-    const difficulty = (
-      QUIZ_DIFFICULTIES.includes(rawLevel as (typeof QUIZ_DIFFICULTIES)[number])
-        ? rawLevel
-        : 'medium'
-    ) as (typeof QUIZ_DIFFICULTIES)[number];
+    const difficulty = (formData.get('level') as Difficulty | null) ?? 'medium';
 
     const quiz = await generateQuizFromText(text, difficulty);
 
@@ -111,6 +111,7 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Internal error';
+
     console.error('Error processing PDF:', error);
     return mapErrorToResponse(message);
   }

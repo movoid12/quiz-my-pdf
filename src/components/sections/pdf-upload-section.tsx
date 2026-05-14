@@ -94,8 +94,7 @@ export default function PdfUploadSection() {
       }
 
       if (response.ok && data?.quizId && data?.questions) {
-        sessionStorage.setItem('currentQuiz', JSON.stringify(data));
-        router.push('/dashboard/quiz');
+        router.push(`/dashboard/quiz/${data.quizId}`);
       }
     } catch (error) {
       console.error('Processing error:', error);
