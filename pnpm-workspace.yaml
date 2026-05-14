@@ -4,13 +4,13 @@ trustPolicy: 'no-downgrade'
 overrides:
   better-call: 1.3.5
   drizzle-orm@<0.45.2: '>=0.45.2'
-  lodash-es@>=4.0.0 <=4.17.22: '>=4.17.23'
-  lodash@>=4.0.0 <=4.17.22: '>=4.17.23'
+  lodash-es@>=4.0.0 <=4.17.22: '>=4.18.1'
+  lodash@>=4.0.0 <=4.17.22: '>=4.18.1'
   tar@<7.5.7: '>=7.5.7'
   tar@<=7.5.2: '>=7.5.3'
   tar@<=7.5.3: '>=7.5.4'
   undici@<6.23.0: '>=6.23.0'
-  undici@>=7.0.0 <7.18.2: '>=7.18.2'
+  undici@>=7.0.0 <7.18.2: '>=7.25.0'
 allowBuilds:
   '@prisma/client': true
   better-sqlite3: true
