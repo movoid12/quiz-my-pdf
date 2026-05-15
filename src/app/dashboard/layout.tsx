@@ -13,7 +13,7 @@ export default function DashboardLayout({
     <div className="min-h-screen flex flex-col">
       <header className="z-10 mb-20">
         <BubbleMenu logo={<ThemeChanger />} items={menuItems} />
-        <div className="fixed top-8 right-28 z-[1002]">
+        <div className="fixed top-8 right-28 z-1002">
           <UserMenu />
         </div>
       </header>
