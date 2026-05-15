@@ -10,6 +10,8 @@
   "scripts": {
     "build": "next build",
     "check": "biome check",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "clean": "rm -rf .next && rm -rf node_modules",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
