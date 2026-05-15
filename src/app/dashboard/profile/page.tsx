@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { type SyntheticEvent, useState } from "react";
-import { authClient } from "@/lib/auth-client";
+import { type SyntheticEvent, useState } from 'react';
+import { authClient } from '@/lib/auth-client';
 
 export default function ProfilePage() {
   const { data: session, refetch } = authClient.useSession();
@@ -9,14 +9,14 @@ export default function ProfilePage() {
 
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{
-    type: "success" | "error";
+    type: 'success' | 'error';
     text: string;
   } | null>(null);
 
   const handleSave = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const name = (formData.get("name") as string).trim();
+    const name = (formData.get('name') as string).trim();
     if (!name) {
       return;
     }
@@ -27,9 +27,9 @@ export default function ProfilePage() {
     const { error } = await authClient.updateUser({ name });
 
     if (error) {
-      setMessage({ type: "error", text: error.message ?? "Failed to update" });
+      setMessage({ type: 'error', text: error.message ?? 'Failed to update' });
     } else {
-      setMessage({ type: "success", text: "Name updated" });
+      setMessage({ type: 'success', text: 'Name updated' });
       refetch();
     }
 
@@ -64,7 +64,7 @@ export default function ProfilePage() {
               <input
                 name="name"
                 type="text"
-                defaultValue={user.name ?? ""}
+                defaultValue={user.name ?? ''}
                 className="input input-bordered w-full"
                 placeholder="Your name"
               />
@@ -73,7 +73,7 @@ export default function ProfilePage() {
             {message && (
               <div
                 role="alert"
-                className={`alert ${message.type === "success" ? "alert-success" : "alert-error"} py-2`}
+                className={`alert ${message.type === 'success' ? 'alert-success' : 'alert-error'} py-2`}
               >
                 <span>{message.text}</span>
               </div>
