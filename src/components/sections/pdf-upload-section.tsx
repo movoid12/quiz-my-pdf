@@ -2,9 +2,10 @@
 
 import { Check } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { type DragEvent, useCallback, useState } from 'react';
+import { type ChangeEvent, type DragEvent, useCallback, useState } from 'react';
 import { MAX_FILE_SIZE } from '@/lib/constants';
 import QuizLevelModal from '../modals/quiz-level-modal';
+import ErrorAlert from '../ui/error-alert';
 
 export default function PdfUploadSection() {
   const router = useRouter();
@@ -26,33 +27,31 @@ export default function PdfUploadSection() {
     setIsDragOver(false);
   }, []);
 
-  const handleDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      setIsDragOver(false);
+  const handleDrop = useCallback((e: DragEvent) => {
+    e.preventDefault();
+    setIsDragOver(false);
 
-      const files = Array.from(e.dataTransfer.files);
-      const pdfFile = files.find((file) => file.type === 'application/pdf');
+    const files = Array.from(e.dataTransfer.files);
+    const pdfFile = files.find((file) => file.type === 'application/pdf');
 
-      if (pdfFile) {
-        if (pdfFile.size > MAX_FILE_SIZE) {
-          setError(
-            `File size exceeds the limit of ${MAX_FILE_SIZE / 1024 / 1024}MB`,
-          );
-          return;
-        }
-        console.log('is here', uploadedFile);
-        setUploadedFile(pdfFile);
-        setError(null);
-      } else {
-        alert('Please upload a PDF file');
+    if (pdfFile) {
+      if (pdfFile.size > MAX_FILE_SIZE) {
+        setError(
+          `File size exceeds the limit of ${MAX_FILE_SIZE / 1024 / 1024}MB`,
+        );
+        return;
       }
-    },
-    [uploadedFile],
-  );
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setUploadedFile(pdfFile);
+      setError(null);
+    } else {
+      alert('Please upload a PDF file');
+    }
+  }, []);
+
+  const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+
     if (file && file.type === 'application/pdf') {
       if (file.size > MAX_FILE_SIZE) {
         setError(
@@ -60,6 +59,7 @@ export default function PdfUploadSection() {
         );
         return;
       }
+      
       setUploadedFile(file);
       setError(null);
     } else {
@@ -97,7 +97,6 @@ export default function PdfUploadSection() {
         router.push(`/dashboard/quiz/${data.quizId}`);
       }
     } catch (error) {
-      console.error('Processing error:', error);
       setError(
         error instanceof Error
           ? error.message
@@ -120,34 +119,7 @@ export default function PdfUploadSection() {
   }, []);
 
   if (error) {
-    return (
-      <div className="space-y-6">
-        <div className="alert alert-error">
-          <svg
-            className="h-6 w-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <title>Error Icon</title>
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 15c-.77.833.192 2.5 1.732 2.5z"
-            />
-          </svg>
-          <span>{error}</span>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={handleRetry}
-          >
-            Retry
-          </button>
-        </div>
-      </div>
-    );
+    return <ErrorAlert message={error} onRetry={handleRetry} />;
   }
 
   if (uploadedFile) {
