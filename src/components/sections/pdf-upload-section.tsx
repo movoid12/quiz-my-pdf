@@ -2,7 +2,7 @@
 
 import { Check } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useCallback, useState } from 'react';
+import { type DragEvent, useCallback, useState } from 'react';
 import { MAX_FILE_SIZE } from '@/lib/constants';
 import QuizLevelModal from '../modals/quiz-level-modal';
 
@@ -16,12 +16,12 @@ export default function PdfUploadSection() {
 
   const [error, setError] = useState<string | null>(null);
 
-  const handleDragOver = useCallback((e: React.DragEvent) => {
+  const handleDragOver = useCallback((e: DragEvent) => {
     e.preventDefault();
     setIsDragOver(true);
   }, []);
 
-  const handleDragLeave = useCallback((e: React.DragEvent) => {
+  const handleDragLeave = useCallback((e: DragEvent) => {
     e.preventDefault();
     setIsDragOver(false);
   }, []);
@@ -215,7 +215,7 @@ export default function PdfUploadSection() {
 
         {isModalOpen && (
           <QuizLevelModal
-            handleProcessPdfWithLevel={handleProcessPdfWithLevel}
+            handlePdfProcess={handleProcessPdfWithLevel}
             setIsModalOpen={setIsModalOpen}
           />
         )}
