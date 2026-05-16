@@ -59,7 +59,7 @@ export default function PdfUploadSection() {
         );
         return;
       }
-      
+
       setUploadedFile(file);
       setError(null);
     } else {
