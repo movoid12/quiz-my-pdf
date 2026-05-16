@@ -10,6 +10,8 @@
   "scripts": {
     "build": "next build",
     "check": "biome check",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "clean": "rm -rf .next && rm -rf node_modules",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
@@ -23,15 +25,15 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ai-sdk/google": "3.0.64",
-    "@ai-sdk/react": "3.0.170",
+    "@ai-sdk/google": "3.0.74",
+    "@ai-sdk/react": "3.0.185",
     "@nosecone/next": "1.4.0",
     "@t3-oss/env-nextjs": "0.13.11",
-    "@tanstack/react-query": "5.100.9",
+    "@tanstack/react-query": "5.100.10",
     "@trpc/client": "11.17.0",
     "@trpc/react-query": "11.17.0",
     "@trpc/server": "11.17.0",
-    "ai": "6.0.168",
+    "ai": "6.0.183",
     "better-auth": "1.6.11",
     "canvas-confetti": "1.9.4",
     "daisyui": "5.5.19",
@@ -58,6 +60,9 @@
     "@semantic-release/git": "10.0.1",
     "@semantic-release/github": "12.0.6",
     "@tailwindcss/postcss": "4.3.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/canvas-confetti": "1.9.0",
     "@types/node": "25.6.0",
     "@types/pg": "8.20.0",
@@ -65,9 +70,12 @@
     "@types/react-dom": "19.2.3",
     "@types/sanitize-html": "2.16.1",
     "dotenv": "17.4.2",
+    "jsdom": "^29.1.1",
+    "msw": "^2.14.6",
     "semantic-release": "25.0.3",
     "tailwindcss": "4.3.0",
-    "typescript": "6.0.3"
+    "typescript": "6.0.3",
+    "vitest": "^4.1.6"
   },
   "browserslist": "> 1%"
 }

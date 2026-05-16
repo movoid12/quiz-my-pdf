@@ -1,10 +1,10 @@
 'use client';
 
 export default function QuizLevelModal({
-  handleProcessPdfWithLevel,
+  handlePdfProcess,
   setIsModalOpen,
 }: {
-  handleProcessPdfWithLevel: (level: string) => void;
+  handlePdfProcess: (level: string) => void;
   setIsModalOpen: (isOpen: boolean) => void;
 }) {
   return (
@@ -19,21 +19,21 @@ export default function QuizLevelModal({
           <button
             type="button"
             className="btn btn-primary btn-outline join-item"
-            onClick={() => handleProcessPdfWithLevel('easy')}
+            onClick={() => handlePdfProcess('easy')}
           >
             Easy
           </button>
           <button
             type="button"
             className="btn btn-success btn-outline join-item"
-            onClick={() => handleProcessPdfWithLevel('challenging but fair')}
+            onClick={() => handlePdfProcess('challenging but fair')}
           >
             Medium
           </button>
           <button
             type="button"
             className="btn btn-outline btn-error join-item"
-            onClick={() => handleProcessPdfWithLevel('hard')}
+            onClick={() => handlePdfProcess('hard')}
           >
             Hard
           </button>
