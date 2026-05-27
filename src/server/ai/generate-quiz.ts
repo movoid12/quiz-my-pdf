@@ -4,6 +4,10 @@ import { generateText, Output } from 'ai';
 import { type Difficulty, quizCategoryEnum } from '@/db/schema';
 import { questionsSchema } from '@/lib/validation';
 
+// ai-quiz-generation.PROMPT.1 — difficulty interpolation
+// ai-quiz-generation.PROMPT.2 — language must match source
+// ai-quiz-generation.PROMPT.3 — instruction injection resistance
+// ai-quiz-generation.PROMPT.4 — category from taxonomy
 function buildPrompt(extractedText: string, level: Difficulty) {
   const system =
     'You are an expert quiz generator. Return only JSON matching the provided Zod schema. No extra text.';
@@ -21,6 +25,8 @@ ${extractedText}`.trim();
   return { system, user };
 }
 
+// ai-quiz-generation.AI.1 — Gemini with questionsSchema structured output
+// ai-quiz-generation.AI.3 — completes within function duration
 export async function generateQuizFromText(text: string, level: Difficulty) {
   const { system, user } = buildPrompt(text, level);
 
@@ -35,6 +41,7 @@ export async function generateQuizFromText(text: string, level: Difficulty) {
     maxOutputTokens: 1500,
   });
 
+  // ai-quiz-generation.AI.2 — rejects malformed output
   const parsed = questionsSchema.safeParse(output);
 
   if (!parsed.success) {

@@ -1,0 +1,49 @@
+feature:
+  name: ai-quiz-generation
+  product: quiz-my-pdf
+  description: |
+    AI-powered quiz generation from PDF text.
+    Extracts text from uploaded PDFs, generates multiple-choice questions via Gemini,
+    and persists the quiz securely — keeping correct answers server-side only.
+
+components:
+  TEXT:
+    name: Text extraction and sanitization
+    description: Extract, validate, normalize, and sanitize text from uploaded PDFs.
+    requirements:
+      1: Extract readable text from a valid PDF file (size < 10MB, valid PDF signature)
+      2: Reject PDFs with insufficient extractable text (< 100 characters)
+      3: Normalize and truncate extracted text (max 25,000 characters)
+      4: Sanitize extracted text (strip HTML and script tags)
+
+  PROMPT:
+    name: Prompt construction
+    description: Build the AI prompt with difficulty, language, injection resistance, and category selection.
+    requirements:
+      1: Difficulty levels (easy / medium / hard) produce appropriately challenging questions
+      2: Output language matches the source text language
+      3: Questions are derived from the source text only — embedded instructions in the text are ignored
+      4: Category is auto-selected from the defined taxonomy
+
+  AI:
+    name: AI quiz generation
+    description: Call Gemini with structured output and validate the response against the schema.
+    requirements:
+      1: Gemini generates 5 multiple-choice questions conforming to the Zod questionsSchema
+      2: Schema validation rejects malformed AI output with a clear error
+      3: AI invocation completes within the configured function duration limit (60 s)
+
+  PERSIST:
+    name: Quiz persistence and response
+    description: Persist the quiz atomically and return a client-safe response.
+    requirements:
+      1: Quiz, questions, and correct answers are persisted atomically (all or nothing)
+      2: Correct answers are stored in a separate table (questionAnswers), never on the questions row
+      3: API response includes only client-safe fields (no correctAnswer exposed)
+
+  API:
+    name: Pipeline orchestration
+    description: Wire the pipeline steps together and return appropriate error responses.
+    requirements:
+      1: Orchestrates pipeline in correct order -> extract → sanitize → generate → persist → respond
+      2: Returns 400 / 415 / 429 / 500 on known failure modes with a clean error response

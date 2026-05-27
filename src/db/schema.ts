@@ -168,6 +168,7 @@ export const questions = pgTable(
 );
 
 // Correct answers stored server-side only — never sent to the client
+// ai-quiz-generation.PERSIST.2
 export const questionAnswers = pgTable('question_answers', {
   id: uuid('id').primaryKey().defaultRandom(),
   questionId: uuid('question_id')
