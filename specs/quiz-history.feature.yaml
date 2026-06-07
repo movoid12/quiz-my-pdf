@@ -1,0 +1,53 @@
+feature:
+  name: quiz-history
+  product: quiz-my-pdf
+  description: |
+    Persist quiz attempts per user and expose a history API.
+    Users can view past quiz scores, retake quizzes, and track progress.
+
+components:
+  AUTH:
+    name: User authentication context
+    description: Ensure quiz attempts are tied to authenticated users.
+    requirements:
+      1: Only authenticated users can create quiz attempts
+      2: Quiz attempts are scoped to the current user session
+
+  ATTEMPT:
+    name: Quiz attempt persistence
+    description: Store each quiz attempt with answers and score.
+    requirements:
+      1: Persist quizId, userId, startedAt, completedAt, score, totalQuestions
+      2: Store user answers per question (questionId, selectedIndex, isCorrect)
+      3: Calculate score server-side from stored answers
+      4: Allow multiple attempts per quiz per user
+
+  HISTORY_API:
+    name: Quiz history API
+    description: tRPC procedures for fetching user's quiz history.
+    requirements:
+      1: List all attempts for current user (paginated, newest first)
+      2: Get single attempt detail with per-question results
+      3: Return quiz metadata (title, category, difficulty) with each attempt
+      4: Filter by date range and/or quiz category
+
+  RETRY:
+    name: Retake quiz
+    description: Allow users to retake a quiz from their history.
+    requirements:
+      1: Load original quiz questions (without correct answers) for retry
+      2: Create new attempt linked to same quizId
+      3: Preserve original attempt in history
+
+constraints:
+  PRIVACY:
+    description: Data isolation and privacy
+    requirements:
+      1: Users only see their own attempts (RLS or query filtering)
+      2: Correct answers never exposed in history API responses
+
+  PERFORMANCE:
+    description: Query performance for history lists
+    requirements:
+      1: History list query completes < 200ms for 100+ attempts
+      2: Use database indexes on (userId, completedAt DESC)
