@@ -1,0 +1,52 @@
+feature:
+  name: quiz-sharing
+  product: quiz-my-pdf
+  description: |
+    Let a quiz owner share a quiz as a public link. Anonymous takers
+    can attempt the quiz once each, and their score is captured and visible
+    to the owner — turning a single quiz into a viral growth surface.
+
+components:
+  SHARE_LINK:
+    name: Share link generation
+    description: Produce a unique, unguessable public link for a quiz.
+    requirements:
+      1: Each quiz has at most one active share link at a time
+      2: The share slug is unguessable (cryptographically random, ≥ 128 bits entropy)
+      3: The owner can disable (revoke) the share link at any time
+      4: A disabled link returns a "no longer available" response, not 404
+
+  PUBLIC_TAKE:
+    name: Public quiz attempt flow
+    description: Allow anonymous users to take a shared quiz end-to-end.
+    requirements:
+      1: An anonymous taker can complete a full quiz attempt via the share link
+      2: Correct answers are never exposed to the taker, only per-question correctness
+      3: Final score is shown to the taker at the end of the attempt
+      4: Each anonymous taker can submit at most one attempt per share link
+
+  ATTEMPT_CAPTURE:
+    name: Owner visibility of shared attempts
+    description: Surface shared-quiz attempts to the owner in their history.
+    requirements:
+      1: Owner sees anonymous attempts on the shared quiz in their quiz-history view
+      2: Each captured attempt records taker-display-name (optional), score, and completion time
+      3: Captured attempts are clearly labeled as "shared link" attempts, distinct from the owner's own
+      4: Owner can see aggregate stats (attempt count, average score) for any shared quiz
+
+constraints:
+  PRIVACY:
+    description: Privacy and data minimization
+    requirements:
+      1: Taker email or auth identity is never required to take a shared quiz
+      2: Taker-supplied display name is stored only if explicitly provided
+      3: Disabling a share link also stops further capture but does not retroactively delete past attempts
+      4-note: Deletion of historical shared attempts is a separate future concern
+
+  ABUSE:
+    description: Abuse and rate limiting
+    requirements:
+      1: Anonymous attempts on a given share link are rate-limited per IP
+      2: The rate limit is stricter than the authed path to deter scraping
+      3: A single share link cannot accumulate more anonymous attempts per hour than a configured cap
+      4: Quiz content is not returned to anonymous takers in a form that enables bulk export
