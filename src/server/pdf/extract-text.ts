@@ -2,8 +2,8 @@ import { extractText, getDocumentProxy } from 'unpdf';
 import { MAX_FILE_SIZE, MAX_TEXT_CHARS } from '@/lib/constants';
 import { isLikelyPdf, normalizeText } from '@/lib/utils';
 
-// ai-quiz-generation.TEXT.1 — size, signature, extraction
-// ai-quiz-generation.TEXT.3 — normalize and truncate at MAX_TEXT_CHARS
+// ai-quiz-generation.A_TEXT.1 — size, signature, extraction
+// ai-quiz-generation.A_TEXT.3 — normalize and truncate at MAX_TEXT_CHARS
 export async function extractTextFromPdf(file: File) {
   if (file.size > MAX_FILE_SIZE) {
     throw new Error('File too large (max 10MB)');

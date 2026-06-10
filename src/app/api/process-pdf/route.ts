@@ -53,10 +53,10 @@ export async function POST(request: Request) {
     const buffer = Buffer.from(await file.arrayBuffer());
     await scanPdfContent(buffer);
 
-    let text = await extractTextFromPdf(file); // ai-quiz-generation.API.1
-    text = sanitizeHtml(text); // ai-quiz-generation.TEXT.4
+    let text = await extractTextFromPdf(file); // ai-quiz-generation.E_API.1
+    text = sanitizeHtml(text); // ai-quiz-generation.A_TEXT.4
 
-    // ai-quiz-generation.TEXT.2
+    // ai-quiz-generation.A_TEXT.2
     if (text.length < MIN_TEXT_CHARS) {
       return errorJson('Insufficient content in PDF', 400);
     }
@@ -65,7 +65,7 @@ export async function POST(request: Request) {
 
     const quiz = await generateQuizFromText(text, difficulty);
 
-    // ai-quiz-generation.PERSIST.1 — atomic persistence
+    // ai-quiz-generation.D_PERSIST.1 — atomic persistence
     const [savedQuiz] = await db
       .insert(quizzes)
       .values({
@@ -89,7 +89,7 @@ export async function POST(request: Request) {
       )
       .returning();
 
-    // ai-quiz-generation.PERSIST.2 — correctAnswer in separate table
+    // ai-quiz-generation.D_PERSIST.2 — correctAnswer in separate table
     await db.insert(questionAnswers).values(
       savedQuestions.map((sq, i) => ({
         questionId: sq.id,
@@ -97,7 +97,7 @@ export async function POST(request: Request) {
       })),
     );
 
-    // ai-quiz-generation.PERSIST.3 — no correctAnswer in response
+    // ai-quiz-generation.D_PERSIST.3 — no correctAnswer in response
     return Response.json({
       quizId: savedQuiz.id,
       title: savedQuiz.title,
@@ -111,7 +111,7 @@ export async function POST(request: Request) {
         order: i,
       })),
     });
-    // ai-quiz-generation.API.2
+    // ai-quiz-generation.E_API.2
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Internal error';
 

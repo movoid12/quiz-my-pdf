@@ -7,7 +7,7 @@ feature:
     to the owner — turning a single quiz into a viral growth surface.
 
 components:
-  SHARE_LINK:
+  A_SHARE_LINK:
     name: Share link generation
     description: Produce a unique, unguessable public link for a quiz.
     requirements:
@@ -16,7 +16,7 @@ components:
       3: The owner can disable (revoke) the share link at any time
       4: A disabled link returns a "no longer available" response, not 404
 
-  PUBLIC_TAKE:
+  B_PUBLIC_TAKE:
     name: Public quiz attempt flow
     description: Allow anonymous users to take a shared quiz end-to-end.
     requirements:
@@ -25,7 +25,7 @@ components:
       3: Final score is shown to the taker at the end of the attempt
       4: Each anonymous taker can submit at most one attempt per share link
 
-  ATTEMPT_CAPTURE:
+  C_ATTEMPT_CAPTURE:
     name: Owner visibility of shared attempts
     description: Surface shared-quiz attempts to the owner in their history.
     requirements:
@@ -35,7 +35,7 @@ components:
       4: Owner can see aggregate stats (attempt count, average score) for any shared quiz
 
 constraints:
-  PRIVACY:
+  D_PRIVACY:
     description: Privacy and data minimization
     requirements:
       1: Taker email or auth identity is never required to take a shared quiz
@@ -43,7 +43,7 @@ constraints:
       3: Disabling a share link also stops further capture but does not retroactively delete past attempts
       4-note: Deletion of historical shared attempts is a separate future concern
 
-  ABUSE:
+  E_ABUSE:
     description: Abuse and rate limiting
     requirements:
       1: Anonymous attempts on a given share link are rate-limited per IP

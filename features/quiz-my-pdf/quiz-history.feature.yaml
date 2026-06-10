@@ -6,14 +6,14 @@ feature:
     Users can view past quiz scores, retake quizzes, and track progress.
 
 components:
-  AUTH:
+  A_AUTH:
     name: User authentication context
     description: Ensure quiz attempts are tied to authenticated users.
     requirements:
       1: Only authenticated users can create quiz attempts
       2: Quiz attempts are scoped to the current user session
 
-  ATTEMPT:
+  B_ATTEMPT:
     name: Quiz attempt persistence
     description: Store each quiz attempt with answers and score.
     requirements:
@@ -22,7 +22,7 @@ components:
       3: Calculate score server-side from stored answers
       4: Allow multiple attempts per quiz per user
 
-  HISTORY_API:
+  C_HISTORY_API:
     name: Quiz history API
     description: tRPC procedures for fetching user's quiz history.
     requirements:
@@ -31,7 +31,7 @@ components:
       3: Return quiz metadata (title, category, difficulty) with each attempt
       4: Filter by date range and/or quiz category
 
-  RETRY:
+  D_RETRY:
     name: Retake quiz
     description: Allow users to retake a quiz from their history.
     requirements:
@@ -40,13 +40,13 @@ components:
       3: Preserve original attempt in history
 
 constraints:
-  PRIVACY:
+  E_PRIVACY:
     description: Data isolation and privacy
     requirements:
       1: Users only see their own attempts (RLS or query filtering)
       2: Correct answers never exposed in history API responses
 
-  PERFORMANCE:
+  F_PERFORMANCE:
     description: Query performance for history lists
     requirements:
       1: History list query completes < 200ms for 100+ attempts

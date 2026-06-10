@@ -33,12 +33,12 @@ export function formatFullDate(date: Date | string | number): string {
   return dayjs(date).locale('de').format('DD.MM.YYYY, HH:mm');
 }
 
-// ai-quiz-generation.TEXT.3
+// ai-quiz-generation.A_TEXT.3
 export function normalizeText(input: string, limit: number): string {
   return input.replace(/\s+/g, ' ').trim().slice(0, limit);
 }
 
-// ai-quiz-generation.TEXT.1
+// ai-quiz-generation.A_TEXT.1
 export function isLikelyPdf(buffer: Buffer): boolean {
   return buffer.subarray(0, 5).toString('utf-8') === '%PDF-';
 }

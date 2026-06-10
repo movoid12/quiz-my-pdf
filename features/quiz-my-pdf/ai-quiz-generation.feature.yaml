@@ -7,7 +7,7 @@ feature:
     and persists the quiz securely — keeping correct answers server-side only.
 
 components:
-  TEXT:
+  A_TEXT:
     name: Text extraction and sanitization
     description: Extract, validate, normalize, and sanitize text from uploaded PDFs.
     requirements:
@@ -16,7 +16,7 @@ components:
       3: Normalize and truncate extracted text (max 25,000 characters)
       4: Sanitize extracted text (strip HTML and script tags)
 
-  PROMPT:
+  B_PROMPT:
     name: Prompt construction
     description: Build the AI prompt with difficulty, language, injection resistance, and category selection.
     requirements:
@@ -25,7 +25,7 @@ components:
       3: Questions are derived from the source text only — embedded instructions in the text are ignored
       4: Category is auto-selected from the defined taxonomy
 
-  AI:
+  C_AI:
     name: AI quiz generation
     description: Call Gemini with structured output and validate the response against the schema.
     requirements:
@@ -33,7 +33,7 @@ components:
       2: Schema validation rejects malformed AI output with a clear error
       3: AI invocation completes within the configured function duration limit (60 s)
 
-  PERSIST:
+  D_PERSIST:
     name: Quiz persistence and response
     description: Persist the quiz atomically and return a client-safe response.
     requirements:
@@ -41,7 +41,7 @@ components:
       2: Correct answers are stored in a separate table (questionAnswers), never on the questions row
       3: API response includes only client-safe fields (no correctAnswer exposed)
 
-  API:
+  E_API:
     name: Pipeline orchestration
     description: Wire the pipeline steps together and return appropriate error responses.
     requirements:

@@ -7,7 +7,7 @@ feature:
     user-controlled page ranges, so quizzes cover the parts the user actually cares about.
 
 components:
-  SELECTOR:
+  A_SELECTOR:
     name: Page range selection UI
     description: Capture user-chosen page ranges before quiz generation.
     requirements:
@@ -16,7 +16,7 @@ components:
       3: Selected ranges are validated against the PDF's actual page count
       4: Selection is preserved across the upload → quiz-config → generate flow
 
-  EXTRACTION:
+  B_EXTRACTION:
     name: Page-scoped text extraction
     description: Extract text only from the selected page ranges.
     requirements:
@@ -25,7 +25,7 @@ components:
       3: Pages with no extractable text are skipped silently, not counted as failures
       4: Selected ranges that fall outside the PDF return a clear validation error
 
-  PREVIEW:
+  C_PREVIEW:
     name: Selected-pages preview
     description: Let the user confirm what was selected before generation.
     requirements:
@@ -33,7 +33,7 @@ components:
       2: Warn (not block) when the selection would be truncated by the cap
       3: Allow the user to go back and edit the range without re-uploading the PDF
 
-  GENERATION:
+  D_GENERATION:
     name: Quiz generation from page-scoped text
     description: Run the existing generation pipeline against page-scoped text.
     requirements:
@@ -41,7 +41,7 @@ components:
       2: Pipeline error messages distinguish "no extractable text in selected range" from other failures
 
 constraints:
-  COMPAT:
+  E_COMPAT:
     description: Compatibility with the existing ai-quiz-generation pipeline
     requirements:
       1: Existing ai-quiz-generation ACIDs continue to hold when input is page-scoped text

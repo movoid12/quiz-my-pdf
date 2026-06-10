@@ -6,7 +6,7 @@ export type ClientQuiz = z.infer<typeof clientQuizSchema>;
 export type QuizResults = z.infer<typeof quizResultsSchema>;
 
 // Full server-side schema — includes correctAnswer, used for AI output and DB storage
-// ai-quiz-generation.AI.1 — conforms to this schema
+// ai-quiz-generation.C_AI.1 — conforms to this schema
 export const questionSchema = z.object({
   id: z.number().int().nonnegative(),
   question: z.string().min(5, 'Question must be at least 5 characters'),
@@ -26,7 +26,7 @@ export const questionsSchema = z.object({
 });
 
 // Client-safe schema — no correctAnswer exposed to the browser
-// ai-quiz-generation.PERSIST.3
+// ai-quiz-generation.D_PERSIST.3
 export const clientQuestionSchema = z.object({
   id: z.uuid(),
   question: z.string(),
