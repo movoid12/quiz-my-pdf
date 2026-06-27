@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: 2fa */
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -182,7 +183,6 @@ export const TwoFactorVerify = ({ onSuccess }: TwoFactorVerifyProps) => {
           >
             {code.map((data, index) => (
               <input
-                // biome-ignore lint/suspicious/noArrayIndexKey: <2fa>
                 key={index}
                 ref={(el) => {
                   inputRefs.current[index] = el;
