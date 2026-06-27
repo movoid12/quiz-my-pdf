@@ -15,7 +15,7 @@ export const TotpSetup = ({ totpUri, onVerified }: TotpSetupProps) => {
   const [error, setError] = useState('');
 
   const handleVerify = async () => {
-    if (!code || code.length !== 6) {
+    if (code?.length !== 6) {
       setError('Code must be 6 digits');
       return;
     }
