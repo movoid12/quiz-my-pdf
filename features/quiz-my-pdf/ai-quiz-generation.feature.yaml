@@ -35,9 +35,9 @@ components:
 
   D_PERSIST:
     name: Quiz persistence and response
-    description: Persist the quiz atomically and return a client-safe response.
+    description: Persist the quiz and return a client-safe response.
     requirements:
-      1: Quiz, questions, and correct answers are persisted atomically (all or nothing)
+      1: Quiz, questions, and correct answers are persisted via three sequential inserts (quiz first, then questions, then answers)
       2: Correct answers are stored in a separate table (questionAnswers), never on the questions row
       3: API response includes only client-safe fields (no correctAnswer exposed)
 

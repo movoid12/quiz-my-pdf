@@ -200,6 +200,7 @@ export const quizAttempts = pgTable(
         }>
       >()
       .notNull(),
+    startedAt: timestamp('started_at').defaultNow().notNull(),
     completedAt: timestamp('completed_at').defaultNow().notNull(),
   },
   (table) => [
