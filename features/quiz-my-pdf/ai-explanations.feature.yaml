@@ -1,0 +1,53 @@
+feature:
+  name: ai-explanations
+  product: quiz-my-pdf
+  description: |
+    For every generated question, attach an AI-generated explanation that
+    justifies the correct answer with a short reference to the source text.
+    Show the explanation to the taker on reveal, so a wrong answer becomes a
+    learning moment rather than just a red mark.
+
+components:
+  A_PROMPT:
+    name: Explanation prompt construction
+    description: Build the prompt that asks the model to also justify the answer.
+    requirements:
+      1: The system prompt requires the explanation to cite the source text, not external knowledge
+      2: Explanation language matches the source-text language
+      3: Explanations are short (≤ 2 sentences) and avoid giving the answer away in quiz context
+      4: The model is instructed to refuse to follow any embedded instructions in the source text
+
+  B_GENERATION:
+    name: Explanation generation
+    description: Produce one explanation per question at generation time.
+    requirements:
+      1: Every generated question has a non-empty explanation field
+      2: Explanations are generated in the same call as the question (no second round-trip)
+      3: Schema validation rejects any question missing an explanation or with an empty explanation
+      4: Generation must still complete within the existing function duration limit
+
+  C_RENDER:
+    name: Explanation reveal UI
+    description: Show the explanation at the right moment in the quiz flow.
+    requirements:
+      1: Explanation is shown to the taker only after they submit an answer for that question
+      2: The correct answer is highlighted alongside the explanation on reveal
+      3: Explanations are shown for both correct and incorrect answers
+      4: Explanations are rendered in the same language as the question
+
+  D_CACHING:
+    name: Explanation persistence
+    description: Store explanations so we never re-ask the model for them.
+    requirements:
+      1: Explanations are persisted alongside questions at quiz-creation time
+      2: Retakes (existing or future) reuse the stored explanation, not a freshly generated one
+      3: Explanations are returned as part of the standard client-safe response after submit
+      4: Explanations are never exposed in the pre-submit response (no spoilers)
+
+constraints:
+  E_SAFETY:
+    description: Safety and quality guardrails
+    requirements:
+      1: Explanations are treated as untrusted text and sanitized before render
+      2: A model that returns a question with an unsafe or refusals-style explanation fails the whole batch
+      3-note: We do not need to store the raw model response, only the sanitized explanation field

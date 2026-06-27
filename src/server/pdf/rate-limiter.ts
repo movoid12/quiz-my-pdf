@@ -69,11 +69,6 @@ export function checkRateLimit(req: Request): RateLimitResult {
     return { allowed: false, retryAfter };
   }
 
-  // allow and increment
-  entry.minuteCount += 1;
-  entry.hourCount += 1;
-
-  // allow and increment
   entry.minuteCount += 1;
   entry.hourCount += 1;
 

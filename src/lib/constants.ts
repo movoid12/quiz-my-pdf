@@ -1,8 +1,8 @@
 import type { MenuItem } from '@/components/ui/bubble-menu';
 
 export const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
-export const MAX_TEXT_CHARS = 25_000;
-export const MIN_TEXT_CHARS = 100;
+export const MAX_TEXT_CHARS = 25_000; // ai-quiz-generation.A_TEXT.3
+export const MIN_TEXT_CHARS = 100; // ai-quiz-generation.A_TEXT.2
 
 export const menuItems: MenuItem[] = [
   {

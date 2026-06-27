@@ -1,0 +1,49 @@
+feature:
+  name: pdf-page-selection
+  product: quiz-my-pdf
+  description: |
+    Let users pick which pages of a PDF to generate a quiz from.
+    Replaces the current 25,000-character whole-document truncation with
+    user-controlled page ranges, so quizzes cover the parts the user actually cares about.
+
+components:
+  A_SELECTOR:
+    name: Page range selection UI
+    description: Capture user-chosen page ranges before quiz generation.
+    requirements:
+      1: User can select "All pages" or "Specific pages"
+      2: User can enter page ranges in inclusive form (e.g. 1-5, 8, 11-13)
+      3: Selected ranges are validated against the PDF's actual page count
+      4: Selection is preserved across the upload → quiz-config → generate flow
+
+  B_EXTRACTION:
+    name: Page-scoped text extraction
+    description: Extract text only from the selected page ranges.
+    requirements:
+      1: Text is extracted from selected pages only, not the whole PDF
+      2: Extraction honors the 25,000-character downstream cap and truncates the tail if exceeded
+      3: Pages with no extractable text are skipped silently, not counted as failures
+      4: Selected ranges that fall outside the PDF return a clear validation error
+
+  C_PREVIEW:
+    name: Selected-pages preview
+    description: Let the user confirm what was selected before generation.
+    requirements:
+      1: Show the resolved page count and total extractable character count
+      2: Warn (not block) when the selection would be truncated by the cap
+      3: Allow the user to go back and edit the range without re-uploading the PDF
+
+  D_GENERATION:
+    name: Quiz generation from page-scoped text
+    description: Run the existing generation pipeline against page-scoped text.
+    requirements:
+      1: Generated quiz is linked back to the page range used, so it can be retried with a different range
+      2: Pipeline error messages distinguish "no extractable text in selected range" from other failures
+
+constraints:
+  E_COMPAT:
+    description: Compatibility with the existing ai-quiz-generation pipeline
+    requirements:
+      1: Existing ai-quiz-generation ACIDs continue to hold when input is page-scoped text
+      2: Quizzes generated from page-scoped text expose the same client-safe response shape
+      3-note: No changes to Gemini prompt schema or output parsing are required
