@@ -26,7 +26,7 @@ export default function QuizLevelModal({
           <button
             type="button"
             className="btn btn-success btn-outline join-item"
-            onClick={() => handlePdfProcess('challenging but fair')}
+            onClick={() => handlePdfProcess('medium')}
           >
             Medium
           </button>

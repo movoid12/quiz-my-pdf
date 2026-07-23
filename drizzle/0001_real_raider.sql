@@ -1,0 +1,1 @@
+ALTER TABLE "quiz_attempts" ADD COLUMN "started_at" timestamp DEFAULT now() NOT NULL;

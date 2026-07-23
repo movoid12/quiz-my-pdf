@@ -40,13 +40,11 @@ describe('QuizLevelModal', () => {
     expect(handleProcessPdfWithLevel).toHaveBeenCalledWith('easy');
   });
 
-  it('calls handleProcessPdfWithLevel with "challenging but fair" when Medium clicked', async () => {
+  it('calls handleProcessPdfWithLevel with "medium" when Medium clicked', async () => {
     const user = userEvent.setup();
     const { handleProcessPdfWithLevel } = renderModal();
     await user.click(screen.getByText('Medium'));
-    expect(handleProcessPdfWithLevel).toHaveBeenCalledWith(
-      'challenging but fair',
-    );
+    expect(handleProcessPdfWithLevel).toHaveBeenCalledWith('medium');
   });
 
   it('calls handleProcessPdfWithLevel with "hard" when Hard clicked', async () => {

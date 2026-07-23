@@ -8,6 +8,13 @@
       "when": 1778444886117,
       "tag": "0000_round_pestilence",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1784821895164,
+      "tag": "0001_real_raider",
+      "breakpoints": true
     }
   ]
 }
