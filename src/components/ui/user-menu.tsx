@@ -65,9 +65,8 @@ export default function UserMenu() {
           // biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: DaisyUI menu semantics
           role="menu"
           aria-label="Navigation and account menu"
-          className="menu dropdown-content z-[1002] mt-3 w-64 rounded-box border border-base-content/10 bg-base-100 p-2 shadow-xl"
+          className="menu dropdown-content z-1002 mt-3 w-64 rounded-box border border-base-content/10 bg-base-100 p-2 shadow-xl"
         >
-          <li className="menu-title px-3 py-2">Navigate</li>
           <li>
             <Link href="/" role="menuitem" onClick={() => setIsOpen(false)}>
               <House className="size-4" aria-hidden="true" />
