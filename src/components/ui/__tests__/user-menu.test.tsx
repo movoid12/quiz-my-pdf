@@ -95,6 +95,48 @@ describe('UserMenu', () => {
     expect(screen.getByText('Sign Out')).toBeInTheDocument();
   });
 
+  it('quiz-my-pdf.NAVIGATION.1 exposes navigation and account actions in one menu', async () => {
+    const user = userEvent.setup();
+    (authClient.useSession as ReturnType<typeof vi.fn>).mockReturnValue(
+      mockUseSession('Test User'),
+    );
+    renderMenu();
+
+    await user.click(screen.getByRole('button'));
+
+    for (const label of [
+      'Home',
+      'New Quiz',
+      'History',
+      'GitHub',
+      'Profile',
+      'Sign Out',
+    ]) {
+      expect(screen.getByText(label)).toBeInTheDocument();
+    }
+  });
+
+  it('quiz-my-pdf.NAVIGATION.2 exposes the avatar trigger and menu semantics', async () => {
+    const user = userEvent.setup();
+    (authClient.useSession as ReturnType<typeof vi.fn>).mockReturnValue(
+      mockUseSession('Test User'),
+    );
+    renderMenu();
+
+    const trigger = screen.getByRole('button', {
+      name: 'Open navigation and account menu',
+    });
+    expect(trigger).toHaveAttribute('aria-haspopup', 'menu');
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
+
+    await user.click(trigger);
+
+    expect(screen.getByRole('menu')).toHaveAccessibleName(
+      'Navigation and account menu',
+    );
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
+  });
+
   it('closes dropdown on second click', async () => {
     const user = userEvent.setup();
     (authClient.useSession as ReturnType<typeof vi.fn>).mockReturnValue(
