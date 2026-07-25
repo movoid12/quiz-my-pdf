@@ -40,6 +40,7 @@ components:
       1: Quiz, questions, and correct answers are persisted via three sequential inserts (quiz first, then questions, then answers)
       2: Correct answers are stored in a separate table (questionAnswers), never on the questions row
       3: API response includes only client-safe fields (no correctAnswer exposed)
+      4: Database migrations keep the quizzes table compatible with the persisted quiz category field
 
   E_API:
     name: Pipeline orchestration

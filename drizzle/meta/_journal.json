@@ -15,6 +15,13 @@
       "when": 1784821895164,
       "tag": "0001_real_raider",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1785063600000,
+      "tag": "0002_repair_quiz_category",
+      "breakpoints": true
     }
   ]
 }
