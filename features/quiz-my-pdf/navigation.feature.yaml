@@ -1,0 +1,14 @@
+feature:
+  name: navigation
+  product: quiz-my-pdf
+  description: A single, accessible dashboard menu for navigation and account actions.
+
+components:
+  NAVIGATION:
+    name: Dashboard navigation
+    description: Combine primary navigation and avatar actions in one responsive menu.
+    requirements:
+      1: One dashboard menu exposes Home, New Quiz, History, GitHub, Profile, and Sign Out
+      2: The menu is triggered by the authenticated user's avatar and exposes accessible menu semantics
+      3: Navigation and account actions are grouped clearly without a second floating user control
+      4: The menu remains usable on mobile and desktop with DaisyUI styling

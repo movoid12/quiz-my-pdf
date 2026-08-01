@@ -4,6 +4,8 @@
     light --default,
     dark --prefersdark,
     cupcake;
+  /* quiz-my-pdf.css-build.BUILD.1 — Cally is not used by this application. */
+  exclude: calendar;
 }
 
 :root {

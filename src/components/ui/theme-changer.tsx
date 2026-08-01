@@ -22,7 +22,7 @@ export default function ThemeChanger() {
         {theme === 'light' ? (
           <Moon className="h-4 w-4" />
         ) : (
-          <Sun className="h-4 w-4 text-black" />
+          <Sun className="h-4 w-4 text-white" />
         )}
       </span>
     </button>
