@@ -22,12 +22,12 @@
     "format": "biome format --write",
     "lint": "biome lint --write --unsafe",
     "lint:format": "biome check --write",
+    "release": "semantic-release # release plugins (e.g. @semantic-release/git) configured in .releaserc.json",
     "start": "next start",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@ai-sdk/google": "3.0.85",
-    "@ai-sdk/react": "3.0.215",
     "@nosecone/next": "1.9.1",
     "@t3-oss/env-nextjs": "0.13.11",
     "@tanstack/react-query": "5.100.14",
