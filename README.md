@@ -32,12 +32,19 @@ A modern web app to generate and take quizzes from your PDF files using AI.
 - pnpm v8+
 - Biome Extension in your IDE
 - Google Gemini API key (for AI quiz generation)
+- Neon Postgres account + database (get connection string at https://neon.com)
 
 ## Get started
 - Create a `.env` file from the `.env.example` template.
 - Enter your Google Gemini API key in .env
 
 `GOOGLE_GENERATIVE_AI_API_KEY=***********`
+
+- Enter your Neon database connection string
+
+`NEON_DATABASE_URL=postgresql://...neon.tech/dbname`
+
+  Use the **direct (non-pooler)** connection string for migrations.
 
 - after that you can
 
