@@ -51,6 +51,22 @@ pnpm dev
 
 
 
+## Database migrations
+
+Prod DB: Neon Postgres. Schema changes applied to prod by GitHub Actions on merge to main (`.github/workflows/migrate.yml`).
+
+```bash
+# 1. change schema in src/db/schema.ts
+pnpm db:generate   # creates drizzle/000N_*.sql
+# 2. commit the generated drizzle/ files with your PR
+# 3. merge -> CI applies pending migrations to prod automatically
+```
+
+Rules:
+
+- **Never `pnpm db:push` on prod.** It changes the DB without a migration file or journal entry, so CI never sees it -> silent schema drift or "already exists" collisions.
+- Manual prod migration: `pnpm db:migrate:prod` (needs `NEON_DATABASE_URL`, the direct non-pooler connection string).
+
 ```yml
 If you like my app,
 
