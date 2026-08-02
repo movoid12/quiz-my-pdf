@@ -16,6 +16,7 @@
     "clean": "rm -rf .next && rm -rf node_modules",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
+    "db:migrate:prod": "drizzle-kit migrate --config drizzle.migrate.config.ts",
     "db:pull": "drizzle-kit pull",
     "db:push": "drizzle-kit push",
     "dev": "next dev --turbopack",
