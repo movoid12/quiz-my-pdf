@@ -35,7 +35,7 @@
     "@trpc/client": "11.17.0",
     "@trpc/react-query": "11.17.0",
     "@trpc/server": "11.18.0",
-    "ai": "6.0.246",
+    "ai": "7.0.58",
     "better-auth": "1.6.26",
     "canvas-confetti": "1.9.4",
     "daisyui": "5.7.16",
