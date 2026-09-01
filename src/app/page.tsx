@@ -39,13 +39,15 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-              <button
-                type="button"
-                onClick={navigateToStartPage}
-                className="btn btn-primary btn-lg"
-              >
-                Start Your PDF Quiz
-              </button>
+              <div className="aura aura-xs aura-rainbow duration-6000">
+                <button
+                  type="button"
+                  onClick={navigateToStartPage}
+                  className="btn btn-primary btn-lg"
+                >
+                  Start Your PDF Quiz
+                </button>
+              </div>
             </div>
           </div>
         </section>
