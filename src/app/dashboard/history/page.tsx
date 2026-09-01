@@ -4,6 +4,7 @@ import { History, RotateCcw, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useRef, useState, useTransition } from 'react';
 import Loading from '@/components/ui/loading';
+import { useToastStore } from '@/lib/stores/toast-store';
 import { trpc } from '@/lib/trpc';
 import { formatFullDate, formatRelativeTime } from '@/lib/utils';
 
@@ -28,6 +29,7 @@ const PAGE_SIZE = 10;
 export default function HistoryPage() {
   const router = useRouter();
   const utils = trpc.useUtils();
+  const { addToast } = useToastStore();
 
   const [offset, setOffset] = useState(0);
   const [retakingQuizId, setRetakingQuizId] = useState<string | null>(null);
@@ -46,6 +48,12 @@ export default function HistoryPage() {
 
   const deleteMutation = trpc.quiz.delete.useMutation({
     onMutate: ({ quizId }) => setDeletingId(quizId),
+    onSuccess: () => {
+      addToast('success', 'Quiz deleted successfully');
+    },
+    onError: () => {
+      addToast('error', 'Failed to delete quiz');
+    },
     onSettled: () => {
       setDeletingId(null);
       setDeleteTarget(null);
