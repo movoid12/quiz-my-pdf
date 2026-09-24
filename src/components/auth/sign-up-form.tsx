@@ -64,9 +64,13 @@ export const SignUpForm = () => {
       if (err) {
         setError(err.message || 'Failed to setup 2FA');
       } else if (data) {
-        setTotpUri(data.totpURI || '');
-        setBackupCodes(data.backupCodes || []);
-        setStep('totp');
+        if (data.method === 'totp') {
+          setTotpUri(data.totpURI);
+          setBackupCodes(data.backupCodes);
+          setStep('totp');
+        } else {
+          setError('TOTP setup is unavailable');
+        }
       }
     } catch (_e) {
       setError('Failed to setup 2FA');
