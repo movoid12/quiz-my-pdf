@@ -1,6 +1,7 @@
 import { createMiddleware } from '@nosecone/next';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import { routes } from '@/lib/routes';
 import { auth } from '@/server/auth';
 
 const securityHeadersMiddleware = createMiddleware();
@@ -20,7 +21,7 @@ export default async function middleware(request: NextRequest) {
   const securityResponse = await securityHeadersMiddleware();
 
   // Protect dashboard routes and quiz generation API
-  if (pathname.startsWith('/dashboard') || pathname === '/api/process-pdf') {
+  if (pathname.startsWith('/dashboard') || pathname === routes.api.processPdf) {
     const session = await auth.api.getSession({
       headers: request.headers,
     });
@@ -41,7 +42,7 @@ export default async function middleware(request: NextRequest) {
       }
 
       // Redirect to sign-in if not authenticated
-      const url = new URL('/auth/sign-in', request.url);
+      const url = new URL(routes.auth.signIn, request.url);
       url.searchParams.set('callbackUrl', pathname);
       const response = NextResponse.redirect(url);
 

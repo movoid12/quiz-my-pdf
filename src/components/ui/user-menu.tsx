@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
 import { useClickOutside } from 'react-haiku';
 import { authClient } from '@/lib/auth-client';
+import { routes } from '@/lib/routes';
 
 export default function UserMenu() {
   const { data: session } = authClient.useSession();
@@ -29,7 +30,7 @@ export default function UserMenu() {
 
   const handleSignOut = async () => {
     await authClient.signOut();
-    router.push('/');
+    router.push(routes.home);
   };
 
   useClickOutside(ref, () => setIsOpen(false));
@@ -68,14 +69,18 @@ export default function UserMenu() {
           className="menu dropdown-content z-1002 mt-3 w-64 rounded-box border border-base-content/10 bg-base-100 p-2 shadow-xl"
         >
           <li>
-            <Link href="/" role="menuitem" onClick={() => setIsOpen(false)}>
+            <Link
+              href={routes.home}
+              role="menuitem"
+              onClick={() => setIsOpen(false)}
+            >
               <House className="size-4" aria-hidden="true" />
               Home
             </Link>
           </li>
           <li>
             <Link
-              href="/dashboard/start"
+              href={routes.dashboard.start}
               role="menuitem"
               onClick={() => setIsOpen(false)}
             >
@@ -85,7 +90,7 @@ export default function UserMenu() {
           </li>
           <li>
             <Link
-              href="/dashboard/history"
+              href={routes.dashboard.history}
               role="menuitem"
               onClick={() => setIsOpen(false)}
             >
@@ -95,7 +100,7 @@ export default function UserMenu() {
           </li>
           <li>
             <a
-              href="https://github.com/movoid12"
+              href={routes.external.github}
               target="_blank"
               rel="noreferrer"
               role="menuitem"
@@ -113,7 +118,7 @@ export default function UserMenu() {
           <li className="menu-title px-3 py-2">Account</li>
           <li>
             <Link
-              href="/dashboard/profile"
+              href={routes.dashboard.profile}
               role="menuitem"
               onClick={() => setIsOpen(false)}
             >

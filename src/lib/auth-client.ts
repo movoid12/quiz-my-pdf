@@ -4,6 +4,7 @@ import { twoFactorClient } from 'better-auth/client/plugins';
 import { createAuthClient } from 'better-auth/react';
 
 import { env } from '@/env';
+import { routes } from '@/lib/routes';
 
 export const authClient = createAuthClient({
   // biome-ignore lint/style/useNamingConvention: better-auth setup
@@ -11,7 +12,7 @@ export const authClient = createAuthClient({
   plugins: [
     twoFactorClient({
       onTwoFactorRedirect() {
-        window.location.href = '/auth/2fa';
+        window.location.href = routes.auth.twoFactor;
       },
     }),
   ],

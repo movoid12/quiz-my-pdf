@@ -4,6 +4,7 @@ import { Check } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { type ChangeEvent, type DragEvent, useCallback, useState } from 'react';
 import { MAX_FILE_SIZE } from '@/lib/constants';
+import { routes } from '@/lib/routes';
 import QuizLevelModal from '../modals/quiz-level-modal';
 import ErrorAlert from '../ui/error-alert';
 
@@ -82,7 +83,7 @@ export default function PdfUploadSection() {
       formData.append('pdf', uploadedFile);
       formData.append('level', level);
 
-      const response = await fetch('/api/process-pdf', {
+      const response = await fetch(routes.api.processPdf, {
         method: 'POST',
         body: formData,
       });
@@ -94,7 +95,7 @@ export default function PdfUploadSection() {
       }
 
       if (response.ok && data?.quizId && data?.questions) {
-        router.push(`/dashboard/quiz/${data.quizId}`);
+        router.push(routes.dashboard.quiz(data.quizId));
       }
     } catch (error) {
       setError(

@@ -3,12 +3,13 @@
 import { useRouter } from 'next/navigation';
 import FeatureCard from '@/components/ui/feature-card';
 import GradientText from '@/components/ui/gradient-text';
+import { routes } from '@/lib/routes';
 
 export default function Home() {
   const router = useRouter();
 
   const navigateToStartPage = () => {
-    router.push('/dashboard/start');
+    router.push(routes.dashboard.start);
   };
 
   return (

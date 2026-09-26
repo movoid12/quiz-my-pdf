@@ -4,6 +4,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { authClient } from '@/lib/auth-client';
+import { routes } from '@/lib/routes';
 
 const mockPush = vi.fn();
 
@@ -162,7 +163,7 @@ describe('UserMenu', () => {
     await user.click(screen.getByRole('button'));
     await user.click(screen.getByText('Sign Out'));
     expect(authClient.signOut).toHaveBeenCalled();
-    expect(mockPush).toHaveBeenCalledWith('/');
+    expect(mockPush).toHaveBeenCalledWith(routes.home);
   });
 
   it('navigates to profile on profile link click', async () => {
@@ -175,7 +176,7 @@ describe('UserMenu', () => {
     const profileLink = screen.getByText('Profile');
     expect(profileLink.closest('a')).toHaveAttribute(
       'href',
-      '/dashboard/profile',
+      routes.dashboard.profile,
     );
   });
 });

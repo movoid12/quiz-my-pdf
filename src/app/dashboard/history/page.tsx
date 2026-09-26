@@ -4,6 +4,7 @@ import { History, RotateCcw, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useRef, useState, useTransition } from 'react';
 import Loading from '@/components/ui/loading';
+import { routes } from '@/lib/routes';
 import { useToastStore } from '@/lib/stores/toast-store';
 import { trpc } from '@/lib/trpc';
 import { formatFullDate, formatRelativeTime } from '@/lib/utils';
@@ -78,7 +79,7 @@ export default function HistoryPage() {
     setRetakingQuizId(quizId);
     startRetakeTransition(async () => {
       await utils.quiz.getById.ensureData({ quizId });
-      router.push(`/dashboard/quiz/${quizId}`);
+      router.push(routes.dashboard.quiz(quizId));
     });
   };
 
@@ -112,7 +113,7 @@ export default function HistoryPage() {
               Upload a PDF and generate your first quiz to see your history
               here.
             </p>
-            <a href="/dashboard/start" className="btn btn-primary">
+            <a href={routes.dashboard.start} className="btn btn-primary">
               Generate a Quiz
             </a>
           </div>

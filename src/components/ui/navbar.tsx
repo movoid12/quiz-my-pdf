@@ -1,5 +1,6 @@
 'use client';
 
+import { routes } from '@/lib/routes';
 import ThemeChanger from './theme-changer';
 
 export default function NavBar() {
@@ -7,7 +8,7 @@ export default function NavBar() {
     <nav className="sticky top-0 z-50">
       <div className="navbar border-2 border-base-content/10 bg-base-200 shadow-md">
         <div className="flex-1">
-          <a href="/" className="btn btn-ghost text-xl">
+          <a href={routes.home} className="btn btn-ghost text-xl">
             QuizMyPDF
           </a>
         </div>
