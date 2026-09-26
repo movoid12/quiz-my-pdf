@@ -11,20 +11,16 @@ type HistoryStore = {
   offset: number;
   retakingQuizId: string | null;
   deletingId: string | null;
-  deleteTarget: DeleteTarget | null;
   nextPage: () => void;
   prevPage: () => void;
   setRetakingQuizId: (quizId: string | null) => void;
   setDeletingId: (quizId: string | null) => void;
-  openDeleteDialog: (target: DeleteTarget) => void;
-  closeDeleteDialog: () => void;
 };
 
 export const useHistoryStore = create<HistoryStore>((set) => ({
   offset: 0,
   retakingQuizId: null,
   deletingId: null,
-  deleteTarget: null,
   nextPage: () =>
     set((state) => ({ offset: state.offset + HISTORY_PAGE_SIZE })),
   prevPage: () =>
@@ -33,6 +29,4 @@ export const useHistoryStore = create<HistoryStore>((set) => ({
     })),
   setRetakingQuizId: (quizId) => set({ retakingQuizId: quizId }),
   setDeletingId: (quizId) => set({ deletingId: quizId }),
-  openDeleteDialog: (target) => set({ deleteTarget: target }),
-  closeDeleteDialog: () => set({ deleteTarget: null }),
 }));

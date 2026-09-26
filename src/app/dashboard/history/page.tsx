@@ -8,8 +8,13 @@ import DeleteQuizDialog from '@/components/history/delete-quiz-dialog';
 import HistoryEmptyState from '@/components/history/history-empty-state';
 import HistoryPagination from '@/components/history/history-pagination';
 import Loading from '@/components/ui/loading';
+import { useDialog } from '@/hooks/use-dialog';
 import { routes } from '@/lib/routes';
-import { HISTORY_PAGE_SIZE, useHistoryStore } from '@/lib/stores/history-store';
+import {
+  type DeleteTarget,
+  HISTORY_PAGE_SIZE,
+  useHistoryStore,
+} from '@/lib/stores/history-store';
 import { useToastStore } from '@/lib/stores/toast-store';
 import { trpc } from '@/lib/trpc';
 
@@ -21,13 +26,16 @@ export default function HistoryPage() {
   const offset = useHistoryStore((state) => state.offset);
   const retakingQuizId = useHistoryStore((state) => state.retakingQuizId);
   const deletingId = useHistoryStore((state) => state.deletingId);
-  const deleteTarget = useHistoryStore((state) => state.deleteTarget);
   const nextPage = useHistoryStore((state) => state.nextPage);
   const prevPage = useHistoryStore((state) => state.prevPage);
   const setRetakingQuizId = useHistoryStore((state) => state.setRetakingQuizId);
   const setDeletingId = useHistoryStore((state) => state.setDeletingId);
-  const openDeleteDialog = useHistoryStore((state) => state.openDeleteDialog);
-  const closeDeleteDialog = useHistoryStore((state) => state.closeDeleteDialog);
+
+  const {
+    payload: deleteTarget,
+    open: openDeleteDialog,
+    close: closeDeleteDialog,
+  } = useDialog<DeleteTarget>();
 
   const [isPendingRetake, startRetakeTransition] = useTransition();
 

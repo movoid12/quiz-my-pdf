@@ -11,15 +11,16 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useClickOutside } from 'react-haiku';
+import { useToggle } from '@/hooks/use-toggle';
 import { authClient } from '@/lib/auth-client';
 import { routes } from '@/lib/routes';
 
 export default function UserMenu() {
   const { data: session } = authClient.useSession();
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen, toggleMenu] = useToggle(false);
   const ref = useRef<HTMLDivElement>(null);
 
   const router = useRouter();
@@ -43,7 +44,7 @@ export default function UserMenu() {
     >
       <button
         type="button"
-        onClick={() => setIsOpen((open) => !open)}
+        onClick={toggleMenu}
         className="btn btn-ghost h-12 min-h-12 gap-2 rounded-full border border-base-content/10 bg-base-100 px-2 shadow-sm hover:bg-base-200 md:h-14 md:min-h-14 md:px-3"
         aria-haspopup="menu"
         aria-expanded={isOpen}
