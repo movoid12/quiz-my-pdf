@@ -110,12 +110,8 @@
           "name": "account_user_id_user_id_fk",
           "tableFrom": "account",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -156,12 +152,8 @@
           "name": "question_answers_question_id_questions_id_fk",
           "tableFrom": "question_answers",
           "tableTo": "questions",
-          "columnsFrom": [
-            "question_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["question_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -237,12 +229,8 @@
           "name": "questions_quiz_id_quizzes_id_fk",
           "tableFrom": "questions",
           "tableTo": "quizzes",
-          "columnsFrom": [
-            "quiz_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["quiz_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -352,12 +340,8 @@
           "name": "quiz_attempts_quiz_id_quizzes_id_fk",
           "tableFrom": "quiz_attempts",
           "tableTo": "quizzes",
-          "columnsFrom": [
-            "quiz_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["quiz_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -365,12 +349,8 @@
           "name": "quiz_attempts_user_id_user_id_fk",
           "tableFrom": "quiz_attempts",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -448,12 +428,8 @@
           "name": "quizzes_user_id_user_id_fk",
           "tableFrom": "quizzes",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -500,9 +476,7 @@
         "rate_limit_key_unique": {
           "name": "rate_limit_key_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "key"
-          ]
+          "columns": ["key"]
         }
       },
       "policies": {},
@@ -569,12 +543,8 @@
           "name": "results_user_id_user_id_fk",
           "tableFrom": "results",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -661,12 +631,8 @@
           "name": "session_user_id_user_id_fk",
           "tableFrom": "session",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -676,9 +642,7 @@
         "session_token_unique": {
           "name": "session_token_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "token"
-          ]
+          "columns": ["token"]
         }
       },
       "policies": {},
@@ -771,12 +735,8 @@
           "name": "two_factor_user_id_user_id_fk",
           "tableFrom": "two_factor",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -851,9 +811,7 @@
         "user_email_unique": {
           "name": "user_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},
@@ -950,11 +908,7 @@
     "public.quiz_difficulty": {
       "name": "quiz_difficulty",
       "schema": "public",
-      "values": [
-        "easy",
-        "medium",
-        "hard"
-      ]
+      "values": ["easy", "medium", "hard"]
     }
   },
   "schemas": {},
