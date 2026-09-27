@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { routes } from '@/lib/routes';
 
 export default function ErrorFallback({
   title,
@@ -12,7 +13,7 @@ export default function ErrorFallback({
       <div className="mb-4 text-6xl">❌</div>
       <h2 className="mb-2 font-bold text-2xl">{title}</h2>
       <p className="mb-6 text-base-content/70">{description}</p>
-      <Link href="/" className="btn btn-primary">
+      <Link href={routes.home} className="btn btn-primary">
         Go Back to Upload
       </Link>
     </div>

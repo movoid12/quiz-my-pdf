@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import ErrorFallback from '@/components/ui/error-fallback';
 import Loading from '@/components/ui/loading';
 import { useQuiz } from '@/hooks/use-quiz';
+import { routes } from '@/lib/routes';
 import { trpc } from '@/lib/trpc';
 
 export default function QuizPage() {
@@ -162,7 +163,7 @@ export default function QuizPage() {
             type="button"
             className="nav-button btn btn-error rounded join-item"
           >
-            <Link href="/dashboard/start">Exit Quiz</Link>
+            <Link href={routes.dashboard.start}>Exit Quiz</Link>
           </button>
           <div className="join">
             <button

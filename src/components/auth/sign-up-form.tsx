@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { type SyntheticEvent, useState } from 'react';
 import { authClient } from '@/lib/auth-client';
+import { routes } from '@/lib/routes';
 import { GoogleIcon } from '../ui/icons/google-icon';
 import { BackupCodes } from './backup-codes';
 import { TotpSetup } from './totp-setup';
@@ -85,9 +86,9 @@ export const SignUpForm = () => {
       const { error: err } = await authClient.signIn.social({
         provider: 'google',
         // biome-ignore lint/style/useNamingConvention: Better Auth uses callbackURL
-        callbackURL: '/dashboard/start',
+        callbackURL: routes.dashboard.start,
         // biome-ignore lint/style/useNamingConvention: Better Auth uses newUserCallbackURL
-        newUserCallbackURL: '/dashboard/start',
+        newUserCallbackURL: routes.dashboard.start,
       });
 
       if (err) {
@@ -136,7 +137,7 @@ export const SignUpForm = () => {
           </p>
           <button
             type="button"
-            onClick={() => router.push('/dashboard/start')}
+            onClick={() => router.push(routes.dashboard.start)}
             className="btn btn-primary w-full"
           >
             Continue to Dashboard
@@ -249,7 +250,7 @@ export const SignUpForm = () => {
 
         <p className="text-center text-sm text-base-content/70 mt-2">
           Already have an account?{' '}
-          <Link href="/auth/sign-in" className="link link-primary">
+          <Link href={routes.auth.signIn} className="link link-primary">
             Sign in
           </Link>
         </p>

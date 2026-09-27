@@ -3,7 +3,9 @@
 import { Check } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { type ChangeEvent, type DragEvent, useCallback, useState } from 'react';
+import { useToggle } from '@/hooks/use-toggle';
 import { MAX_FILE_SIZE } from '@/lib/constants';
+import { routes } from '@/lib/routes';
 import QuizLevelModal from '../modals/quiz-level-modal';
 import ErrorAlert from '../ui/error-alert';
 
@@ -13,8 +15,7 @@ export default function PdfUploadSection() {
   const [uploadedFile, setUploadedFile] = useState<File | null>();
   const [isProcessing, setIsProcessing] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [isModalOpen, setIsModalOpen] = useToggle(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleDragOver = useCallback((e: DragEvent) => {
@@ -82,7 +83,7 @@ export default function PdfUploadSection() {
       formData.append('pdf', uploadedFile);
       formData.append('level', level);
 
-      const response = await fetch('/api/process-pdf', {
+      const response = await fetch(routes.api.processPdf, {
         method: 'POST',
         body: formData,
       });
@@ -94,7 +95,7 @@ export default function PdfUploadSection() {
       }
 
       if (response.ok && data?.quizId && data?.questions) {
-        router.push(`/dashboard/quiz/${data.quizId}`);
+        router.push(routes.dashboard.quiz(data.quizId));
       }
     } catch (error) {
       setError(

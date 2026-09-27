@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { TwoFactorVerify } from '@/components/auth/two-factor-verify';
+import { routes } from '@/lib/routes';
 
 export default function TwoFactorPage() {
   const router = useRouter();
@@ -15,7 +16,9 @@ export default function TwoFactorPage() {
         <p className="text-center text-gray-600 mb-6">
           Enter your authenticator code or backup code to continue
         </p>
-        <TwoFactorVerify onSuccess={() => router.push('/dashboard/start')} />
+        <TwoFactorVerify
+          onSuccess={() => router.push(routes.dashboard.start)}
+        />
       </div>
     </div>
   );

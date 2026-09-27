@@ -5,6 +5,7 @@ import {
   MIN_TEXT_CHARS,
   menuItems,
 } from '@/lib/constants';
+import { routes } from '@/lib/routes';
 
 describe('constants', () => {
   it('MAX_FILE_SIZE is 10MB', () => {
@@ -31,12 +32,12 @@ describe('menuItems', () => {
 
   it('has Home as first item', () => {
     expect(menuItems[0].label).toBe('Home');
-    expect(menuItems[0].href).toBe('/');
+    expect(menuItems[0].href).toBe(routes.home);
   });
 
   it('has New Quiz as second item', () => {
     expect(menuItems[1].label).toBe('New Quiz');
-    expect(menuItems[1].href).toBe('/dashboard/start');
+    expect(menuItems[1].href).toBe(routes.dashboard.start);
   });
 
   it('all items have required fields', () => {

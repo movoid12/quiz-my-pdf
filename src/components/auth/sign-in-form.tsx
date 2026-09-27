@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { type SyntheticEvent, useState } from 'react';
 import { GoogleIcon } from '@/components/ui/icons/google-icon';
 import { authClient } from '@/lib/auth-client';
+import { routes } from '@/lib/routes';
 
 export const SignInForm = () => {
   const router = useRouter();
@@ -24,9 +25,9 @@ export const SignInForm = () => {
         {
           onSuccess: (context) => {
             if (context.data?.twoFactorRedirect) {
-              router.push('/auth/2fa');
+              router.push(routes.auth.twoFactor);
             } else {
-              router.push('/dashboard/start');
+              router.push(routes.dashboard.start);
             }
           },
           onError: (context) => {
@@ -49,9 +50,9 @@ export const SignInForm = () => {
       const { error: err } = await authClient.signIn.social({
         provider: 'google',
         // biome-ignore lint/style/useNamingConvention: Better Auth uses callbackURL
-        callbackURL: '/dashboard/start',
+        callbackURL: routes.dashboard.start,
         // biome-ignore lint/style/useNamingConvention: Better Auth uses newUserCallbackURL
-        newUserCallbackURL: '/dashboard/start',
+        newUserCallbackURL: routes.dashboard.start,
       });
 
       if (err) {
@@ -129,7 +130,7 @@ export const SignInForm = () => {
 
         <p className="text-center text-sm text-base-content/70 mt-2">
           Don't have an account?{' '}
-          <Link href="/auth/sign-up" className="link link-primary">
+          <Link href={routes.auth.signUp} className="link link-primary">
             Sign up
           </Link>
         </p>

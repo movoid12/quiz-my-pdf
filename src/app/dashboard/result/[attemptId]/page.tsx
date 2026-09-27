@@ -8,6 +8,7 @@ import Loading from '@/components/ui/loading';
 import QuestionResultCard from '@/components/ui/question-result-card';
 import RadialProgress from '@/components/ui/radial-progress';
 import ResultStats from '@/components/ui/result-stats';
+import { routes } from '@/lib/routes';
 import { trpc } from '@/lib/trpc';
 import { formatRelativeTime } from '@/lib/utils';
 
@@ -50,7 +51,7 @@ export default function ResultPage() {
         <p className="mb-6 text-base-content/70">
           Upload a PDF and complete a quiz to see results here.
         </p>
-        <Link href="/dashboard/start" className="btn btn-primary">
+        <Link href={routes.dashboard.start} className="btn btn-primary">
           Back to Upload
         </Link>
       </div>
@@ -86,12 +87,12 @@ export default function ResultPage() {
 
           <div className="mt-4 flex flex-wrap gap-3">
             <Link
-              href={`/dashboard/quiz/${result.quizId}`}
+              href={routes.dashboard.quiz(result.quizId)}
               className="btn btn-outline btn-primary"
             >
               Retake Quiz
             </Link>
-            <Link href="/dashboard/start" className="btn btn-primary">
+            <Link href={routes.dashboard.start} className="btn btn-primary">
               Generate New Quiz
             </Link>
           </div>
@@ -120,12 +121,12 @@ export default function ResultPage() {
             </div>
             <div className="flex flex-wrap gap-2">
               <Link
-                href={`/dashboard/quiz/${result.quizId}`}
+                href={routes.dashboard.quiz(result.quizId)}
                 className="btn btn-outline btn-primary"
               >
                 Retake Quiz
               </Link>
-              <Link href="/dashboard/start" className="btn btn-primary">
+              <Link href={routes.dashboard.start} className="btn btn-primary">
                 Generate New Quiz
               </Link>
             </div>

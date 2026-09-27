@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Footer from '@/components/sections/footer';
 import ThemeChanger from '@/components/ui/theme-changer';
 import UserMenu from '@/components/ui/user-menu';
+import { routes } from '@/lib/routes';
 
 export default function DashboardLayout({
   children,
@@ -14,7 +15,10 @@ export default function DashboardLayout({
         <div className="mx-auto max-w-7xl">
           <nav className="navbar rounded-box border border-base-content/10 bg-base-100/95 shadow-md backdrop-blur">
             <div className="navbar-start">
-              <Link href="/" className="btn btn-ghost px-2 text-xl font-bold">
+              <Link
+                href={routes.home}
+                className="btn btn-ghost px-2 text-xl font-bold"
+              >
                 QuizMyPDF
               </Link>
             </div>
