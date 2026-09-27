@@ -11,8 +11,10 @@ A modern web app to generate and take quizzes from your PDF files using AI.
 
 ## TODO
 
-- [ ] Implement user authentication using Better Auth
-- [ ] Integrate with a real-time database like PostgreSQL
+- [x] Implement user authentication using Better Auth
+- [x] Integrate with a real-time database like PostgreSQL
+- [x] History API / Quiz Attemps API + UI
+
 
 ## Techstack
 
@@ -25,6 +27,16 @@ A modern web app to generate and take quizzes from your PDF files using AI.
 - Google Gemini API
 - TypeScript
 - Biome (Linter/formatter)
+
+## Diagram
+<img width="5610" height="5704" alt="diagram_quiz" src="https://github.com/user-attachments/assets/748d6e78-7ae5-496d-9ec6-d6c01c62da52" />
+<br>
+<br>
+<details>
+  <summary>Want to have it as Mermaid?</summary>
+  https://gitdiagram.com/movoid12/quiz-my-pdf
+</details>
+
 
 ## Prerequires
 
