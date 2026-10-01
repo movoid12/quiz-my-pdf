@@ -40,7 +40,7 @@ export const quizRouter = router({
         answers: z.array(
           z.object({
             questionId: z.uuid(),
-            selectedOption: z.number().int().min(0).max(3),
+            selectedOption: z.number().int().min(-1).max(3),
           }),
         ),
       }),
@@ -86,6 +86,7 @@ export const quizRouter = router({
         };
       });
 
+      // quiz-history.B_ATTEMPT.5 — -1 represents an unanswered question.
       const total = input.answers.length;
 
       const score = total > 0 ? Math.round((correct / total) * 100) : 0;

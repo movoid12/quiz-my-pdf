@@ -8,6 +8,7 @@ import { MAX_FILE_SIZE } from '@/lib/constants';
 import { routes } from '@/lib/routes';
 import QuizLevelModal from '../modals/quiz-level-modal';
 import ErrorAlert from '../ui/error-alert';
+import LatticeLoader from '../ui/lattice-loader';
 
 export default function PdfUploadSection() {
   const router = useRouter();
@@ -155,14 +156,7 @@ export default function PdfUploadSection() {
                 disabled={isProcessing}
                 className="btn btn-primary"
               >
-                {isProcessing ? (
-                  <>
-                    <span className="loading loading-spinner loading-sm"></span>
-                    Generating Quiz...
-                  </>
-                ) : (
-                  'Generate Quiz'
-                )}
+                {isProcessing ? 'Generating Quiz...' : 'Generate Quiz'}
               </button>
               <button
                 type="button"
@@ -177,9 +171,14 @@ export default function PdfUploadSection() {
 
         {isProcessing && (
           <div className="mx-auto max-w-md space-y-4">
-            <progress className="progress progress-primary w-full">
-              {''}
-            </progress>
+            {/* ai-quiz-generation.E_API.3 */}
+            <LatticeLoader
+              label="Generating your quiz..."
+              pattern="orbit"
+              gap={6}
+              glow
+              showTimer
+            />
             <p className="text-sm opacity-70">
               Our AI is analyzing your PDF and creating relevant questions...
             </p>

@@ -1,0 +1,16 @@
+feature:
+  name: improve-start-page-ui
+  product: quiz-my-pdf
+  description: Improve the homepage audience cards with a spotlight-inspired visual treatment.
+
+components:
+  HOMEPAGE_CARDS:
+    requirements:
+      1: The three cards in the "Why people use it" section use a spotlight-inspired visual treatment.
+      2: Each card retains its existing emoji, title, and description.
+
+constraints:
+  IMPLEMENTATION:
+    description: Keep the change within the existing homepage card implementation.
+    requirements:
+      1: The card appearance responds to pointer movement without adding a new dependency.
