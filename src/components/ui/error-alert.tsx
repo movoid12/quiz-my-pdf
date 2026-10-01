@@ -8,7 +8,7 @@ type ErrorAlertProps = {
 export default function ErrorAlert({ message, onRetry }: ErrorAlertProps) {
   return (
     <div className="space-y-6">
-      <div className="alert alert-error">
+      <div className="alert">
         {/* ai-quiz-generation.E_API.4 */}
         <LatticeLoader
           status="error"

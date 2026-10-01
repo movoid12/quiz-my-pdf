@@ -173,9 +173,10 @@ export default function PdfUploadSection() {
           <div className="mx-auto max-w-md space-y-4">
             {/* ai-quiz-generation.E_API.3 */}
             <LatticeLoader
-              gap={6}
-              pattern="orbit"
               label="Generating your quiz..."
+              pattern="orbit"
+              gap={6}
+              glow
               showTimer
             />
             <p className="text-sm opacity-70">
