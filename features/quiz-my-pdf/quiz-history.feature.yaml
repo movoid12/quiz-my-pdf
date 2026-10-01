@@ -21,6 +21,7 @@ components:
       2: Store user answers per question (questionId, selectedIndex, isCorrect)
       3: Calculate score server-side from stored answers
       4: Allow multiple attempts per quiz per user
+      5: Persist timed-out attempts with unanswered questions marked incorrect
 
   C_HISTORY_API:
     name: Quiz history API

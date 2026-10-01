@@ -13,7 +13,6 @@ export default function ErrorAlert({ message, onRetry }: ErrorAlertProps) {
         <LatticeLoader
           status="error"
           errorLabel="Error"
-          color="#ef4444"
           glow
           showTimer={false}
         />
