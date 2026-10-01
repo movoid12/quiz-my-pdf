@@ -1,5 +1,17 @@
 import dayjs from 'dayjs';
+import type { PointerEvent } from 'react';
 import { MAX_FILE_SIZE } from '@/lib/constants';
+
+export function handleSpotlightPointerMove(
+  event: PointerEvent<HTMLDivElement>,
+): void {
+  const rect = event.currentTarget.getBoundingClientRect();
+  event.currentTarget.style.setProperty(
+    '--x',
+    `${event.clientX - rect.left}px`,
+  );
+  event.currentTarget.style.setProperty('--y', `${event.clientY - rect.top}px`);
+}
 
 export function formatRelativeTime(
   date: Date | string | number | null | undefined,

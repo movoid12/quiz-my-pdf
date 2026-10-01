@@ -48,3 +48,4 @@ components:
     requirements:
       1: Orchestrates pipeline in correct order -> extract → sanitize → generate → persist → respond
       2: Returns 400 / 415 / 429 / 500 on known failure modes with a clean error response
+      3: Shows a progress indicator while quiz generation is in progress after difficulty selection
