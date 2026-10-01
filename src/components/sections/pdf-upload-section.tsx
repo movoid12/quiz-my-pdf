@@ -172,7 +172,12 @@ export default function PdfUploadSection() {
         {isProcessing && (
           <div className="mx-auto max-w-md space-y-4">
             {/* ai-quiz-generation.E_API.3 */}
-            <LatticeLoader gap={6} pattern="orbit" label="Generating your quiz..." showTimer  />
+            <LatticeLoader
+              gap={6}
+              pattern="orbit"
+              label="Generating your quiz..."
+              showTimer
+            />
             <p className="text-sm opacity-70">
               Our AI is analyzing your PDF and creating relevant questions...
             </p>
