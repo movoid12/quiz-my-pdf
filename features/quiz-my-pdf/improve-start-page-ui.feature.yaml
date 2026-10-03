@@ -1,16 +1,16 @@
 feature:
   name: improve-start-page-ui
   product: quiz-my-pdf
-  description: Improve the homepage audience cards with a spotlight-inspired visual treatment.
+  description: Add a scroll-expanding visual treatment to the homepage before login.
 
 components:
-  HOMEPAGE_CARDS:
+  HOMEPAGE:
     requirements:
-      1: The three cards in the "Why people use it" section use a spotlight-inspired visual treatment.
-      2: Each card retains its existing emoji, title, and description.
+      1: The home page includes a visual that expands as the visitor scrolls.
+      2: The home page retains its existing introduction and path to starting a quiz.
 
 constraints:
-  IMPLEMENTATION:
-    description: Keep the change within the existing homepage card implementation.
+    IMPLEMENTATION:
+    description: Keep the change within the existing homepage implementation.
     requirements:
-      1: The card appearance responds to pointer movement without adding a new dependency.
+      1: The scroll expansion works without adding a new dependency.

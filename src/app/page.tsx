@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import FeatureCard from '@/components/ui/feature-card';
 import GradientText from '@/components/ui/gradient-text';
+import ScrollExpand from '@/components/ui/scroll-expand';
 import { routes } from '@/lib/routes';
 
 export default function Home() {
@@ -82,6 +83,7 @@ export default function Home() {
             </div>
           </div>
         </section>
+        <ScrollExpand />
       </main>
     </div>
   );
