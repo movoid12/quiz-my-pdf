@@ -24,11 +24,19 @@ test('authed start page shows upload flow', { session: 'testUser' }, async ({
   await expect(browser.locator('input[type="file"]')).toBeVisible();
 });
 
-/* Step 3 agent flow – uses OpenAI subscription.
-ponytail: one goal per act, assert meaning not phrasing. */
-test('agent generates quiz from PDF', { session: 'testUser' }, async ({ app, agent, screen }) => {
+/* Step 3 core loop, fully deterministic (no model): the file input is invisible
+to the agent's a11y tree (drop-zone exposes role=button), so upload via Playwright. */
+test('generates quiz from PDF', {
+  session: 'testUser',
+  timeout: 120_000,
+}, async ({ app, screen, browser }) => {
   await app.open('/dashboard/start');
-  await agent.act('upload tests/fixtures/sample.pdf and choose medium difficulty to generate the quiz');
-  await agent.assert('5 multiple-choice questions are visible');
-  await expect(screen.getByRole('button', { name: /generate quiz/i })).toBeHidden();
+  await browser
+    .locator('input[type="file"]')
+    .setInputFiles('tests/fixtures/sample.pdf');
+  await expect(screen.getByText(/PDF uploaded successfully/)).toBeVisible();
+  await screen.getByRole('button', 'Generate Quiz').tap();
+  await screen.getByRole('button', 'Medium').tap();
+  await expect(browser).toHaveURL(/\/dashboard\/quiz\//);
+  await expect(screen.getByText('Question 1 of 5')).toBeVisible();
 });
