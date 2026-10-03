@@ -23,19 +23,21 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: pnpm/action-setup@v6
-        name: Install pnpm 📦
+      - name: Install pnpm 📦
+        uses: pnpm/setup@v3
         with:
-          version: 11.20.0
-          run_install: false
-
-      - name: Install Node.js 🌐
-        uses: actions/setup-node@v7
-        with:
-          node-version: 24
+          version: 12.8.1
+          runtime: node@24
 
       - name: Install dependencies 📦
         run: pnpm install
+
+      - name: Install release tooling 📦
+        run: >-
+          npm install --no-save --package-lock=false
+          semantic-release@25.0.9
+          @semantic-release/github@12.0.10
+          @semantic-release/git@11.0.1
 
       - name: Run lint check and format check ✅
         run: pnpm check
@@ -43,4 +45,4 @@ jobs:
       - name: Release 🚀
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
+        run: npx --no-install semantic-release
