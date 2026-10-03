@@ -32,10 +32,17 @@ jobs:
       - name: Install dependencies 📦
         run: pnpm install
 
+      - name: Install release tooling 📦
+        run: >-
+          npm install --no-save --package-lock=false
+          semantic-release@25.0.9
+          @semantic-release/github@12.0.10
+          @semantic-release/git@11.0.1
+
       - name: Run lint check and format check ✅
         run: pnpm check
 
       - name: Release 🚀
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx semantic-release
+        run: npx --no-install semantic-release
