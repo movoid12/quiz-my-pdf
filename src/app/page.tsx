@@ -54,8 +54,6 @@ export default function Home() {
           </div>
         </section>
 
-        <ScrollExpand />
-
         <section className="card border border-base-content/10 bg-base-100 shadow-sm">
           <div className="card-body gap-8">
             <div className="space-y-2 text-center">
@@ -85,6 +83,7 @@ export default function Home() {
             </div>
           </div>
         </section>
+        <ScrollExpand />
       </main>
     </div>
   );
