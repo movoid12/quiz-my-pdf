@@ -1,6 +1,6 @@
 {
   "name": "quiz-my-pdf",
-  "version": "0.22.1",
+  "version": "0.24.0",
   "private": true,
   "packageManager": "pnpm@12.8.1",
   "devEngines": {
