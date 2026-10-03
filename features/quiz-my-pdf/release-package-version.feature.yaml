@@ -1,0 +1,10 @@
+feature:
+  name: release-package-version
+  product: quiz-my-pdf
+  description: Keep package.json version synchronized with semantic releases
+
+components:
+  RELEASE:
+    requirements:
+      1: Each semantic release updates the package.json version to the calculated release version.
+      2: Updating the version does not publish the private package to npm.
