@@ -28,7 +28,6 @@ jobs:
         with:
           version: 12.8.1
           runtime: node@24
-          run_install: false
 
       - name: Install dependencies 📦
         run: pnpm install

@@ -21,7 +21,6 @@ jobs:
         with:
           version: 12.8.1
           runtime: node@24
-          run_install: false
 
       - name: Check dependencies Security (high severity) 🔒
         run: pnpm audit --audit-level high
