@@ -34,7 +34,7 @@ jobs:
           APP_URL: http://localhost:3000
           GITHUB_TOKEN: ${{ github.token }}
           AI_GATEWAY_API_KEY: ${{ secrets.AI_GATEWAY_API_KEY }}
-          E2E_USER_TESTUSER_USERNAME: ${{ secrets.E2E_USER_TESTUSER_USERNAME }}
+          E2E_USER_TESTUSER_USERNAME: e2e@example.test
           E2E_USER_TESTUSER_PASSWORD: ${{ secrets.E2E_USER_TESTUSER_PASSWORD }}
           GOOGLE_GENERATIVE_AI_API_KEY: ${{ secrets.GOOGLE_GENERATIVE_AI_API_KEY }}
           NEON_DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
