@@ -32,3 +32,11 @@ jobs:
 
       - name: Run Biome
         run: biome ci .
+
+  e2e:
+    needs: check-code
+    permissions:
+      contents: read
+      pull-requests: write
+    uses: ./.github/workflows/e2e.yml
+    secrets: inherit
