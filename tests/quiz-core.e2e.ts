@@ -5,7 +5,6 @@ import { expect } from 'e2e';
 
 /* Answers every question with the first option and submits. */
 async function answerAllAndSubmit(screen: Screen, browser: Browser) {
-  
   for (let q = 1; q <= 5; q += 1) {
     await expect(screen.getByText(`Question ${q} of 5`)).toBeVisible();
     await browser.locator('input[type="radio"]').first().click();
