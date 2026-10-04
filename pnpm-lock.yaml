@@ -266,6 +266,9 @@ importers:
       '@biomejs/biome':
         specifier: 2.5.14
         version: 2.5.14
+      '@e2e-dev/github':
+        specifier: ^0.3.2
+        version: 0.3.2(e2e@0.16.0(@ai-sdk/openai@4.0.83(zod@4.6.5))(ai@7.0.127(zod@4.6.5)))
       '@e2e-dev/web':
         specifier: ^0.11.2
         version: 0.11.2(e2e@0.16.0(@ai-sdk/openai@4.0.83(zod@4.6.5))(ai@7.0.127(zod@4.6.5)))(playwright@1.63.0)
@@ -590,6 +593,12 @@ packages:
 
   '@drizzle-team/brocli@0.10.2':
     resolution: {integrity: sha512-z33Il7l5dKjUgGULTqBsQBQwckHh5AbIuxhdsIxDDiZAzBOrZO6q9ogcWC65kU382AfynTfgNumVcNIjuIua6w==}
+
+  '@e2e-dev/github@0.3.2':
+    resolution: {integrity: sha512-LDcbZ0eDrGDTP8u68A8RyPbwMnMgZHKFpNd/K7OgljmomjmqnVFCjqVU1/2EefX+rIbZZ0eXtA6xbWdZ7QRniA==}
+    engines: {node: '>=22.12.0'}
+    peerDependencies:
+      e2e: '>=0.15.0 <1'
 
   '@e2e-dev/web@0.11.2':
     resolution: {integrity: sha512-2JzH42fklbKFxmg1Pp8EnZJC/Y+6lDNnYm2+d71CTaHjx6NGTWi6SjpPVW8zAyRsj1hLFliQcURI+pBJMXNFoA==}
@@ -3450,6 +3459,10 @@ snapshots:
   '@csstools/css-tokenizer@4.0.2': {}
 
   '@drizzle-team/brocli@0.10.2': {}
+
+  '@e2e-dev/github@0.3.2(e2e@0.16.0(@ai-sdk/openai@4.0.83(zod@4.6.5))(ai@7.0.127(zod@4.6.5)))':
+    dependencies:
+      e2e: 0.16.0(@ai-sdk/openai@4.0.83(zod@4.6.5))(ai@7.0.127(zod@4.6.5))
 
   '@e2e-dev/web@0.11.2(e2e@0.16.0(@ai-sdk/openai@4.0.83(zod@4.6.5))(ai@7.0.127(zod@4.6.5)))(playwright@1.63.0)':
     dependencies:
