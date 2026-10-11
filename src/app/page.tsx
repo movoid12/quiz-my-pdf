@@ -86,16 +86,16 @@ export default function Home() {
 
         <ScrollExpand />
 
-        <section className="rounded-box bg-primary px-6 py-10 text-primary-content shadow-sm sm:px-10">
+        <section className="rounded-box bg-neutral px-6 py-10 text-neutral-content shadow-sm sm:px-10">
           <div className="flex flex-col gap-8">
             <div className="max-w-xl space-y-3">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary-content/70">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-neutral-content/70">
                 From reading to recall
               </p>
               <h2 className="text-3xl font-bold sm:text-4xl">
                 Make every page of your PDF count.
               </h2>
-              <p className="text-primary-content/75">
+              <p className="text-neutral-content/75">
                 Quiz My PDF turns passive reading into a focused study loop so
                 you can spot gaps, practice what matters, and keep moving.
               </p>
@@ -109,13 +109,13 @@ export default function Home() {
               ].map(([number, title, description]) => (
                 <div
                   key={number}
-                  className="rounded-box bg-primary-content/10 p-4 transition-colors hover:bg-primary-content/15"
+                  className="rounded-box bg-neutral-content/10 p-4 transition-colors hover:bg-neutral-content/15"
                 >
-                  <p className="text-sm font-semibold text-primary-content/60">
+                  <p className="text-sm font-semibold text-neutral-content/60">
                     {number}
                   </p>
                   <h3 className="mt-4 font-semibold">{title}</h3>
-                  <p className="mt-1 text-sm text-primary-content/70">
+                  <p className="mt-1 text-sm text-neutral-content/70">
                     {description}
                   </p>
                 </div>
