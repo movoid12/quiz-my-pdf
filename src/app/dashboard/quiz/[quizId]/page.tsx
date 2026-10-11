@@ -157,7 +157,7 @@ export default function QuizPage() {
         </div>
       </div>
 
-      <div className="rounded border border-base-content/10">
+      <div>
         <div className="m-2 flex items-center justify-between">
           <button
             type="button"
