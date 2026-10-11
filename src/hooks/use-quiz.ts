@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@tanstack/react-router';
 import { useCallback, useRef, useState } from 'react';
 import { routes } from '@/lib/routes';
 import { useToastStore } from '@/lib/stores/toast-store';
@@ -18,7 +18,7 @@ export const useQuiz = (quiz: ClientQuiz | null) => {
   const saveAttempt = trpc.quiz.saveAttempt.useMutation({
     onSuccess: (result) => {
       addToast('success', 'Quiz submitted!');
-      router.push(routes.dashboard.result(result.attemptId));
+      router.history.push(routes.dashboard.result(result.attemptId));
     },
     onError: (_error) => {
       submitted.current = false;

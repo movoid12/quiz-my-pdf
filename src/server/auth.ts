@@ -3,7 +3,6 @@
 /** biome-ignore-all lint/suspicious/useAwait: better-auth setup */
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
-import { nextCookies } from 'better-auth/next-js';
 import { twoFactor } from 'better-auth/plugins/two-factor';
 import * as schema from '@/db/schema';
 import { env } from '@/env';
@@ -52,7 +51,6 @@ export const auth = betterAuth({
       twoFactorCookieMaxAge: 600,
       trustDeviceMaxAge: 30 * 24 * 60 * 60,
     }),
-    nextCookies(),
   ],
 
   session: {

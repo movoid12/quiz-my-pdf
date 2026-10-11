@@ -2,7 +2,6 @@
 'use client';
 
 import { gsap } from 'gsap';
-import Image from 'next/image';
 import type { CSSProperties, ReactNode } from 'react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -280,7 +279,7 @@ export default function BubbleMenu({
             }
           >
             {typeof logo === 'string' ? (
-              <Image
+              <img
                 src={logo}
                 alt="Logo"
                 width={120}

@@ -1,4 +1,3 @@
-import 'server-only';
 import { router } from '../trpc';
 import { quizRouter } from './quiz';
 

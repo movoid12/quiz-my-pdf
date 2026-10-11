@@ -1,13 +1,16 @@
 'use client';
 
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { Link, useRouter } from '@tanstack/react-router';
 import { type SyntheticEvent, useState } from 'react';
 import { GoogleIcon } from '@/components/ui/icons/google-icon';
 import { authClient } from '@/lib/auth-client';
 import { routes } from '@/lib/routes';
 
-export const SignInForm = () => {
+export const SignInForm = ({
+  callbackUrl = routes.dashboard.start,
+}: {
+  callbackUrl?: string;
+}) => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,9 +28,9 @@ export const SignInForm = () => {
         {
           onSuccess: (context) => {
             if (context.data?.twoFactorRedirect) {
-              router.push(routes.auth.twoFactor);
+              router.history.push(routes.auth.twoFactor);
             } else {
-              router.push(routes.dashboard.start);
+              router.history.push(callbackUrl);
             }
           },
           onError: (context) => {
@@ -130,7 +133,7 @@ export const SignInForm = () => {
 
         <p className="text-center text-sm text-base-content/70 mt-2">
           Don't have an account?{' '}
-          <Link href={routes.auth.signUp} className="link link-primary">
+          <Link to={routes.auth.signUp} className="link link-primary">
             Sign up
           </Link>
         </p>

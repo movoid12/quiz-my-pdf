@@ -1,5 +1,6 @@
 'use client';
 
+import { Link, useRouter } from '@tanstack/react-router';
 import {
   ExternalLink,
   FilePlus2,
@@ -9,10 +10,8 @@ import {
   LogOut,
   User,
 } from 'lucide-react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
-import { useClickOutside } from 'react-haiku';
+import { useClickOutside } from '@/hooks/use-click-outside';
 import { useToggle } from '@/hooks/use-toggle';
 import { authClient } from '@/lib/auth-client';
 import { routes } from '@/lib/routes';
@@ -31,7 +30,7 @@ export default function UserMenu() {
 
   const handleSignOut = async () => {
     await authClient.signOut();
-    router.push(routes.home);
+    router.history.push(routes.home);
   };
 
   useClickOutside(ref, () => setIsOpen(false));
@@ -71,7 +70,7 @@ export default function UserMenu() {
         >
           <li>
             <Link
-              href={routes.home}
+              to={routes.home}
               role="menuitem"
               onClick={() => setIsOpen(false)}
             >
@@ -81,7 +80,7 @@ export default function UserMenu() {
           </li>
           <li>
             <Link
-              href={routes.dashboard.start}
+              to={routes.dashboard.start}
               role="menuitem"
               onClick={() => setIsOpen(false)}
             >
@@ -91,7 +90,7 @@ export default function UserMenu() {
           </li>
           <li>
             <Link
-              href={routes.dashboard.history}
+              to={routes.dashboard.history}
               role="menuitem"
               onClick={() => setIsOpen(false)}
             >
@@ -119,7 +118,7 @@ export default function UserMenu() {
           <li className="menu-title px-3 py-2">Account</li>
           <li>
             <Link
-              href={routes.dashboard.profile}
+              to={routes.dashboard.profile}
               role="menuitem"
               onClick={() => setIsOpen(false)}
             >

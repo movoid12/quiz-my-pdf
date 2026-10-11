@@ -18,7 +18,7 @@ A modern web app to generate and take quizzes from your PDF files using AI.
 
 ## Techstack
 
-- Next.js v15 (App Router)
+- TanStack Start (React Router, Vite + Nitro)
 - React v19
 - Tailwind CSS
 - DaisyUI 

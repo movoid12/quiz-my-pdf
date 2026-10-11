@@ -1,7 +1,7 @@
 'use client';
 
+import { useRouter } from '@tanstack/react-router';
 import { Check } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { type ChangeEvent, type DragEvent, useCallback, useState } from 'react';
 import { useToggle } from '@/hooks/use-toggle';
 import { MAX_FILE_SIZE } from '@/lib/constants';
@@ -96,7 +96,7 @@ export default function PdfUploadSection() {
       }
 
       if (response.ok && data?.quizId && data?.questions) {
-        router.push(routes.dashboard.quiz(data.quizId));
+        router.history.push(routes.dashboard.quiz(data.quizId));
       }
     } catch (error) {
       setError(
@@ -135,7 +135,7 @@ export default function PdfUploadSection() {
           </span>
         </div>
 
-        <div className="card mx-8 bg-base-200 shadow-md">
+        <div className="card mx-8 bg-base-200 shadow-sm">
           <div className="card-body">
             <div className="mb-4 flex items-center justify-center space-x-4">
               <div className="text-4xl">📄</div>

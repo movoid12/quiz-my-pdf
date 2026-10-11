@@ -10,8 +10,20 @@
     "indentStyle": "space"
   },
   "files": {
-    "includes": ["**", "!public"]
+    "includes": ["**", "!public", "!src/routeTree.gen.ts", "!.output"]
   },
+  "overrides": [
+    {
+      "includes": ["src/routes/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useFilenamingConvention": "off"
+          }
+        }
+      }
+    }
+  ],
   "linter": {
     "rules": {
       "complexity": {

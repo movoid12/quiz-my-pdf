@@ -1,0 +1,41 @@
+feature:
+  name: migrate-tanstack-start
+  product: quiz-my-pdf
+  description: Migrate Next.js 16 App Router shell to TanStack Start (Vite + Nitro) keeping behavior, paths, auth sessions, and tRPC data layer.
+
+components:
+  FOUNDATION:
+    name: Start foundation
+    description: Vite + router shell replaces Next build shell.
+    requirements:
+      1: vite.config.ts uses tanstackStart + nitro + react plugins
+      2: src/router.tsx builds router from generated routeTree
+      3: src/routes/__root.tsx renders document shell with providers and toast container
+      4: Home route serves existing landing content at /
+  ROUTES:
+    name: Route migration
+    description: All App Router pages reachable under Start file routes.
+    requirements:
+      1: Dashboard routes (start, history, profile, quiz/$quizId, result/$attemptId) preserve paths
+      2: Auth routes (sign-in, sign-up, 2fa) preserve paths and redirects
+      3: No next/link, next/navigation, next/image, next/font imports remain in src
+  AUTH:
+    name: Auth boundary
+    description: Better Auth keeps provider and sessions across framework boundary.
+    requirements:
+      1: Auth handlers served via Start server route calling auth.handler
+      2: Private routes redirect signed-out users to sign-in with callbackUrl
+      3: Private responses are not publicly cacheable
+  DATA:
+    name: Data layer
+    description: tRPC and PDF pipeline unchanged behind new handlers.
+    requirements:
+      1: tRPC served via Start server route with same endpoint and context
+      2: PDF processing route preserves auth, validation, persistence, and response shape
+
+constraints:
+  COMPAT:
+    description: Cutover safety and tooling.
+    requirements:
+      1: Database schema stays compatible with both versions during transition
+      2: check, typecheck, and build pass on the migrated app

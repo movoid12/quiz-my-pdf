@@ -8,23 +8,21 @@ import { routes } from '@/lib/routes';
 
 const mockPush = vi.fn();
 
-vi.mock('next/navigation', () => ({
-  useRouter: () => ({ push: mockPush }),
-}));
-
-vi.mock('next/link', () => ({
-  default: ({
+vi.mock('@tanstack/react-router', () => ({
+  // biome-ignore lint/style/useNamingConvention: must match router export name
+  Link: ({
     children,
-    href,
+    to,
     ...props
   }: {
     children: React.ReactNode;
-    href: string;
+    to: string;
   }) => (
-    <a href={href} {...props}>
+    <a href={to} {...props}>
       {children}
     </a>
   ),
+  useRouter: () => ({ history: { push: mockPush } }),
 }));
 
 vi.mock('@/lib/auth-client', () => ({
