@@ -84,8 +84,10 @@ export default function Home() {
           </div>
         </section>
 
+        <ScrollExpand />
+
         <section className="rounded-box bg-primary px-6 py-10 text-primary-content shadow-sm sm:px-10">
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col gap-8">
             <div className="max-w-xl space-y-3">
               <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary-content/70">
                 From reading to recall
@@ -99,7 +101,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-3 lg:w-[48%]">
+            <div className="grid gap-3 sm:grid-cols-3">
               {[
                 ['01', 'Upload', 'Bring your notes or textbook.'],
                 ['02', 'Practice', 'Answer questions made for your PDF.'],
@@ -121,8 +123,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
-        <ScrollExpand />
       </main>
     </div>
   );
