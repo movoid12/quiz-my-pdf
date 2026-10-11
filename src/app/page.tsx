@@ -107,7 +107,7 @@ export default function Home() {
               ].map(([number, title, description]) => (
                 <div
                   key={number}
-                  className="rounded-box bg-primary-content/10 p-4"
+                  className="rounded-box bg-primary-content/10 p-4 transition-colors hover:bg-primary-content/15"
                 >
                   <p className="text-sm font-semibold text-primary-content/60">
                     {number}
@@ -123,44 +123,6 @@ export default function Home() {
         </section>
 
         <ScrollExpand />
-
-        <section className="rounded-box bg-primary px-6 py-10 text-primary-content shadow-sm sm:px-10">
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-xl space-y-3">
-              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary-content/70">
-                From reading to recall
-              </p>
-              <h2 className="text-3xl font-bold sm:text-4xl">
-                Make every page of your PDF count.
-              </h2>
-              <p className="text-primary-content/75">
-                Quiz My PDF turns passive reading into a focused study loop so
-                you can spot gaps, practice what matters, and keep moving.
-              </p>
-            </div>
-
-            <div className="grid gap-3 sm:grid-cols-3 lg:w-[48%]">
-              {[
-                ['01', 'Upload', 'Bring your notes or textbook.'],
-                ['02', 'Practice', 'Answer questions made for your PDF.'],
-                ['03', 'Remember', 'Use feedback to guide your next review.'],
-              ].map(([number, title, description]) => (
-                <div
-                  key={number}
-                  className="rounded-box bg-primary-content/10 p-4"
-                >
-                  <p className="text-sm font-semibold text-primary-content/60">
-                    {number}
-                  </p>
-                  <h3 className="mt-4 font-semibold">{title}</h3>
-                  <p className="mt-1 text-sm text-primary-content/70">
-                    {description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
       </main>
     </div>
   );
