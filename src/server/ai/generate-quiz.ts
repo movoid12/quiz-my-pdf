@@ -1,4 +1,3 @@
-import 'server-only';
 import { google } from '@ai-sdk/google';
 import { generateText, Output } from 'ai';
 import { type Difficulty, quizCategoryEnum } from '@/db/schema';

@@ -1,4 +1,3 @@
-import 'server-only';
 import { initTRPC, TRPCError } from '@trpc/server';
 import { auth } from './auth';
 

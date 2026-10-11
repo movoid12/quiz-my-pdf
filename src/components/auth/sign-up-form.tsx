@@ -1,7 +1,6 @@
 'use client';
 
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { Link, useRouter } from '@tanstack/react-router';
 import { type SyntheticEvent, useState } from 'react';
 import { authClient } from '@/lib/auth-client';
 import { routes } from '@/lib/routes';
@@ -137,7 +136,7 @@ export const SignUpForm = () => {
           </p>
           <button
             type="button"
-            onClick={() => router.push(routes.dashboard.start)}
+            onClick={() => router.history.push(routes.dashboard.start)}
             className="btn btn-primary w-full"
           >
             Continue to Dashboard
@@ -250,7 +249,7 @@ export const SignUpForm = () => {
 
         <p className="text-center text-sm text-base-content/70 mt-2">
           Already have an account?{' '}
-          <Link href={routes.auth.signIn} className="link link-primary">
+          <Link to={routes.auth.signIn} className="link link-primary">
             Sign in
           </Link>
         </p>

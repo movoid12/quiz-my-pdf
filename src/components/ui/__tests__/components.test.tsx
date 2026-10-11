@@ -5,16 +5,17 @@ import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useThemeStore } from '@/lib/stores/theme-store';
 
-vi.mock('next/link', () => ({
-  default: ({
+vi.mock('@tanstack/react-router', () => ({
+  // biome-ignore lint/style/useNamingConvention: must match router export name
+  Link: ({
     children,
-    href,
+    to,
     ...props
   }: {
     children: React.ReactNode;
-    href: string;
+    to: string;
   }) => (
-    <a href={href} {...props}>
+    <a href={to} {...props}>
       {children}
     </a>
   ),

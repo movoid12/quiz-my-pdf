@@ -13,11 +13,13 @@
 # testing
 /coverage
 
-# next.js
+# build outputs (tanstack start / nitro)
 /.next/
 /out/
-
-# production
+/.output/
+/.nitro/
+/nitro/
+dist/
 /build
 
 # misc
