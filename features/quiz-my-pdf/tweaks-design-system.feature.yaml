@@ -7,6 +7,7 @@ components:
   HOMEPAGE:
     requirements:
       1: Preserve the existing introduction, feature overview, scroll visual, and path to starting a quiz while reducing decorative card borders.
+      2: Make the Study smarter scroll visual more compelling with concise value-focused copy and scannable study benefits without changing its behavior.
   START_PAGE:
     requirements:
       1: Preserve the upload journey and supporting content while using borderless content surfaces.
