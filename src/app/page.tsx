@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-base-200 px-4 py-10 sm:px-6 lg:px-8">
       <main className="mx-auto flex max-w-5xl flex-col gap-8">
-        <section className="hero rounded-box border border-base-content/10 bg-base-100 shadow-sm">
+        <section className="hero rounded-box bg-base-100 shadow-sm">
           <div className="hero-content py-12 text-center">
             <div className="max-w-3xl space-y-6">
               <div className="badge badge-outline badge-lg">
@@ -32,7 +32,7 @@ export default function Home() {
                 Turn study notes, textbooks, and research PDFs into a simple
                 interactive quiz in just a few clicks.
               </p>
-              <div className="card border border-base-content/10 bg-base-200 text-left shadow-xs">
+              <div className="card bg-base-200 text-left shadow-xs">
                 <div className="card-body gap-3">
                   <h2 className="card-title text-xl">✨ What this app does</h2>
                   <p className="text-base-content/70">
@@ -54,7 +54,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="card border border-base-content/10 bg-base-100 shadow-sm">
+        <section className="card bg-base-100 shadow-sm">
           <div className="card-body gap-8">
             <div className="space-y-2 text-center">
               <h2 className="text-3xl font-bold">🧭 Why people use it</h2>

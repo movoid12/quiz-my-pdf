@@ -13,7 +13,7 @@ export default function FeatureCard({
 }) {
   return (
     <div
-      className="group relative overflow-hidden rounded-box border border-base-content/10 bg-base-100 transition-colors duration-300 before:pointer-events-none before:absolute before:inset-0 before:opacity-0 before:transition-opacity before:duration-300 before:content-[''] before:[background:radial-gradient(320px_circle_at_var(--x,50%)_var(--y,50%),color-mix(in_oklab,var(--color-primary)_18%,transparent),transparent_70%)] hover:before:opacity-100 cursor-default"
+      className="group relative overflow-hidden rounded-box bg-base-100 shadow-sm transition-colors duration-300 before:pointer-events-none before:absolute before:inset-0 before:opacity-0 before:transition-opacity before:duration-300 before:content-[''] before:[background:radial-gradient(320px_circle_at_var(--x,50%)_var(--y,50%),color-mix(in_oklab,var(--color-primary)_18%,transparent),transparent_70%)] hover:before:opacity-100 cursor-default"
       onPointerMove={handleSpotlightPointerMove}
     >
       {/* improve-start-page-ui.HOMEPAGE_CARDS.1 */}

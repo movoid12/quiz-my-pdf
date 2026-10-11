@@ -58,10 +58,7 @@ export default function StartPage() {
       </div>
 
       {/* Upload Section */}
-      <div
-        id={uploadSectionId}
-        className="card bg-base-100 border border-base-content/10"
-      >
+      <div id={uploadSectionId} className="card bg-base-100 shadow-sm">
         <div className="card-body">
           <h2 className="card-title mb-6 justify-center text-2xl">
             Get Started - Upload Your PDF
@@ -71,7 +68,7 @@ export default function StartPage() {
       </div>
 
       {/* About Section */}
-      <div className="card bg-base-100 border border-base-content/10 mt-8">
+      <div className="card mt-8 bg-base-100 shadow-sm">
         <div className="card-body">
           <About />
         </div>

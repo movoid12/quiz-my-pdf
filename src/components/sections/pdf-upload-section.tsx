@@ -135,7 +135,7 @@ export default function PdfUploadSection() {
           </span>
         </div>
 
-        <div className="card mx-8 bg-base-200 shadow-md">
+        <div className="card mx-8 bg-base-200 shadow-sm">
           <div className="card-body">
             <div className="mb-4 flex items-center justify-center space-x-4">
               <div className="text-4xl">📄</div>

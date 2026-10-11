@@ -1,0 +1,93 @@
+feature:
+  name: tweaks-design-system
+  product: quiz-my-pdf
+  description: Apply a restrained modern DaisyUI visual treatment to the homepage, start page, and PDF upload flow.
+
+components:
+  HOMEPAGE:
+    requirements:
+      1: Preserve the existing introduction, feature overview, scroll visual, and path to starting a quiz while reducing decorative card borders.
+  START_PAGE:
+    requirements:
+      1: Preserve the upload journey and supporting content while using borderless content surfaces.
+  PDF_UPLOAD:
+    requirements:
+      1: Keep the upload drop zone visibly interactive and preserve upload and quiz-generation behavior.
+
+constraints:
+  SCOPE:
+    requirements:
+      1: Use existing DaisyUI semantic theme classes without adding dependencies or changing application behavior.
+      2: Keep borders on quiz question result cards; do not change quiz feedback UI.
+      3: Use the shared FeatureCard styling for both pages.
+  ACCESSIBILITY:
+    requirements:
+      1: Preserve visible focus, hover, drag-over, and error states for upload controls.
+      2: Preserve readable contrast through DaisyUI theme tokens.
+  PRESERVE:
+    requirements:
+      1: Existing routes, upload processing, quiz generation, and error handling remain unchanged.
+
+verification:
+  requirements:
+    1: Homepage, start page, and upload flow render without runtime errors.
+    2: Existing checks remain passing.
+
+metadata:
+  branch: feat/tweaks-design-system
+  status: proposed
+  source: user-request
+  pr: draft
+  target: main
+  out_of_scope:
+    - dashboard history
+    - quiz question presentation
+    - authentication pages
+    - global theme palette changes
+  decisions:
+    - Remove decorative borders from selected cards and retain restrained semantic shadows.
+    - Keep the dashed upload drop zone border because it communicates the interactive target.
+    - Leave quiz result card borders unchanged because they communicate correctness state.
+  acceptance:
+    - Selected pages feel lighter and more modern without changing behavior.
+    - Quiz question result cards retain correctness borders.
+    - Upload drop zone retains clear interaction affordances.
+  implementation:
+    - src/app/page.tsx
+    - src/app/dashboard/start/page.tsx
+    - src/components/sections/pdf-upload-section.tsx
+    - src/components/ui/feature-card.tsx
+  created: 2026-10-11
+  owner: v0
+  version: 1
+  status_detail: ready-for-implementation
+  change_type: visual
+  user_visible: true
+  breaking: false
+  dependencies: []
+  migration: none
+  release_notes: Modernize selected surfaces with borderless DaisyUI cards while preserving quiz feedback borders.
+  completion: pending
+  server_sync: pending
+  review_status: draft
+  deploy_status: not_requested
+  tags:
+    - design-system
+    - daisyui
+    - homepage
+    - upload
+  final_note: Minimal changes only.
+
+  # ACID references for implementation and review.
+  acids:
+    - tweaks-design-system.HOMEPAGE.1
+    - tweaks-design-system.START_PAGE.1
+    - tweaks-design-system.PDF_UPLOAD.1
+    - tweaks-design-system.SCOPE.1
+    - tweaks-design-system.SCOPE.2
+    - tweaks-design-system.SCOPE.3
+    - tweaks-design-system.ACCESSIBILITY.1
+    - tweaks-design-system.ACCESSIBILITY.2
+    - tweaks-design-system.PRESERVE.1
+    - tweaks-design-system.VERIFICATION.1
+    - tweaks-design-system.VERIFICATION.2
